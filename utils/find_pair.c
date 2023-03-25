@@ -1,8 +1,9 @@
+#include "libft.h"
+
 /*
 verilen inputun ilk karakterinin aynısını 
 kaç karakter sonrasında bulduğunu döndürüyor
 */
-
 int find_pair(char *input, char c)
 {
     int i;

@@ -8,14 +8,15 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <dirent.h>
+#include "utils/libft.h"
 
-#define DOUBLE_QUOTE = "\""
-#define SINGLE_QUOTE = "\'"
-#define DOLLAR_SIGN = "$"
-#define WILD_CARD = "*"
-#define QUESTION_MARK = "?"
-#define BRACETS = "{}"
-#define SLASH = "/"
+#define DOUBLE_QUOTE "\""
+#define SINGLE_QUOTE "'"
+#define DOLLAR_SIGN "$"
+#define WILD_CARD "*"
+#define QUESTION_MARK "?"
+#define BRACETS "{}"
+#define SLASH "/"
 
 typedef struct	s_ms
 {
@@ -36,27 +37,33 @@ enum tokens{
 	TOKEN_OPEN_PAR,
 	TOKEN_CLOSE_PAR,
 	TOKEN_STR
-}
+}	t_token_type;
 
 typedef struct s_token
 {
-	enum tokens	*type;
-	char	*value;
-	t_token	*prev;
-	t_token *next;
+	enum tokens		type;
+	char			*value;
+	struct s_token	*prev;
+	struct s_token	*next;
 }				t_token;
 
-//utils
-int		ft_strlen(const char *str);
-char	*ft_strdup(char *str);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-char	**ft_split(char const *s, char c);
-int		find_pair(char *input, char c);
-
-//--------------tokenizer--------------
-int add_token(char *input, t_token **command_table, enum tokens type, int len);
-t_token **find_token(char *input, t_token **command_table);
+//--------------lexer--------------
+int is_metacharacter(char c);
+int token_str_lexer(char *input);
+int add_token(char *input, t_token *command_table, enum tokens type, int len);
+void find_token(char *input, t_token *command_table);
 t_token *tokenizer(char *input);
+
+//--------------expander--------------
+int add_double_quote(char **str, char *val);
+int add_single_quote(char **str, char *val);
+int add_dollar(char **str, char *val);
+int add_char(char **str, char *val);
+char *check_str(char *value);
+int wild_path(char *wild_one, char *expected_one);
+void wildcard(char *path, char **destined_path, int way, t_token **command_table);
+void add_wildcard_to_list(char *path, t_token **command);
+t_token *expander(t_token *command_list);
+
 
 #endif
