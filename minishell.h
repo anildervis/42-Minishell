@@ -47,6 +47,25 @@ typedef struct s_token
 	struct s_token	*next;
 }				t_token;
 
+typedef struct s_file
+{
+	enum tokens		type;
+	char			*file_name;
+	struct s_file	*next;
+}					t_file;
+
+typedef struct s_parsed
+{
+	int			in_file;
+	int			out_file;
+	char		*cmd;
+	char		**arguments;
+	t_token		*paranthesis;
+	t_file		*file_list;
+	t_parsed	*prev;
+	t_parsed	*next;
+}				t_parsed;
+
 //--------------lexer--------------
 int is_metacharacter(char c);
 int token_str_lexer(char *input);
