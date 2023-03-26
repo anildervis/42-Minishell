@@ -88,7 +88,6 @@ void find_token(char *input, t_token *command_table)
 t_token *tokenizer(char *input)
 {
     t_token *command_table;
-    t_token *tmp;
 
     command_table = (t_token *)ft_calloc(1, sizeof(t_token));
     find_token(input, command_table);
