@@ -87,7 +87,7 @@ char *check_str(char *value)
 
 int wild_path(char *wild_one, char *expected_one)
 {
-    printf("wild -> %s\n normal -> %s\n", wild_one, expected_one);
+    // printf("wild -> %s\n normal -> %s\n", wild_one, expected_one);
     int i;
     int star_count;
     char *tmp_wild_one;
@@ -139,21 +139,17 @@ void wildcard(char *path, char **destined_path, int way, t_token **command_table
     }
     while ((ent = readdir(dir)) != NULL)
     {
-        printf("%.1d/%.1d = %s\n", way, list_len(destined_path) - 1, ent->d_name);
+        // printf("%.1d/%.1d = %s\n", way, list_len(destined_path) - 1, ent->d_name);
         if (way != list_len(destined_path) - 1)
         {
             if (ent->d_type == DT_DIR && ft_strcmp(ent->d_name, ".") != 0 && ft_strcmp(ent->d_name, "..") != 0)
-            {
                 if (wild_path(destined_path[way], ent->d_name))
                     wildcard(ft_strjoin(ft_strjoin(path, "/"), ent->d_name), destined_path, way + 1, command_table);
-            }
         }
         else
-        {
             if (ft_strcmp(ent->d_name, ".") != 0 && ft_strcmp(ent->d_name, "..") != 0)
                 if (wild_path(destined_path[way], ent->d_name))
                     add_wildcard_to_list(ft_strjoin(ft_strjoin(path, "/"), ent->d_name), command_table);
-        }
     }
     closedir(dir);
 }
