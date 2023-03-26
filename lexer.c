@@ -39,11 +39,17 @@ int add_token(char *input, t_token *command_table, enum tokens type, int len)
     token->value = ft_substr(input, 0, len);
     printf("input -> %s for %d\n", token->value, len);
     token->next = NULL;
+    token->prev = NULL;
     tmp_table = command_table;
-    while (tmp_table->next)
-        tmp_table = tmp_table->next;
-    token->prev = tmp_table;
-    tmp_table->next = token;
+    if (!tmp_table)
+        tmp_table = token;
+    else
+    {
+        while (tmp_table->next)
+            tmp_table = tmp_table->next;
+        token->prev = tmp_table;
+        tmp_table->next = token;
+    }
     return len;
 }
 
@@ -86,9 +92,6 @@ t_token *tokenizer(char *input)
 
     command_table = (t_token *)ft_calloc(1, sizeof(t_token));
     find_token(input, command_table);
-    tmp = command_table;
-    command_table = command_table->next;
-    free(tmp);
     return (command_table);
 }
 
