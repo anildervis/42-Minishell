@@ -160,6 +160,7 @@ void add_wildcard_to_list(char *path, t_token **command)
     t_token *token;
 
     token = (t_token *)malloc(sizeof(t_token));
+    // printf("final_path %s\n", path);
     if (!ft_strnsearch((*command)->value, "*", ft_strlen((*command)->value)))
     {
         (*command)->value = path;
@@ -210,11 +211,10 @@ t_token *expander(t_token *command_list)
         }
         expanded_list = expanded_list->next;
     }
-    int i = 0;
-    while (command_list)
-    {
-        printf("%s\n", command_list->value);
-        command_list = command_list->next;
-    }
+    // while (command_list)
+    // {
+    //     printf("%s\n", command_list->value);
+    //     command_list = command_list->next;
+    // }
     return command_list;
 }
