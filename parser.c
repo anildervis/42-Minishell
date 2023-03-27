@@ -25,6 +25,7 @@ t_parsed *new_parse_command(int in_file, int out_file)
 	t_parsed	*command;
 
 	command = (t_parsed *)malloc(sizeof(t_parsed));
+	command->exec = 0;
 	command->in_file = in_file;
 	command->out_file = out_file;
 	command->cmd = NULL;
@@ -55,11 +56,11 @@ void add_redirection(t_token **command_table, t_parsed **command)
 	tmp_list = (*command)->file_list;
 	file_list = (t_file *)malloc(sizeof(t_file));
 	file_list->next = NULL;
-	file_list->type == (*command_table)->type;
+	file_list->type = (*command_table)->type;
 	(*command_table) = (*command_table)->next;
 	file_list->file_name = (*command_table)->value; // if there is?
 	if (!tmp_list)
-		tmp_list = file_list;
+		(*command)->file_list = file_list;
 	else
 	{
 		while (tmp_list->next)
@@ -92,8 +93,10 @@ t_parsed *add_parse(t_token **command_table, t_parsed **old_command)
 	t_parsed *new_command;
 
 	new_command = new_parse_command((*old_command)->in_file, (*old_command)->out_file);
+	printf("here\n");
 	(*old_command)->next = new_command;
 	new_command->prev = (*old_command);
+	(*command_table) = (*command_table)->next;
 	return (new_command);
 }
 
@@ -150,6 +153,10 @@ t_parsed	**parse_commands(int in_file, int out_file, t_token *command_table)
 	{
 		printf("inside\n");
 		command = new_parse_command(in_file, out_file);
+		if (!command_table->prev)
+			command->exec = 3;
+		else
+			command->exec = command_table->prev->type;
 		printf("infile -> %d, outfile -> %d\n", command->in_file, command->out_file);
 		add_andor_list(command_table->type, command, andor_table);
 		while (command_table)
