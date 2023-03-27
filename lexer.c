@@ -41,8 +41,13 @@ int add_token(char *input, t_token *command_table, enum tokens type, int len)
     token->next = NULL;
     token->prev = NULL;
     tmp_table = command_table;
-    if (!tmp_table)
-        tmp_table = token;
+    if (!(command_table->value))
+    {
+        command_table->value = ft_substr(input, 0, len);
+        command_table->next = NULL;
+        command_table->prev = NULL;
+        command_table->type = type;
+    }
     else
     {
         while (tmp_table->next)
@@ -97,9 +102,11 @@ t_token *tokenizer(char *input)
 int main()
 {
     t_token *test;
+    t_parsed **parsed_commands;
     
-    test = tokenizer("echo uti*/ft_str*");
-    //(" cat    \"ec\"'h'o \"$? $$\"");
-    //("cat deneme.c && (ls <input.txt || echo wow | cat) >out.txt <<input.c >>output.c");
+    test = tokenizer("cat deneme.c && (ls <input.txt || echo wow | cat) >out.txt <<input.c >>output.c");
+    // test = tokenizer("echo uti*/ft_str*");
+    // test = tokenizer(" cat    \"ec\"'h'o \"$? $$\"");
     test = expander(test);
+    parsed_commands = parse_commands(0, 1, test);
 }
