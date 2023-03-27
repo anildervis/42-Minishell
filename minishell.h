@@ -56,6 +56,7 @@ typedef struct s_file
 
 typedef struct s_parsed
 {
+	int			exec;
 	int			in_file;
 	int			out_file;
 	char		*cmd;
