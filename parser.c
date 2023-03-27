@@ -3,15 +3,21 @@
 int andor_count(t_token *command_table)
 {
 	int i;
+	t_token	*tmp_list;
 
 	i = 0;
-	while (command_table)
+	tmp_list = command_table;
+	while (tmp_list->next)
 	{
-		if (command_table->type == TOKEN_AND
-			|| command_table->type == TOKEN_OR)
+		if (tmp_list->type == TOKEN_AND
+			|| tmp_list->type == TOKEN_OR)
 			i++;
-		command_table->next;
+		else if (tmp_list->type == TOKEN_OPEN_PAR)
+			skip_paranthesis(&tmp_list);
+		tmp_list = tmp_list->next;
 	}
+	printf("andor count -> %d\n", i);
+	return i;
 }
 
 t_parsed *new_parse_command(int in_file, int out_file)
@@ -34,10 +40,11 @@ void add_andor_list(enum tokens andor, t_parsed *command, t_parsed **andor_table
 {
 	int i;
 
-	i = -1;
+	i = 0;
 	while (andor_table[i])	
 		i++;
 	andor_table[i] = command;
+	andor_table[i + 1] = NULL;
 }
 
 void add_redirection(t_token **command_table, t_parsed **command)
@@ -73,9 +80,9 @@ void skip_paranthesis(t_token **command_table)
 			i++;
 		else if ((*command_table)->type == TOKEN_CLOSE_PAR)
 			i--;
-		(*command_table) = (*command_table)->next;
 		if (!i)
 			break;
+		(*command_table) = (*command_table)->next;
 	}
 	// error;
 }
@@ -97,26 +104,29 @@ void add_argument(t_token **command_table, t_parsed **command)
 
 	i = 0;
 	if (!((*command)->cmd))
+	{
 		(*command)->cmd = (*command_table)->value;
+		(*command)->arguments = (char **)ft_calloc(2, sizeof(char *));
+	}
 	while ((*command)->arguments[i])
 		i++;
 	new_arguments = (char **)malloc(sizeof(char *) * (i + 2));
 	new_arguments[i + 1] = NULL;
 	new_arguments[i] = (*command_table)->value;
 	while (i--)
-	{
 		new_arguments[i] = ft_strdup((*command)->arguments[i]);
-		free((*command)->arguments[i]);
-	}
-	free((*command)->arguments);
 	(*command)->arguments = new_arguments;
+	(*command_table) = (*command_table)->next;
 }
 
 void add_paranthesis(t_token **command_table, t_parsed **command)
 {
 	int i;
+    t_token *paranthesis_command_table;
 
 	i = 1;
+    paranthesis_command_table = (t_token *)ft_calloc(1, sizeof(t_token));
+	(*command)->paranthesis = paranthesis_command_table;
 	(*command_table) = (*command_table)->next;
 	while (*command_table && i != 0)
 	{
@@ -124,9 +134,10 @@ void add_paranthesis(t_token **command_table, t_parsed **command)
 			i++;
 		else if ((*command_table)->next->type == TOKEN_CLOSE_PAR)
 			i--;
-		add_token((*command_table)->value, (*command)->paranthesis, (*command_table)->type, ft_strlen((*command_table)->type));
+		add_token((*command_table)->value, (*command)->paranthesis, (*command_table)->type, 2);
+		(*command_table) = (*command_table)->next;
 	}
-	(*command_table) = (*command_table)->next->next;
+	(*command_table) = (*command_table)->next;
 }
 
 t_parsed	**parse_commands(int in_file, int out_file, t_token *command_table)
@@ -134,16 +145,22 @@ t_parsed	**parse_commands(int in_file, int out_file, t_token *command_table)
 	t_parsed	**andor_table;
 	t_parsed	*command;
 
-	andor_table = (t_parsed **)malloc(sizeof(t_parsed *) * andor_count(command_table));
-	while (command_table && command_table->type != TOKEN_CLOSE_PAR)
+	andor_table = (t_parsed **)malloc(sizeof(t_parsed *) * (andor_count(command_table) + 1));
+	while (command_table)
 	{
+		printf("inside\n");
 		command = new_parse_command(in_file, out_file);
+		printf("infile -> %d, outfile -> %d\n", command->in_file, command->out_file);
 		add_andor_list(command_table->type, command, andor_table);
-		while (command_table && command_table->type != TOKEN_CLOSE_PAR)
+		while (command_table)
 		{
+			printf("inception? type -> %d\n", command_table->type);
 			if (command_table->type == TOKEN_AND
 				|| command_table->type == TOKEN_OR)
+			{
+				(command_table) = (command_table)->next;
 				break ;
+			}
 			else if (command_table->type == TOKEN_SMALLER
 				|| command_table->type == TOKEN_HERE_DOC
 				|| command_table->type == TOKEN_GREATER
@@ -157,4 +174,5 @@ t_parsed	**parse_commands(int in_file, int out_file, t_token *command_table)
 				command = add_parse(&command_table, &command);
 		}
 	}
+	return (andor_table);
 }
