@@ -99,6 +99,85 @@ t_token *tokenizer(char *input)
     return (command_table);
 }
 
+void print_syntax_error(char *value)
+{
+    printf("bash: syntax error near unexpected token '%s'", value);
+    // global değişkenin error çıktısı -> 2;
+}
+
+void get_next_token(t_token *command_table)
+{
+    t_token *tmp_command_table;
+    t_token *new_tokens;
+    char *input;
+
+    tmp_command_table = command_table;
+    while (tmp_command_table->next)
+        tmp_command_table = tmp_command_table->next;
+    input = readline("> ");
+    new_tokens = tokenizer(input);
+    new_tokens->prev = tmp_command_table;
+    tmp_command_table->next = new_tokens;
+}
+
+void syntax_check(t_token *command_table)
+{
+    t_token *tmp_command_table;
+    int paranthesis_count;
+
+    tmp_command_table = command_table;
+    paranthesis_count = 0;
+    while (tmp_command_table)
+    {
+        if (tmp_command_table->type == TOKEN_PIPE
+            || tmp_command_table->type == TOKEN_AND
+            || tmp_command_table->type == TOKEN_OR
+            || tmp_command_table->type == TOKEN_CLOSE_PAR)
+        {
+            if (!tmp_command_table->prev
+                || tmp_command_table->prev->type == TOKEN_OPEN_PAR
+                || tmp_command_table->prev->type == TOKEN_PIPE
+                || tmp_command_table->prev->type == TOKEN_AND
+                || tmp_command_table->prev->type == TOKEN_OR)
+                print_syntax_error(tmp_command_table->value);
+            else if (tmp_command_table->type != TOKEN_CLOSE_PAR
+                && !tmp_command_table->next)
+            {
+                get_next_token(tmp_command_table);
+                break ;
+            }
+        }
+        else if (tmp_command_table->type == TOKEN_SMALLER
+            || tmp_command_table->type == TOKEN_GREATER
+            || tmp_command_table->type == TOKEN_HERE_DOC
+            || tmp_command_table->type == TOKEN_APPEND)
+        {
+            if (!tmp_command_table->next)
+                print_syntax_error("newline");
+            else if (tmp_command_table->next->type != TOKEN_STR)
+                print_syntax_error(tmp_command_table->next->value);
+        }
+        else if (tmp_command_table->type == TOKEN_OPEN_PAR)
+        {
+            if (tmp_command_table->prev && tmp_command_table->prev->type == TOKEN_STR)
+                print_syntax_error(tmp_command_table->value);
+            paranthesis_count++;
+        }
+        else if (tmp_command_table->type == TOKEN_CLOSE_PAR)
+        {
+            if (tmp_command_table->next && tmp_command_table->next->type == TOKEN_STR)
+                print_syntax_error(tmp_command_table->next->value);
+            paranthesis_count--;
+        }
+        if (!tmp_command_table->next && paranthesis_count)
+        {
+            get_next_token(tmp_command_table);
+            break ;
+        }
+        tmp_command_table = tmp_command_table->next;
+    }
+}
+
 int main()
 {
     t_token *test;
@@ -108,6 +187,7 @@ int main()
     test = tokenizer("cat deneme.c | echo wow >xd.txt || echo \"'$HOME'\" && (ls <input.txt || echo wow | cat) >out.txt <<input.c >>output.c");
     // test = tokenizer("echo uti*/ft_str*");
     // test = tokenizer(" cat    \"ec\"'h'o \"$? $$\"");
+    syntax_check(test); // last_exec_status = ;
     test = expander(test);
     parsed_commands = parse_commands(0, 1, test);
     // int i = -1;
