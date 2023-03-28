@@ -85,7 +85,7 @@ void		wildcard(char *path, char **destined_path, int way, t_token **command_tabl
 void		add_wildcard_to_list(char *path, t_token **command);
 t_token		*expander(t_token *command_list);
 
-//--------------expander--------------
+//--------------parser--------------
 int			andor_count(t_token *command_table);
 t_parsed	*new_parse_command(int in_file, int out_file);
 void		add_andor_list(enum tokens andor, t_parsed *command, t_parsed **andor_table);
