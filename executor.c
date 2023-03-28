@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-void close_fd(t_parsed *command)
+void close_fd(t_parsed *command, int default_in_file, int default_out_file)
 {    
-    if (command->in_file != STDIN_FILENO)
+    if (command->in_file != default_in_file)
         close(command->in_file);
-    if (command->out_file != STDOUT_FILENO)
+    if (command->out_file != default_out_file)
         close(command->out_file);
 }
 
@@ -38,29 +38,25 @@ int here_doc_fd(char *limiter)
 
 int read_file_fd(char *file_name, int type)
 {
-    int fd;
-    
     if (type == TOKEN_HERE_DOC)
         return (here_doc_fd(file_name));
     if (access(file_name, F_OK) == -1)
         // error
     if (access(file_name, R_OK) == -1)
         // permission error
-    return (fd = open(file_name, O_RDONLY, 0666));
+    return (open(file_name, O_RDONLY, 0666));
 }
 
 int write_file_fd(char *file_name, int type)
 {
-    int fd;
-
     if (type == TOKEN_GREATER)
-        return (fd = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0666));
-    if (type == TOKEN_APPEND)
-        return (fd = open(file_name, O_CREAT | O_WRONLY | O_APPEND, 0666));
+        return (open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0666));
+    else if (type == TOKEN_APPEND)
+        return (open(file_name, O_CREAT | O_WRONLY | O_APPEND, 0666));
     return -1;
 }
 
-void apply_redirection(t_parsed **command)
+void apply_redirection(t_parsed **command, int default_in_file, int default_out_file)
 {
     t_file *file_list;
 
@@ -69,7 +65,7 @@ void apply_redirection(t_parsed **command)
         return ;
     while (file_list)
     {
-        close_fd(*command);
+        close_fd(*command, default_in_file, default_out_file);
         if (file_list->type == TOKEN_SMALLER)
             (*command)->in_file = read_file_fd(file_list->file_name, file_list->type);
         else if (file_list->type == TOKEN_HERE_DOC)
@@ -82,7 +78,7 @@ void apply_redirection(t_parsed **command)
     }
 }
 
-void child_organizer(t_parsed *command)
+void child_organizer(t_parsed *command, int default_in_file, int default_out_file)
 {
     t_token *inside_paranthesis;
     t_parsed *parsed_paranthesis;
@@ -96,14 +92,16 @@ void child_organizer(t_parsed *command)
         // error
     else if (!pid)
     {
-        organizer(parsed_paranthesis);
+        close(default_in_file);
+        close(default_out_file);
+        organizer(parsed_paranthesis, command->in_file, command->out_file);
         exit(1);
     }
     else
         waitpid(pid, NULL, NULL); // it will be -> waitpid(pid, &last_exec_status, NULL);
 }
 
-void command_executor(t_parsed *command)
+void command_executor(t_parsed *command, int default_in_file, int default_out_file)
 {
     // there will be dup2
     pid_t pid;
@@ -112,14 +110,31 @@ void command_executor(t_parsed *command)
         // error
     else if (!pid)
     {
-        execve(command->cmd, command->arguments, NULL); //last will be environment variables
-        exit(1);
+        dup2(command->in_file, STDIN_FILENO);
+        dup2(command->out_file, STDOUT_FILENO);
+        execve(command->cmd, command->arguments, NULL); //something like get_cmd() + last will be environment variables
+        close_fd(command, default_in_file, default_out_file);
+        exit(0);
     }
-    else
-        waitpid(pid, NULL, NULL); // it will be -> waitpid(pid, &last_exec_status, NULL);    
+    waitpid(pid, NULL, NULL); // it will be -> waitpid(pid, &last_exec_status, NULL);    
+    close_fd(command, default_in_file, default_out_file);
 }
 
-void organizer(t_parsed **andor_table)
+void create_pipe(t_parsed **command, int default_in_file, int default_out_file)
+{
+    int fd[2];
+
+    if (pipe(fd) == -1)
+        // error
+    if ((*command)->out_file != default_out_file)
+        close((*command)->out_file);
+    (*command)->out_file = fd[WRITE_END];
+    if ((*command)->next->in_file != default_in_file)
+        close((*command)->next->in_file);
+    (*command)->next->in_file = fd[READ_END];
+}
+
+void organizer(t_parsed **andor_table, int default_in_file, int default_out_file)
 {
     int i;
     t_parsed *tmp_command;
@@ -134,13 +149,15 @@ void organizer(t_parsed **andor_table)
         while (tmp_command)
         {
             if (tmp_command->next)
-                create_pipe(&tmp_command);
-            apply_redirection(&tmp_command);
+                create_pipe(&tmp_command, default_in_file, default_out_file);
+            apply_redirection(&tmp_command, default_in_file, default_out_file);
             if (tmp_command->paranthesis)
-                child_organizer(tmp_command);
+                child_organizer(tmp_command, default_in_file, default_out_file);
             else
-                command_executor(tmp_command);
+                command_executor(tmp_command, default_in_file, default_out_file);
             tmp_command = tmp_command->next;
         }
     }
+    close(default_in_file);
+    close(default_out_file);
 }
