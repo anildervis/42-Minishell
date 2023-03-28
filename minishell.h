@@ -75,6 +75,9 @@ int			token_str_lexer(char *input);
 int			add_token(char *input, t_token *command_table, enum tokens type, int len);
 void		find_token(char *input, t_token *command_table);
 t_token		*tokenizer(char *input);
+void		print_syntax_error(char *value);
+void		get_next_token(t_token *command_table);
+void		syntax_check(t_token *command_table);
 
 //--------------expander--------------
 int			add_double_quote(char **str, char *val);
