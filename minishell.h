@@ -17,6 +17,8 @@
 #define QUESTION_MARK "?"
 #define BRACETS "{}"
 #define SLASH "/"
+#define READ_END 0
+#define WRITE_END 1
 
 typedef struct	s_ms
 {
