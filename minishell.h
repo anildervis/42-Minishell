@@ -161,7 +161,7 @@ t_token		*expander(t_token *command_list);
 //--------------parser--------------
 int			andor_count(t_token *command_table);
 t_parsed	*new_parse_command(int in_file, int out_file);
-void		add_andor_list(enum tokens andor, t_parsed *command, t_parsed **andor_table);
+void		add_andor_list(t_parsed *command, t_parsed **andor_table);
 void		add_redirection(t_token **command_table, t_parsed **command);
 void		skip_paranthesis(t_token **command_table);
 t_parsed	*add_parse(t_token **command_table, t_parsed **old_command);
