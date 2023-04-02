@@ -206,7 +206,7 @@ t_token *expander(t_token *command_list)
         if (expanded_list->type == TOKEN_STR)
         {
             expanded_list->value = check_str(expanded_list->value);
-            printf("%d -> %s\n", 1, expanded_list->value);
+            // printf("%d -> %s\n", 1, expanded_list->value);
             wildcard_expander(expanded_list->value, &expanded_list);
         }
         expanded_list = expanded_list->next;
