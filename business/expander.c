@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 int add_double_quote(char **str, char *val)
 {

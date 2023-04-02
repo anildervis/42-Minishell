@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 void close_fd(t_parsed *command, int default_in_file, int default_out_file)
 {    

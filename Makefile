@@ -4,6 +4,7 @@ CC				=	gcc
 CFLAGS			=	-Wall -Wextra -Werror -g
 RM				=	rm -f
 READLINE		=	-lreadline
+LIB				=	minishell.h
 
 
 BUILTIN_DIR		=	builtin/
@@ -15,12 +16,12 @@ ERROR_FILES		=	err
 FREE_DIR		=	free/
 FREE_FILES		=	free
 UTILS_DIR		=	utils/
-UTILS_FILES		=	find_pair ft_atoi ft_bzero ft_calloc ft_itoa ft_split ft_strcmp ft_strchr ft_strdup ft_strjoin ft_strlcpy ft_strlen ft_strncmp ft_strnsearch ft_strnstr ft_substr get_env get_path is_parent is_whitespace key_val list_len set_env set_path
+UTILS_FILES		=	find_pair ft_atoi ft_bzero ft_calloc ft_itoa ft_split ft_strcmp ft_strchr ft_strdup ft_strjoin ft_strlcpy ft_strlen ft_strncmp ft_strnsearch ft_strnstr ft_substr get_env get_path is_parent is_whitespace key_val list_len set_env set_paths
 
 B_FILES			=	$(addprefix $(BUILTIN_DIR), $(BUILTIN_FILES))
 BS_FILES		=	$(addprefix $(BUSINESS_DIR), $(BUSINESS_FILES))
 E_FILES			=	$(addprefix $(ERROR_DIR), $(ERROR_FILES))
-F_FIlES			=	$(addprefix $(FREE_DIR), $(FREE_FILES))
+F_FILES			=	$(addprefix $(FREE_DIR), $(FREE_FILES))
 U_FILES			=	$(addprefix $(UTILS_DIR), $(UTILS_FILES))
 
 BUILTIN			=	$(addsuffix .c, $(B_FILES))
@@ -40,13 +41,13 @@ UOBJ			=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(U_FILES)))
 
 OBJF			=	.cache_exists
 
-all:				$(NAME)
+all:				$(NAME) $(LIB)
 
 $(NAME):			$(OBJF) $(BOBJ) $(BSOBJ) $(EOBJ) $(FOBJ) $(UOBJ)
-					@$(CC) $(CFLAGS) $(BOBJ) $(BSOBJ) $(EOBJ) $(FOBJ) $(UOBJ) -o $(NAME) $(READLINE)
+					$(CC) $(CFLAGS) $(BOBJ) $(BSOBJ) $(EOBJ) $(FOBJ) $(UOBJ) $(READLINE) -o $(NAME)
 
-$(OBJ_DIR)%.o:		$(BUILTIN_DIR)%.c $(BUSINESS_DIR)%.c $(ERROR_DIR)%.c $(FREE_DIR)%.c $(UTILS_DIR)%.c $(OBJF)
-					@$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)*/%.o:	$(BUILTIN_DIR)*.c $(BUSINESS_DIR)*.c $(ERROR_DIR)*.c $(FREE_DIR)*.c $(UTILS_DIR)*.c
+					$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJF):
 					@mkdir -p $(OBJ_DIR)

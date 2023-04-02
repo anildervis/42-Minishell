@@ -129,6 +129,8 @@ void	no_file_err(char *str);
 void	free_array(char **arr);
 
 //builtin
+void	run_builtin(char **exe);
+int		is_builtin(char *command);
 void	builtin_cd(char **execute);
 void	builtin_echo(char **input);
 void	builtin_env(void);

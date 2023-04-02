@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 int andor_count(t_token *command_table)
 {
