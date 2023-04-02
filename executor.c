@@ -41,9 +41,9 @@ int read_file_fd(char *file_name, int type)
     if (type == TOKEN_HERE_DOC)
         return (here_doc_fd(file_name));
     if (access(file_name, F_OK) == -1)
-        // error
+        ; // error
     if (access(file_name, R_OK) == -1)
-        // permission error
+        ; // permission error
     return (open(file_name, O_RDONLY, 0666));
 }
 
@@ -109,7 +109,7 @@ void command_executor(t_parsed *command, int default_in_file, int default_out_fi
     {
         dup2(command->in_file, STDIN_FILENO);
         dup2(command->out_file, STDOUT_FILENO);
-        execv("/bin/ls", command->arguments); // execve(get_path(command->cmd), command->arguments, global değişken -> env);
+        execve(get_path(command->cmd), command->arguments, g_ms.ev);
     }
     waitpid(pid, NULL, 0); // it will be -> waitpid(pid, &last_exec_status, 0);    
     close_fd(command, default_in_file, default_out_file);
@@ -135,24 +135,30 @@ void organizer(t_parsed **andor_table, int default_in_file, int default_out_file
     t_parsed *tmp_command;
 
     i = -1;
+    int check = 0;
+    // printf("hi %d\n", check++);
     while (andor_table[++i])
     {
         tmp_command = andor_table[i];
+    // printf("hi %d\n", check++);
         if (tmp_command->exec == 3
             || (tmp_command->exec == TOKEN_AND /*&& last_exec_status == 0*/)
             || (tmp_command->exec == TOKEN_OR /*&& last_exec_status != 0*/))
             while (tmp_command)
             {
+    // printf("hi %d\n", check++);
                 if (tmp_command->next)
                     create_pipe(&tmp_command, default_in_file, default_out_file);
                 apply_redirection(&tmp_command, default_in_file, default_out_file);
+    // printf("hi %d\n", check++);
                 if (tmp_command->paranthesis)
                     child_organizer(tmp_command, default_in_file, default_out_file);
                 else
                     command_executor(tmp_command, default_in_file, default_out_file);
+    // printf("hi %d\n", check++);
                 tmp_command = tmp_command->next;
             }
+    // printf("hi %d\n", check++);
     }
-    close(default_in_file);
-    close(default_out_file);
+    // printf("hi %d\n", check++);
 }
