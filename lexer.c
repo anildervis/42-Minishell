@@ -148,7 +148,7 @@ int syntax_check(t_token *command_table)
                 break ;
             }
         }
-        else if (tmp_command_table->type == TOKEN_SMALLER
+        if (tmp_command_table->type == TOKEN_SMALLER
             || tmp_command_table->type == TOKEN_GREATER
             || tmp_command_table->type == TOKEN_HERE_DOC
             || tmp_command_table->type == TOKEN_APPEND)
@@ -170,7 +170,7 @@ int syntax_check(t_token *command_table)
                 return (print_syntax_error(tmp_command_table->next->value));
             paranthesis_count--;
         }
-        if (!tmp_command_table->next && paranthesis_count)
+        if (!tmp_command_table->next && paranthesis_count > 0)
         {
             get_next_token(tmp_command_table);
             break ;
