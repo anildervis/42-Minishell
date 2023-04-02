@@ -9,6 +9,7 @@
 #include <readline/history.h>
 #include <dirent.h>
 #include "utils/libft.h"
+#include <sys/wait.h>
 
 #define DOUBLE_QUOTE "\""
 #define SINGLE_QUOTE "'"
@@ -101,5 +102,15 @@ void		add_argument(t_token **command_table, t_parsed **command);
 void		add_paranthesis(t_token **command_table, t_parsed **command);
 t_parsed	**parse_commands(int in_file, int out_file, t_token *command_table);
 
+//--------------executor--------------
+void		close_fd(t_parsed *command, int default_in_file, int default_out_file);
+int			here_doc_fd(char *limiter);
+int			read_file_fd(char *file_name, int type);
+int			write_file_fd(char *file_name, int type);
+void		apply_redirection(t_parsed **command, int default_in_file, int default_out_file);
+void		child_organizer(t_parsed *command, int default_in_file, int default_out_file);
+void		command_executor(t_parsed *command, int default_in_file, int default_out_file);
+void		create_pipe(t_parsed **command, int default_in_file, int default_out_file);
+void		organizer(t_parsed **andor_table, int default_in_file, int default_out_file);
 
 #endif
