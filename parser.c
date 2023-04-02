@@ -7,7 +7,7 @@ int andor_count(t_token *command_table)
 
 	i = 0;
 	tmp_list = command_table;
-	while (tmp_list->next)
+	while (tmp_list)
 	{
 		if (tmp_list->type == TOKEN_AND
 			|| tmp_list->type == TOKEN_OR)
@@ -181,5 +181,6 @@ t_parsed	**parse_commands(int in_file, int out_file, t_token *command_table)
 				command = add_parse(&command_table, &command);
 		}
 	}
+	printf("imma out\n");
 	return (andor_table);
 }
