@@ -1,45 +1,44 @@
 #include "minishell.h"
 
-void	ft_set_path(t_ms *ms, char **ev)	// I know it is soooooo redundant...
-{											// I will write this later.
-	ms->path = ft_split(getenv("PATH"), ':');
+t_ms	g_ms;
+
+void	init_ms(char **ev)
+{
+	g_ms.parent_pid = getpid();
+	g_ms.ev = set_ev(ev);
+	g_ms.paths = ft_split(getenv("PATH"), ':');    //Kontrol et
 }
 
-void	ft_set_ev(t_ms *ms, char **ev)
+void	init_shell(char *str)
 {
-	int	i;
+    t_token *test;
+    t_parsed **parsed_commands;
 
-	i = 0;
-	while (ev[i])
-		i++;
-	ms->ev = (char **)malloc(sizeof(char *) * (i + 1));
-	if (!ms->ev)
+	test = tokenizer(str);
+	if (syntax_check(test))
 		return ;
-	i = -1;
-	while (ev[++i])
-		ms->ev[i] = ft_strdup(ev[i]);
+	test = expander(test);
+	parsed_commands = parse_commands(0, 1, test);
+    organizer(parsed_commands, 0, 1);
 }
-
-
-void	ft_init_ms(t_ms *ms, char **ev)
-{
-	ft_set_ev(ms, ev);					// sets ms->ev (char **) ~ copies environment variables
-	ft_set_path(ms, ev);				// sets ms->path (char **) ~
-}
-
 
 int	main(int ac, char **av, char **ev)
 {
-	t_ms	ms;
 	char	*str;
 
-	ft_init_ms(&ms, ev);
-
+	init_ms(ev);
 	while (1)
 	{
-		str = readline("minishel>>>");
+		str = readline("\033[31m︻\033[0m\033[32m┳\033[0m\033[33mデ\033[0m\033[34m═\033[0m\033[35m—\033[0m$ ");
+		if (*str)
+		{
+			init_shell(str);
+			add_history(str);
+		}
 		if (str[0] == 'q')
+		{
 			break;
+		}
 	}
 	return (0);
 }
