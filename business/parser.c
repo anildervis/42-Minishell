@@ -28,11 +28,11 @@ t_parsed *new_parse_command(int in_file, int out_file)
 	command->exec = 0;
 	command->in_file = in_file;
 	command->out_file = out_file;
-	command->cmd = NULL;
+	command->cmd = ft_calloc(2, sizeof(char));
 	command->prev = NULL;
 	command->next = NULL;
 	command->file_list = NULL;
-	command->arguments = NULL;
+	command->arguments = ft_calloc(2, sizeof(char *));
 	command->paranthesis = NULL;
 	return (command);
 }
@@ -106,7 +106,7 @@ void add_argument(t_token **command_table, t_parsed **command)
 	char **new_arguments;
 
 	i = 0;
-	if (!((*command)->cmd))
+	if (!(*(*command)->cmd))
 	{
 		(*command)->cmd = (*command_table)->value;
 		(*command)->arguments = (char **)ft_calloc(2, sizeof(char *));
@@ -118,6 +118,7 @@ void add_argument(t_token **command_table, t_parsed **command)
 	new_arguments[i] = (*command_table)->value;
 	while (i--)
 		new_arguments[i] = ft_strdup((*command)->arguments[i]);
+	// free old arguments
 	(*command)->arguments = new_arguments;
 	(*command_table) = (*command_table)->next;
 }
@@ -148,7 +149,8 @@ t_parsed	**parse_commands(int in_file, int out_file, t_token *command_table)
 	t_parsed	**andor_table;
 	t_parsed	*command;
 
-	andor_table = (t_parsed **)malloc(sizeof(t_parsed *) * (andor_count(command_table) + 2));
+	// andor_table = (t_parsed **)malloc(sizeof(t_parsed *) * (andor_count(command_table) + 2));
+	andor_table = ft_calloc(andor_count(command_table) + 2, sizeof(t_parsed *));
 	while (command_table)
 	{
 		// printf("inside\n");
@@ -161,7 +163,7 @@ t_parsed	**parse_commands(int in_file, int out_file, t_token *command_table)
 		add_andor_list(command, andor_table);
 		while (command_table)
 		{
-			// printf("inception? type -> %d\n", command_table->type);
+			// printf("inception? type -> %d upps -> %p and %s\n", command_table->type, command->cmd, command->cmd);
 			if (command_table->type == TOKEN_AND
 				|| command_table->type == TOKEN_OR)
 			{
