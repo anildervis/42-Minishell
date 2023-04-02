@@ -86,6 +86,7 @@ void child_organizer(t_parsed *command, int default_in_file, int default_out_fil
     t_parsed **parsed_paranthesis;
     pid_t pid;
 
+    // printf("should not be in paranthesis?? \n");
     inside_paranthesis = command->paranthesis;
     inside_paranthesis = expander(inside_paranthesis);
     parsed_paranthesis = parse_commands(command->in_file, command->out_file, inside_paranthesis);
@@ -138,29 +139,29 @@ void organizer(t_parsed **andor_table, int default_in_file, int default_out_file
 
     i = -1;
     int check = 0;
-    // printf("hi %d\n", check++);
+    // printf("hi1 %d\n", check++);
     while (andor_table[++i])
     {
         tmp_command = andor_table[i];
-    // printf("hi %d\n", check++);
+    // printf("hi2 %d\n", check++);
         if (tmp_command->exec == 3
             || (tmp_command->exec == TOKEN_AND /*&& last_exec_status == 0*/)
             || (tmp_command->exec == TOKEN_OR /*&& last_exec_status != 0*/))
             while (tmp_command)
             {
-    // printf("hi %d\n", check++);
+    // printf("hi3 %d\n", check++);
                 if (tmp_command->next)
                     create_pipe(&tmp_command, default_in_file, default_out_file);
                 apply_redirection(&tmp_command, default_in_file, default_out_file);
-    // printf("hi %d\n", check++);
+    // printf("hi4 %d\n", check++);
                 if (tmp_command->paranthesis)
                     child_organizer(tmp_command, default_in_file, default_out_file);
                 else
                     command_executor(tmp_command, default_in_file, default_out_file);
-    // printf("hi %d\n", check++);
+    // printf("hi5 %d\n", check++);
                 tmp_command = tmp_command->next;
             }
-    // printf("hi %d\n", check++);
+    // printf("hi6 %d\n", check++);
     }
-    // printf("hi %d\n", check++);
+    // printf("hi7 %d\n", check++);
 }
