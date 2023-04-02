@@ -162,14 +162,14 @@ void add_wildcard_to_list(char *path, t_token **command)
     // printf("final_path %s\n", path);
     if (!ft_strnsearch((*command)->value, "*", ft_strlen((*command)->value)))
     {
-        (*command)->value = path;
+        (*command)->value = path + 2;
         free(token);
     }
     else
     {
         token->next = (*command)->next;
         token->prev = (*command);
-        token->value = path;
+        token->value = path + 2;
         token->type = TOKEN_STR;
         (*command)->next = token;
         if (token->next)
