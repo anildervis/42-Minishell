@@ -67,7 +67,7 @@ int	main(int ac, char **av, char **ev)
 	init_ms(ev);
 	while (1)
 	{
-		str = readline("\033[31m︻\033[0m\033[32m┳\033[0m\033[33mデ\033[0m\033[34m═\033[0m\033[35m—\033[0m$ ");
+		str = readline(ft_strjoin(getcwd(0, 0), " \033[31m︻\033[0m\033[32m┳\033[0m\033[33mデ\033[0m\033[34m═\033[0m\033[35m—\033[0m$ "));
 		if (*str)
 		{
 			init_shell(str);
