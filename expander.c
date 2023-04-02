@@ -40,21 +40,20 @@ int add_dollar(char **str, char *val)
     else if (!(*(val + 1)) || *(val + 1) == ' '
         || *(val + 1) == '\t' || *(val + 1) == '\n')
         i -= add_char(str, DOLLAR_SIGN);
-    //              BU KISIM İÇİN get_env FONKSİYONU LAZIM
-    // else
-    //     if (*(val + 1) == BRACETS[0])
-    //     {
-    //         i = find_pair(val, BRACETS[1]) + 1;
-    //         ft_strjoin(str, get_env(ft_substr(val, 2, i - 3))); // get_env fonksiyonuna göre düzenlenecek
-    //     }
-    //     else
-    //     {
-    //         i = 1;
-    //         while (*(val + i) != ' ' && *(val + i) && *(val + i) != *DOUBLE_QUOTE
-	// 	        && *(val + i) != *SINGLE_QUOTE && *(val + i) != *DOLLAR_SIGN && *(val + i) != *SLASH)
-    //             i++;
-    //         ft_strjoin(str, get_env(ft_substr(val, 1, i - 1))); // get_env fonksiyonuna göre düzenlenecek
-    //     }
+    else
+        if (*(val + 1) == BRACETS[0])
+        {
+            i = find_pair(val, BRACETS[1]) + 1;
+            *str = ft_strjoin(*str, get_env(ft_substr(val, 2, i - 3)));
+        }
+        else
+        {
+            i = 1;
+            while (*(val + i) != ' ' && *(val + i) && *(val + i) != *DOUBLE_QUOTE
+		        && *(val + i) != *SINGLE_QUOTE && *(val + i) != *DOLLAR_SIGN && *(val + i) != *SLASH)
+                i++;
+            *str = ft_strjoin(*str, get_env(ft_substr(val, 1, i - 1)));
+        }
     return i;
 }
 
