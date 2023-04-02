@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "../minishell.h"
 
 int ft_strnsearch(char *string, char *chars_to_search, size_t len)
 {

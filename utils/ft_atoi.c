@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderviso <aderviso@student.42istanbul.com  +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 14:56:06 by aderviso          #+#    #+#             */
-/*   Updated: 2022/10/22 19:03:20 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/04/02 11:46:37 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
 static int	iswhitespace(char c)
 {

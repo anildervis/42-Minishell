@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderviso <aderviso@student.42istanbul.com  +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 15:52:13 by aderviso          #+#    #+#             */
-/*   Updated: 2022/10/22 15:00:53 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/04/02 11:46:58 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
 int	ft_strcmp(const char *s1, const char *s2)
 {

@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "../minishell.h"
 
 int	list_len(char **char_list)
 {

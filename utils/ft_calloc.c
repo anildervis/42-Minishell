@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderviso <aderviso@student.42istanbul.com  +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 16:58:55 by aderviso          #+#    #+#             */
-/*   Updated: 2022/10/22 14:48:16 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/04/02 11:46:47 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
 void	*ft_calloc(size_t count, size_t size)
 {

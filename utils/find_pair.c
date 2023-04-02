@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "../minishell.h"
 
 /*
 verilen inputun ilk karakterinin aynısını 
