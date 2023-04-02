@@ -5,10 +5,14 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include <sys/ioctl.h>
+#include <string.h>
+#include <sys/types.h>
+#include <errno.h>
+#include <signal.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <dirent.h>
-#include "utils/libft.h"
 #include <sys/wait.h>
 
 #define DOUBLE_QUOTE "\""
@@ -21,13 +25,21 @@
 #define READ_END 0
 #define WRITE_END 1
 
-typedef struct	s_ms
+#define ESLASH 1 // Komutun slash karakteri içerdiği hata kodu
+#define EADDPATH 2 // Path eklerken oluşan hata kodu
+#define EPWD 3 // Getcwd fonksiyonu çalışmazsa oluşacak hata kodu
+#define ECD 4 // Chdir fonksiyonu çalışmazsa oluşacak hata kodu
+
+enum e_builtin_types
 {
-	int			pid;
-	int			error_status;
-	char		**ev;
-	char		**path;
-}				t_ms;
+	CD = 1,
+	ENV,
+	PWD,
+	ECHO,
+	EXIT,
+	UNSET,
+	EXPORT
+};
 
 enum tokens{
 	TOKEN_PIPE,
@@ -57,6 +69,14 @@ typedef struct s_file
 	struct s_file	*next;
 }					t_file;
 
+typedef struct	s_ms
+{
+	int			parent_pid;
+	int			error_status;
+	char		**ev;
+	char		**paths;
+}				t_ms;
+
 typedef struct s_parsed
 {
 	int			exec;
@@ -70,15 +90,62 @@ typedef struct s_parsed
 	struct s_parsed	*next;
 }				t_parsed;
 
+extern t_ms	g_ms;
+
+// utils
+char	*ft_strdup(const char *str);
+void	init_ms(char **ev);
+char	*get_env(char *str);
+void	check_dir(char *cmd);
+char	*get_path(char *cmd);
+int		addenv(char *key, char *val);
+int		is_whitespace(char c);
+int		is_parent(void);
+char	**set_ev(char **ev);
+int		env_len(void);
+void	set_paths(void);
+size_t	ft_strlen(const char *s);
+char	*ft_strchr(const char *s, int c);
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
+int		ft_atoi(const char *str);
+char	*ft_itoa(int n);
+void	*ft_calloc(size_t count, size_t size);
+void	ft_bzero(void *s, size_t n);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	**ft_split(char const *s, char c);
+int     ft_strcmp(const char *s1, const char *s2);
+int     ft_strncmp(const char *s1, const char *s2, size_t n);
+int     find_pair(char *input, char c);
+int     list_len(char **char_list);
+int     ft_strnsearch(char *string, char *chars_to_search, size_t len);
+
+//error
+void	cmd_err(char *str);
+void	no_file_err(char *str);
+
+//free
+void	free_array(char **arr);
+
+//builtin
+void	builtin_cd(char **execute);
+void	builtin_echo(char **input);
+void	builtin_env(void);
+void	builtin_exit(char **input);
+void	builtin_export(char **input);
+void	builtin_pwd(void);
+void	builtin_unset(char **input);
+
 //--------------lexer--------------
 int			is_metacharacter(char c);
 int			token_str_lexer(char *input);
 int			add_token(char *input, t_token *command_table, enum tokens type, int len);
 void		find_token(char *input, t_token *command_table);
 t_token		*tokenizer(char *input);
-void		print_syntax_error(char *value);
+int			print_syntax_error(char *value);
 void		get_next_token(t_token *command_table);
-void		syntax_check(t_token *command_table);
+int			syntax_check(t_token *command_table);
 
 //--------------expander--------------
 int			add_double_quote(char **str, char *val);
