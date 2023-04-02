@@ -37,7 +37,7 @@ t_parsed *new_parse_command(int in_file, int out_file)
 	return (command);
 }
 
-void add_andor_list(enum tokens andor, t_parsed *command, t_parsed **andor_table)
+void add_andor_list(t_parsed *command, t_parsed **andor_table)
 {
 	int i;
 
@@ -148,7 +148,7 @@ t_parsed	**parse_commands(int in_file, int out_file, t_token *command_table)
 	t_parsed	**andor_table;
 	t_parsed	*command;
 
-	andor_table = (t_parsed **)malloc(sizeof(t_parsed *) * (andor_count(command_table) + 1));
+	andor_table = (t_parsed **)malloc(sizeof(t_parsed *) * (andor_count(command_table) + 2));
 	while (command_table)
 	{
 		// printf("inside\n");
@@ -158,7 +158,7 @@ t_parsed	**parse_commands(int in_file, int out_file, t_token *command_table)
 		else
 			command->exec = command_table->prev->type;
 		// printf("infile -> %d, outfile -> %d\n", command->in_file, command->out_file);
-		add_andor_list(command_table->type, command, andor_table);
+		add_andor_list(command, andor_table);
 		while (command_table)
 		{
 			// printf("inception? type -> %d\n", command_table->type);
