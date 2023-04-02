@@ -15,23 +15,25 @@ int here_doc_fd(char *limiter)
     char *tmp;
     int fd[2];
 
-    // input = readline(">");
+    input = readline(">");
     final_line = (char *)ft_calloc(2, sizeof(char));
     while (ft_strcmp(limiter, input))
     {
+        tmp = input;
+        input = ft_strjoin(input, "\n");
+        free(tmp);
         tmp = final_line;
         final_line = ft_strjoin(final_line, input);
         free(tmp);
         free(input);
-        // input = readline(">");
+        input = readline(">");
     }
-    tmp = final_line;
-    final_line = ft_strjoin(final_line, input);
-    free(tmp);
     free(input);
+    free(limiter);
     if (pipe(fd) == -1)
         ; // error
     write(fd[WRITE_END], final_line, ft_strlen(final_line));
+    free(final_line);
     close(fd[WRITE_END]);
     return (fd[READ_END]);
 }
