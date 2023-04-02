@@ -126,7 +126,7 @@ int wild_path(char *wild_one, char *expected_one)
     return !ft_strcmp(tmp_wild_one, tmp_expected_one);
 }
 
-void wildcard(char *path, char **destined_path, int way, t_token **command_table)
+void    wildcard(char *path, char **destined_path, int way, char ***arguments)
 {
     DIR *dir;
     struct dirent *ent;
@@ -138,82 +138,71 @@ void wildcard(char *path, char **destined_path, int way, t_token **command_table
     }
     while ((ent = readdir(dir)) != NULL)
     {
-        // printf("%.1d/%.1d = %s\n", way, list_len(destined_path) - 1, ent->d_name);
         if (way != list_len(destined_path) - 1)
         {
             if (ent->d_type == DT_DIR && ft_strcmp(ent->d_name, ".") != 0 && ft_strcmp(ent->d_name, "..") != 0)
                 if (wild_path(destined_path[way], ent->d_name))
-                    wildcard(ft_strjoin(ft_strjoin(path, "/"), ent->d_name), destined_path, way + 1, command_table);
+                    wildcard(ft_strjoin(ft_strjoin(path, "/"), ent->d_name), destined_path, way + 1, arguments);
         }
         else
             if (ft_strcmp(ent->d_name, ".") != 0 && ft_strcmp(ent->d_name, "..") != 0)
                 if (wild_path(destined_path[way], ent->d_name))
-                    add_wildcard_to_list(ft_strjoin(ft_strjoin(path, "/"), ent->d_name), command_table);
+                    add_wildcard_to_list(ft_strjoin(ft_strjoin(path, "/"), ent->d_name), arguments);
     }
     closedir(dir);
 }
 
 
-void add_wildcard_to_list(char *path, t_token **command)
+void add_wildcard_to_list(char *path, char ***arguments)
 {
-    t_token *token;
+    int     i;
+    char    **new_list;
 
-    token = (t_token *)malloc(sizeof(t_token));
-    // printf("final_path %s\n", path);
-    if (!ft_strnsearch((*command)->value, "*", ft_strlen((*command)->value)))
+    new_list = ft_calloc(list_len(*arguments) + 2, sizeof(char *));
+    i = -1;
+    while ((*arguments)[++i])
     {
-        (*command)->value = path + 2;
-        free(token);
+        new_list[i] = (*arguments)[i];
     }
-    else
-    {
-        token->next = (*command)->next;
-        token->prev = (*command);
-        token->value = path + 2;
-        token->type = TOKEN_STR;
-        (*command)->next = token;
-        if (token->next)
-            token->next->prev = token;
-        (*command) = (*command)->next;
-    }
+    new_list[i] = path;
+    *arguments = new_list;
 }
 
-void wildcard_expander(char *value, t_token **commands)
+void wildcard_expander(char *value, char ***list)
 {
-    int i;
     char **splitted_path;
 
     if (ft_strnsearch(value, "*", ft_strlen(value)))
         return ;
-    i = -1;
     splitted_path = ft_split(value, '/');
-    // printf("value -> %s\n", value);
-    // i = -1;
-    // while (splitted_path[++i])
-    //     printf("path %d -> %s\n", i, splitted_path[i]);
-    wildcard(".", splitted_path, 0, commands);
+    wildcard(".", splitted_path, 0, list);
 }
 
 
-t_token *expander(t_token *command_list)
+void expander(t_parsed **command)
 {
-    t_token *expanded_list;
+    int i;
+    char **tmp_arguments;
+    char    **tmp_list;
 
-    expanded_list = command_list;
-    while (expanded_list)
+    i = -1;
+    tmp_list = ft_calloc(2, sizeof(char *));
+    tmp_arguments = (*command)->arguments;
+    if (!tmp_arguments || !(*tmp_arguments))
+        return ;
+    while (tmp_arguments[++i])
     {
-        if (expanded_list->type == TOKEN_STR)
+        tmp_arguments[i] = check_str(tmp_arguments[i]);
+        wildcard_expander(tmp_arguments[i], &tmp_list);
+        if (tmp_list && *tmp_list)
         {
-            expanded_list->value = check_str(expanded_list->value);
-            // printf("%d -> %s\n", 1, expanded_list->value);
-            wildcard_expander(expanded_list->value, &expanded_list);
+            int k = 0;
+            while (tmp_list[k])
+            {
+                printf("%s\n", tmp_list[k]);
+                k++;
+            }
         }
-        expanded_list = expanded_list->next;
+            // add to arguments;
     }
-    // while (command_list)
-    // {
-    //     printf("%s\n", command_list->value);
-    //     command_list = command_list->next;
-    // }
-    return command_list;
 }

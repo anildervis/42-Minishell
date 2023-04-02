@@ -85,6 +85,7 @@ typedef struct s_parsed
 	char		*cmd;
 	char		**arguments;
 	t_token		*paranthesis;
+	struct s_parsed	**parantheses_andor;
 	t_file		*file_list;
 	struct s_parsed	*prev;
 	struct s_parsed	*next;
@@ -155,9 +156,10 @@ int			add_dollar(char **str, char *val);
 int			add_char(char **str, char *val);
 char		*check_str(char *value);
 int			wild_path(char *wild_one, char *expected_one);
-void		wildcard(char *path, char **destined_path, int way, t_token **command_table);
-void		add_wildcard_to_list(char *path, t_token **command);
-t_token		*expander(t_token *command_list);
+void		wildcard(char *path, char **destined_path, int way, char ***arguments);
+void		add_wildcard_to_list(char *path, char ***arguments);
+void		wildcard_expander(char *value, char ***list);
+void		expander(t_parsed **command);
 
 //--------------parser--------------
 int			andor_count(t_token *command_table);
@@ -179,6 +181,8 @@ void		apply_redirection(t_parsed **command, int default_in_file, int default_out
 void		child_organizer(t_parsed *command, int default_in_file, int default_out_file);
 void		command_executor(t_parsed *command, int default_in_file, int default_out_file);
 void		create_pipe(t_parsed **command, int default_in_file, int default_out_file);
+void		create_redirections(t_parsed **andor_table, int default_in_file, int default_out_file);
 void		organizer(t_parsed **andor_table, int default_in_file, int default_out_file);
+void		executor(t_parsed **andor_table, int default_in_file, int default_out_file);
 
 #endif

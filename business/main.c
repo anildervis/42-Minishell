@@ -18,7 +18,6 @@ void	init_shell(char *str)
 	test = tokenizer(str);
 	if (syntax_check(test))
 		return ;
-	test = expander(test);
 	parsed_commands = parse_commands(0, 1, test);
     // int i = -1;
     // while (parsed_commands[++i])
@@ -57,7 +56,7 @@ void	init_shell(char *str)
     //         tmp_parsed = tmp_parsed->next;
     //     }
     // }
-    organizer(parsed_commands, 0, 1);
+    executor(parsed_commands, 0, 1);
 }
 
 int	main(int ac, char **av, char **ev)
