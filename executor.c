@@ -15,7 +15,7 @@ int here_doc_fd(char *limiter)
     char *tmp;
     int fd[2];
 
-    input = readline(">");
+    // input = readline(">");
     final_line = (char *)ft_calloc(2, sizeof(char));
     while (ft_strcmp(limiter, input))
     {
@@ -23,14 +23,14 @@ int here_doc_fd(char *limiter)
         final_line = ft_strjoin(final_line, input);
         free(tmp);
         free(input);
-        input = readline(">");
+        // input = readline(">");
     }
     tmp = final_line;
     final_line = ft_strjoin(final_line, input);
     free(tmp);
     free(input);
     if (pipe(fd) == -1)
-        // error
+        ; // error
     write(fd[WRITE_END], final_line, ft_strlen(final_line));
     close(fd[WRITE_END]);
     return (fd[READ_END]);
@@ -81,7 +81,7 @@ void apply_redirection(t_parsed **command, int default_in_file, int default_out_
 void child_organizer(t_parsed *command, int default_in_file, int default_out_file)
 {
     t_token *inside_paranthesis;
-    t_parsed *parsed_paranthesis;
+    t_parsed **parsed_paranthesis;
     pid_t pid;
 
     inside_paranthesis = command->paranthesis;
@@ -89,34 +89,29 @@ void child_organizer(t_parsed *command, int default_in_file, int default_out_fil
     parsed_paranthesis = parse_commands(command->in_file, command->out_file, inside_paranthesis);
     pid = fork();
     if (pid < 0)
-        // error
+        ; // error
     else if (!pid)
     {
-        close(default_in_file);
-        close(default_out_file);
         organizer(parsed_paranthesis, command->in_file, command->out_file);
-        exit(1);
+        exit(0);
     }
-    else
-        waitpid(pid, NULL, NULL); // it will be -> waitpid(pid, &last_exec_status, NULL);
+    waitpid(pid, NULL, 0); // it will be -> waitpid(pid, &last_exec_status, 0);
 }
 
 void command_executor(t_parsed *command, int default_in_file, int default_out_file)
 {
-    // there will be dup2
     pid_t pid;
 
+    pid = fork();
     if (pid < 0)
-        // error
+        ; // error
     else if (!pid)
     {
         dup2(command->in_file, STDIN_FILENO);
         dup2(command->out_file, STDOUT_FILENO);
-        execve(command->cmd, command->arguments, NULL); //something like get_cmd() + last will be environment variables
-        close_fd(command, default_in_file, default_out_file);
-        exit(0);
+        execv("/bin/ls", command->arguments); // execve(get_path(command->cmd), command->arguments, global değişken -> env);
     }
-    waitpid(pid, NULL, NULL); // it will be -> waitpid(pid, &last_exec_status, NULL);    
+    waitpid(pid, NULL, 0); // it will be -> waitpid(pid, &last_exec_status, 0);    
     close_fd(command, default_in_file, default_out_file);
 }
 
@@ -146,17 +141,17 @@ void organizer(t_parsed **andor_table, int default_in_file, int default_out_file
         if (tmp_command->exec == 3
             || (tmp_command->exec == TOKEN_AND /*&& last_exec_status == 0*/)
             || (tmp_command->exec == TOKEN_OR /*&& last_exec_status != 0*/))
-        while (tmp_command)
-        {
-            if (tmp_command->next)
-                create_pipe(&tmp_command, default_in_file, default_out_file);
-            apply_redirection(&tmp_command, default_in_file, default_out_file);
-            if (tmp_command->paranthesis)
-                child_organizer(tmp_command, default_in_file, default_out_file);
-            else
-                command_executor(tmp_command, default_in_file, default_out_file);
-            tmp_command = tmp_command->next;
-        }
+            while (tmp_command)
+            {
+                if (tmp_command->next)
+                    create_pipe(&tmp_command, default_in_file, default_out_file);
+                apply_redirection(&tmp_command, default_in_file, default_out_file);
+                if (tmp_command->paranthesis)
+                    child_organizer(tmp_command, default_in_file, default_out_file);
+                else
+                    command_executor(tmp_command, default_in_file, default_out_file);
+                tmp_command = tmp_command->next;
+            }
     }
     close(default_in_file);
     close(default_out_file);
