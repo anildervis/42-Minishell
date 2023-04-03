@@ -108,7 +108,7 @@ void	set_paths(void);
 size_t	ft_strlen(const char *s);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
+char	*strnstr_wildcard(const char *haystack, const char *needle, size_t len);
 int		ft_atoi(const char *str);
 char	*ft_itoa(int n);
 void	*ft_calloc(size_t count, size_t size);
@@ -158,7 +158,6 @@ char		*check_str(char *value);
 int			wild_path(char *wild_one, char *expected_one);
 void		wildcard(char *path, char **destined_path, int way, char ***arguments);
 void		add_wildcard_to_list(char *path, char ***arguments);
-void		wildcard_expander(char *value, char ***list);
 void		expander(t_parsed **command);
 
 //--------------parser--------------
