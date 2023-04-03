@@ -161,7 +161,7 @@ void add_wildcard_to_list(char *path, char ***arguments)
     i = -1;
     while ((*arguments)[++i])
         new_list[i] = ft_strdup((*arguments)[i]);
-    new_list[i] = path + 2;
+    new_list[i] = ft_strdup(path + 2);
     *arguments = new_list;
 }
 
@@ -189,7 +189,7 @@ void	expander(t_parsed **command)
 			tmp_arguments[k] = ft_strdup((*command)->arguments[k]);
 		i = -1;
 		while (++i < list_len(wildcard_list))
-			tmp_arguments[k + i] = wildcard_list[i];
+			tmp_arguments[k + i] = ft_strdup(wildcard_list[i]);
 		while (k < list_len((*command)->arguments))
 			tmp_arguments[k + i] = ft_strdup((*command)->arguments[k++]);
 		tmp_arguments[k + i] = NULL;
