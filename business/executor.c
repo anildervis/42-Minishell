@@ -107,7 +107,10 @@ void command_executor(t_parsed *command, int default_in_file, int default_out_fi
     {
         dup2(command->in_file, STDIN_FILENO);
         dup2(command->out_file, STDOUT_FILENO);
-        execve(get_path(command->cmd), command->arguments, g_ms.ev);
+        if (is_builtin(command->cmd))
+            run_builtin(command->arguments);
+        else
+            execve(get_path(command->cmd), command->arguments, g_ms.ev);
     }
     waitpid(pid, NULL, 0); // it will be -> waitpid(pid, &last_exec_status, 0);    
     close_fd(command, default_in_file, default_out_file);
