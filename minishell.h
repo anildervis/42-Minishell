@@ -131,6 +131,7 @@ void	no_file_err(char *str);
 void	free_array(char **arr);
 
 //builtin
+int		is_builtin(char *command);
 void	run_builtin(char **exe);
 void	builtin_cd(char **execute);
 void	builtin_echo(char **input);
