@@ -86,7 +86,6 @@ char *check_str(char *value)
 
 int wild_path(char *wild_one, char *expected_one)
 {
-    // printf("wild -> %s\n normal -> %s\n", wild_one, expected_one);
     int i;
     int star_count;
     char *tmp_wild_one;
@@ -113,8 +112,8 @@ int wild_path(char *wild_one, char *expected_one)
         i = 0;
         while (tmp_wild_one[i] != *WILD_CARD)
             i++;
-        tmp_wild_one = ft_strnstr(tmp_expected_one, tmp_wild_one, i);
-        if (!tmp_wild_one)
+        tmp_expected_one = strnstr_wildcard(tmp_expected_one, tmp_wild_one, i);
+        if (!tmp_expected_one)
             return 0;
         tmp_wild_one += i + 1;
         tmp_expected_one += i;
@@ -140,12 +139,12 @@ void    wildcard(char *path, char **destined_path, int way, char ***arguments)
     {
         if (way != list_len(destined_path) - 1)
         {
-            if (ent->d_type == DT_DIR && ft_strcmp(ent->d_name, ".") != 0 && ft_strcmp(ent->d_name, "..") != 0)
+            if (ent->d_type == DT_DIR && (ft_strncmp(ent->d_name, ".", 1) || !ft_strncmp(ent->d_name, destined_path[way], 1)))
                 if (wild_path(destined_path[way], ent->d_name))
                     wildcard(ft_strjoin(ft_strjoin(path, "/"), ent->d_name), destined_path, way + 1, arguments);
         }
         else
-            if (ft_strcmp(ent->d_name, ".") != 0 && ft_strcmp(ent->d_name, "..") != 0)
+            if (ft_strncmp(ent->d_name, ".", 1) || !ft_strncmp(ent->d_name, destined_path[way], 1))
                 if (wild_path(destined_path[way], ent->d_name))
                     add_wildcard_to_list(ft_strjoin(ft_strjoin(path, "/"), ent->d_name), arguments);
     }
@@ -161,48 +160,40 @@ void add_wildcard_to_list(char *path, char ***arguments)
     new_list = ft_calloc(list_len(*arguments) + 2, sizeof(char *));
     i = -1;
     while ((*arguments)[++i])
-    {
-        new_list[i] = (*arguments)[i];
-    }
-    new_list[i] = path;
+        new_list[i] = ft_strdup((*arguments)[i]);
+    new_list[i] = path + 2;
     *arguments = new_list;
 }
 
-void wildcard_expander(char *value, char ***list)
+void	expander(t_parsed **command)
 {
-    char **splitted_path;
+	int		i;
+	int		k;
+	char	*tmp_argument;
+	char	**tmp_arguments;
+	char	**wildcard_list;
 
-    if (ft_strnsearch(value, "*", ft_strlen(value)))
-        return ;
-    splitted_path = ft_split(value, '/');
-    wildcard(".", splitted_path, 0, list);
-}
-
-
-void expander(t_parsed **command)
-{
-    int i;
-    char **tmp_arguments;
-    char    **tmp_list;
-
-    i = -1;
-    tmp_list = ft_calloc(2, sizeof(char *));
-    tmp_arguments = (*command)->arguments;
-    if (!tmp_arguments || !(*tmp_arguments))
-        return ;
-    while (tmp_arguments[++i])
-    {
-        tmp_arguments[i] = check_str(tmp_arguments[i]);
-        wildcard_expander(tmp_arguments[i], &tmp_list);
-        if (tmp_list && *tmp_list)
-        {
-            int k = 0;
-            while (tmp_list[k])
-            {
-                printf("%s\n", tmp_list[k]);
-                k++;
-            }
-        }
-            // add to arguments;
-    }
+	i = -1;
+	wildcard_list = ft_calloc(2, sizeof(char *));
+	if (!(*command)->arguments || !((*command)->arguments[0]))
+		return ;
+	while ((*command)->arguments[++i])
+	{
+		(*command)->arguments[i] = check_str((*command)->arguments[i]);
+		if (ft_strnsearch((*command)->arguments[i], "*", ft_strlen((*command)->arguments[i])))
+			continue ;
+		wildcard(".", ft_split((*command)->arguments[i], '/'), 0, &wildcard_list);
+		tmp_arguments = ft_calloc(list_len((*command)->arguments) + list_len(wildcard_list), sizeof(char *));
+		k = -1;
+		while (++k < i)
+			tmp_arguments[k] = ft_strdup((*command)->arguments[k]);
+		i = -1;
+		while (++i < list_len(wildcard_list))
+			tmp_arguments[k + i] = wildcard_list[i];
+		while (k < list_len((*command)->arguments))
+			tmp_arguments[k + i] = ft_strdup((*command)->arguments[k++]);
+		tmp_arguments[k + i] = NULL;
+		(*command)->arguments = tmp_arguments;
+		i += list_len(wildcard_list);
+	}
 }
