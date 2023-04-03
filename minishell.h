@@ -71,6 +71,7 @@ typedef struct s_file
 
 typedef struct	s_ms
 {
+	int			ignore;
 	int			parent_pid;
 	int			error_status;
 	char		**ev;

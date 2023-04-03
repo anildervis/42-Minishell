@@ -59,6 +59,23 @@ void	init_shell(char *str)
     executor(parsed_commands, 0, 1);
 }
 
+void    ctrl_c(int sig)
+{
+    (void)sig;
+    g_ms.ignore = 1;
+    ioctl(STDIN_FILENO, TIOCSTI, "\n");
+    write(1, "\033[A", 3);
+}
+
+void    ctrl_d(char *str)
+{
+    if (!str)
+    {
+        printf("exit\n");
+        exit(errno);
+    }
+}
+
 int	main(int ac, char **av, char **ev)
 {
 	char	*str;
@@ -66,16 +83,22 @@ int	main(int ac, char **av, char **ev)
 	init_ms(ev);
 	while (1)
 	{
+        g_ms.ignore = 0;
+        signal(SIGINT, &ctrl_c);
+        signal(SIGQUIT, SIG_IGN);   // ctrl + \ sinyalini
 		str = readline(ft_strjoin(getcwd(0, 0), " \033[31m︻\033[0m\033[32m┳\033[0m\033[33mデ\033[0m\033[34m═\033[0m\033[35m—\033[0m$ "));
-		if (*str)
+		ctrl_d(str);                // bu sinyal 'end of file' karakteri. '\0'.
+        if (g_ms.ignore)
+        {
+            free(str);
+            str = malloc(1);
+        }
+        if (*str)
 		{
 			init_shell(str);
 			add_history(str);
 		}
-		if (str[0] == 'q')
-		{
-			break;
-		}
+        free(str);
 	}
 	return (0);
 }
