@@ -12,30 +12,13 @@ void	put_char(char *input)
 	}
 }
 
-int	skip_flag(char **str)
+void	builtin_echo(char **input)
 {
 	int	i;
 
 	i = 1;
-	while (str[i])
-	{
-		if (ft_strcmp(str[i], "-n"))  //strcmp ekle!
-			i++;
-		else
-			break ;
-	}
-	return (i);
-}
-
-void	builtin_echo(char **input)
-{
-	int	i;
-	int	flag;
-
-	flag = 1;
-	i = skip_flag(input);
-	if (i > 1)
-		flag = 0;
+	if (!ft_strcmp(input[1], "-n"))
+		i = 2;
 	while (input[i])
 	{
 		put_char(input[i]);
@@ -43,7 +26,7 @@ void	builtin_echo(char **input)
 			write(STDOUT_FILENO, " ", 1);
 		i++;
 	}
-	if (flag)
+	if (ft_strcmp(input[1], "-n"))
 		write(STDOUT_FILENO, "\n", 1);
 	if (!is_parent())
 		exit(0);
