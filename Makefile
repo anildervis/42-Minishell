@@ -46,7 +46,7 @@ all:				$(NAME) $(LIB)
 $(NAME):			$(OBJF) $(BOBJ) $(BSOBJ) $(EOBJ) $(FOBJ) $(UOBJ)
 					$(CC) $(CFLAGS) $(BOBJ) $(BSOBJ) $(EOBJ) $(FOBJ) $(UOBJ) $(READLINE) -o $(NAME)
 
-$(OBJ_DIR)*/%.o:	$(BUILTIN_DIR)*.c $(BUSINESS_DIR)*.c $(ERROR_DIR)*.c $(FREE_DIR)*.c $(UTILS_DIR)*.c
+$(OBJ_DIR)%.o:		%.c
 					$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJF):
