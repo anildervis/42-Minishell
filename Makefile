@@ -6,6 +6,8 @@ RM				=	rm -f
 READLINE		=	-lreadline
 LIB				=	minishell.h
 
+SUCCESS			=	@echo "\033[32mSuccessfull !\033[0m"
+CLEANED			=	@echo "\033[34mCleaned !\033[0m"
 
 BUILTIN_DIR		=	builtin/
 BUILTIN_FILES	=	builtin cd echo env exit export pwd unset
@@ -44,10 +46,11 @@ OBJF			=	.cache_exists
 all:				$(NAME) $(LIB)
 
 $(NAME):			$(OBJF) $(BOBJ) $(BSOBJ) $(EOBJ) $(FOBJ) $(UOBJ)
-					$(CC) $(CFLAGS) $(BOBJ) $(BSOBJ) $(EOBJ) $(FOBJ) $(UOBJ) $(READLINE) -o $(NAME)
+					@$(CC) $(CFLAGS) $(BOBJ) $(BSOBJ) $(EOBJ) $(FOBJ) $(UOBJ) $(READLINE) -o $(NAME)
+					$(SUCCESS)
 
 $(OBJ_DIR)%.o:		%.c
-					$(CC) $(CFLAGS) -c $< -o $@
+					@$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJF):
 					@mkdir -p $(OBJ_DIR)
@@ -60,10 +63,11 @@ $(OBJF):
 
 clean:
 					@$(RM) -r $(OBJ_DIR)
+					@$(RM) $(NAME)
 					@$(RM) $(OBJF)
+					$(CLEANED)
 
 fclean:				clean
-					@$(RM) $(NAME)
 					@rm -rf *.dSYM
 					@find . -name ".DS_Store" -delete
 
