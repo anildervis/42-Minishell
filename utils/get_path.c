@@ -35,8 +35,8 @@ char	*get_path(char *cmd)
 	if (!access(cmd, F_OK))
 		return (ft_strdup(cmd));
 	paths = g_ms.paths;
-	// if (!paths)
-	// 	command_err(cmd);
+	if (!paths)
+		print_error(CMD_NOT_FOUND, cmd);
 	new_cmd = ft_strjoin("/", cmd);
 	while (*paths)
 	{
