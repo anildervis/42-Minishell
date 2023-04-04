@@ -10,6 +10,6 @@ void	builtin_pwd(void)
 	else
 		printf("%s\n", cwd);
 	free(cwd);
-	if (is_parent())
+	if (!is_parent())
 		exit(errno);
 }
