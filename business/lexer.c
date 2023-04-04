@@ -96,13 +96,6 @@ t_token *tokenizer(char *input)
     return (command_table);
 }
 
-int print_syntax_error(char *value)
-{
-    g_ms.error_status = 2;
-    printf("bash: syntax error near unexpected token '%s'", value);
-    return (2);
-}
-
 void get_next_token(t_token *command_table)
 {
     t_token *tmp_command_table;
@@ -137,7 +130,7 @@ int syntax_check(t_token *command_table)
                 || tmp_command_table->prev->type == TOKEN_PIPE
                 || tmp_command_table->prev->type == TOKEN_AND
                 || tmp_command_table->prev->type == TOKEN_OR)
-                return (print_syntax_error(tmp_command_table->value));
+                return (print_error(SYNTAX_ERROR, tmp_command_table->value));
             else if (tmp_command_table->type != TOKEN_CLOSE_PAR
                 && !tmp_command_table->next)
             {
@@ -151,20 +144,20 @@ int syntax_check(t_token *command_table)
             || tmp_command_table->type == TOKEN_APPEND)
         {
             if (!tmp_command_table->next)
-                return (print_syntax_error("newline"));
+                return (print_syntax_error(SYNTAX_ERROR, "newline"));
             else if (tmp_command_table->next->type != TOKEN_STR)
-                return (print_syntax_error(tmp_command_table->next->value));
+                return (print_syntax_error(SYNTAX_ERROR, tmp_command_table->next->value));
         }
         else if (tmp_command_table->type == TOKEN_OPEN_PAR)
         {
             if (tmp_command_table->prev && tmp_command_table->prev->type == TOKEN_STR)
-                return (print_syntax_error(tmp_command_table->value));
+                return (print_syntax_error(SYNTAX_ERROR, tmp_command_table->value));
             paranthesis_count++;
         }
         else if (tmp_command_table->type == TOKEN_CLOSE_PAR)
         {
             if (tmp_command_table->next && tmp_command_table->next->type == TOKEN_STR)
-                return (print_syntax_error(tmp_command_table->next->value));
+                return (print_syntax_error(SYNTAX_ERROR, tmp_command_table->next->value));
             paranthesis_count--;
         }
         if (!tmp_command_table->next && paranthesis_count > 0)

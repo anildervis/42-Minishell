@@ -16,7 +16,6 @@ int andor_count(t_token *command_table)
 			skip_paranthesis(&tmp_list);
 		tmp_list = tmp_list->next;
 	}
-	// printf("andor count -> %d\n", i);
 	return i;
 }
 
@@ -93,7 +92,6 @@ t_parsed *add_parse(t_token **command_table, t_parsed **old_command)
 	t_parsed *new_command;
 
 	new_command = new_parse_command((*old_command)->in_file, (*old_command)->out_file);
-	// printf("here\n");
 	(*old_command)->next = new_command;
 	new_command->prev = (*old_command);
 	(*command_table) = (*command_table)->next;
@@ -153,17 +151,14 @@ t_parsed	**parse_commands(int in_file, int out_file, t_token *command_table)
 	andor_table = ft_calloc(andor_count(command_table) + 2, sizeof(t_parsed *));
 	while (command_table)
 	{
-		// printf("inside\n");
 		command = new_parse_command(in_file, out_file);
 		if (!command_table->prev)
 			command->exec = 3;
 		else
 			command->exec = command_table->prev->type;
-		// printf("infile -> %d, outfile -> %d\n", command->in_file, command->out_file);
 		add_andor_list(command, andor_table);
 		while (command_table)
 		{
-			// printf("inception? type -> %d upps -> %p and %s\n", command_table->type, command->cmd, command->cmd);
 			if (command_table->type == TOKEN_AND
 				|| command_table->type == TOKEN_OR)
 			{
@@ -183,6 +178,5 @@ t_parsed	**parse_commands(int in_file, int out_file, t_token *command_table)
 				command = add_parse(&command_table, &command);
 		}
 	}
-	// printf("imma out\n");
 	return (andor_table);
 }

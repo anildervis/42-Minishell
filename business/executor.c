@@ -31,7 +31,7 @@ int here_doc_fd(char *limiter)
     free(input);
     free(limiter);
     if (pipe(fd) == -1)
-        ; // error
+        print_error(PIPE_ERR, NULL);
     write(fd[WRITE_END], final_line, ft_strlen(final_line));
     free(final_line);
     close(fd[WRITE_END]);
@@ -43,9 +43,9 @@ int read_file_fd(char *file_name, int type)
     if (type == TOKEN_HERE_DOC)
         return (here_doc_fd(file_name));
     if (access(file_name, F_OK) == -1)
-        ; // error
+        print_error(FILE_NOT_FOUND, file_name);
     if (access(file_name, R_OK) == -1)
-        ; // permission error
+        print_error(PERM_DENIED, file_name);
     return (open(file_name, O_RDONLY, 0666));
 }
 
@@ -88,7 +88,7 @@ void child_organizer(t_parsed *command, int default_in_file, int default_out_fil
     (void)default_out_file;             //Kullanılmadığı için hata veriyor*************
     pid = fork();
     if (pid < 0)
-        ; // error
+        print_error(FORK_ERR, NULL);
     else if (!pid)
     {
         organizer(command->parantheses_andor, command->in_file, command->out_file);
@@ -104,7 +104,7 @@ void command_executor(t_parsed *command, int default_in_file, int default_out_fi
     expander(&command);
     pid = fork();
     if (pid < 0)
-        ; // error
+        print_error(FORK_ERR, NULL);
     else if (!pid)
     {
         dup2(command->in_file, STDIN_FILENO);
@@ -123,7 +123,7 @@ void create_pipe(t_parsed **command, int default_in_file, int default_out_file)
     int fd[2];
 
     if (pipe(fd) == -1)
-        ; // error
+        print_error(PIPE_ERR, NULL);
     if ((*command)->out_file != default_out_file)
         close((*command)->out_file);
     (*command)->out_file = fd[WRITE_END];

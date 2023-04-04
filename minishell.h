@@ -52,7 +52,19 @@ enum tokens{
 	TOKEN_OPEN_PAR,
 	TOKEN_CLOSE_PAR,
 	TOKEN_STR
-}	t_token_type;
+};
+
+enum errors{
+	FILE_NOT_FOUND = 1,
+	SYNTAX_ERROR = 2,
+	PERM_DENIED = 4,
+	CMD_NOT_FOUND = 127,
+	SYSTEM_ERR = -1,
+	MEMORY_ERR = -2,
+	DUP_ERR = -3,
+	FORK_ERR = -4,
+	PIPE_ERR = -5
+};
 
 typedef struct s_token
 {
@@ -124,8 +136,9 @@ int     list_len(char **char_list);
 int     ft_strnsearch(char *string, char *chars_to_search, size_t len);
 
 //error
-void	cmd_err(char *str);
-void	no_file_err(char *str);
+// void	cmd_err(char *str);
+// void	no_file_err(char *str);
+void	print_error(int error_code, char *param);
 
 //free
 void	free_array(char **arr);
@@ -147,7 +160,6 @@ int			token_str_lexer(char *input);
 int			add_token(char *input, t_token *command_table, enum tokens type, int len);
 void		find_token(char *input, t_token *command_table);
 t_token		*tokenizer(char *input);
-int			print_syntax_error(char *value);
 void		get_next_token(t_token *command_table);
 int			syntax_check(t_token *command_table);
 
