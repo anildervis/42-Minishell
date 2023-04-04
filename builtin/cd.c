@@ -9,7 +9,7 @@ void	builtin_cd(char **execute)
 	}
 	else
 		if (chdir(getenv("HOME")))
-			perror("minishel ");
+			perror("minishell ");
 	if (!is_parent())
 		exit(errno);
 }
