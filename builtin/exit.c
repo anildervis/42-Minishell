@@ -35,13 +35,13 @@ void	builtin_exit(char **input)
 		{
 			if (ft_get_arg_count(input) > 2)
 			{
-				write(2, "exit\nminishel>>> exit: too many arguments\n", 43);
+				write(2, "exit\nminishel: exit: too many arguments\n", 41);
 				errno = 1;
 				return ;
 			}
 			exit(ft_atoi(input[1]) % 256);
 		}
-		write(2, "exit\nminishell>>> exit: numeric argument required\n", 48);
+		write(2, "exit\nminishell: exit: numeric argument required\n", 48);
 		exit(-1 % 256);
 	}
 }
