@@ -32,9 +32,9 @@ int add_dollar(char **str, char *val)
 
     i = 2;
     if (*(val + 1) == *DOLLAR_SIGN)
-        *str = ft_strjoin(*str, "123"); // ft_itoa(t_ms->pid)); // global değişkenin pid'si
+        *str = ft_strjoin(*str, ft_itoa(g_ms.parent_pid));
     else if (*(val + 1) == *QUESTION_MARK)
-        *str = ft_strjoin(*str, "42"); // ft_itoa(t_ms->error_status)); // global değişkenin son komut çıktısı
+        *str = ft_strjoin(*str, ft_itoa(g_ms.error_status));
     else if (*(val + 1) == *DOUBLE_QUOTE || *(val + 1) == *SINGLE_QUOTE)
         i -= add_char(str, DOLLAR_SIGN);
     else if (!(*(val + 1)) || *(val + 1) == ' '

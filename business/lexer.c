@@ -98,8 +98,8 @@ t_token *tokenizer(char *input)
 
 int print_syntax_error(char *value)
 {
+    g_ms.error_status = 2;
     printf("bash: syntax error near unexpected token '%s'", value);
-    // global değişkenin error çıktısı -> 2;
     return (2);
 }
 

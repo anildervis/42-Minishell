@@ -4,6 +4,7 @@ t_ms	g_ms;
 
 void	init_ms(char **ev)
 {
+    g_ms.error_status = 0;
 	g_ms.parent_pid = getpid();
 	g_ms.ev = set_ev(ev);
 	g_ms.paths = ft_split(getenv("PATH"), ':');    //Kontrol et
@@ -60,6 +61,7 @@ int	main(int ac, char **av, char **ev)
 			init_shell(str);
 			add_history(str);
 		}
+        // printf("error status -> %d\n", g_ms.error_status);
         free(str);
 	}
 	return (0);

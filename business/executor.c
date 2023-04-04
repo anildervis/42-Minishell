@@ -94,7 +94,7 @@ void child_organizer(t_parsed *command, int default_in_file, int default_out_fil
         organizer(command->parantheses_andor, command->in_file, command->out_file);
         exit(0);
     }
-    waitpid(pid, NULL, 0); // it will be -> waitpid(pid, &last_exec_status, 0);
+    waitpid(pid, &(g_ms.error_status), 0);
 }
 
 void command_executor(t_parsed *command, int default_in_file, int default_out_file)
@@ -114,7 +114,7 @@ void command_executor(t_parsed *command, int default_in_file, int default_out_fi
         else
             execve(get_path(command->cmd), command->arguments, g_ms.ev);
     }
-    waitpid(pid, NULL, 0); // it will be -> waitpid(pid, &last_exec_status, 0);
+    waitpid(pid, &(g_ms.error_status), 0);
     close_fd(command, default_in_file, default_out_file);
 }
 
@@ -123,7 +123,7 @@ void create_pipe(t_parsed **command, int default_in_file, int default_out_file)
     int fd[2];
 
     if (pipe(fd) == -1)
-        // error
+        ; // error
     if ((*command)->out_file != default_out_file)
         close((*command)->out_file);
     (*command)->out_file = fd[WRITE_END];
@@ -166,8 +166,8 @@ void organizer(t_parsed **andor_table, int default_in_file, int default_out_file
     {
         tmp_command = andor_table[i];
         if (tmp_command->exec == 3
-            || (tmp_command->exec == TOKEN_AND /*&& last_exec_status == 0*/)
-            || (tmp_command->exec == TOKEN_OR /*&& last_exec_status != 0*/))
+            || (tmp_command->exec == TOKEN_AND && g_ms.error_status == 0)
+            || (tmp_command->exec == TOKEN_OR && g_ms.error_status != 0))
             while (tmp_command)
             {
                 if (tmp_command->paranthesis)
