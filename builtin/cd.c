@@ -10,6 +10,6 @@ void	builtin_cd(char **execute)
 	else
 		if (chdir(getenv("HOME")))
 			perror("minishel ");
-	if (is_parent())
+	if (!is_parent())
 		exit(errno);
 }
