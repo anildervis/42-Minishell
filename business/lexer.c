@@ -27,18 +27,14 @@ int token_str_lexer(char *input)
 
 int add_token(char *input, t_token *command_table, enum tokens type, int len)
 {
-    int i;
     t_token *token;
     t_token *tmp_table;
 
-    i = -1;
-    (void)i;        //Kullanılmadığı için hata veriyor****************
-    token = (t_token *)malloc(sizeof(t_token));
-    token->type = type;
     if (type == TOKEN_STR)
         len = token_str_lexer(input);
+    token = (t_token *)malloc(sizeof(t_token));
+    token->type = type;
     token->value = ft_substr(input, 0, len);
-    // printf("input -> %s for %d\n", token->value, len);
     token->next = NULL;
     token->prev = NULL;
     tmp_table = command_table;
