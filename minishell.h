@@ -138,7 +138,7 @@ int     ft_strnsearch(char *string, char *chars_to_search, size_t len);
 //error
 // void	cmd_err(char *str);
 // void	no_file_err(char *str);
-void	print_error(int error_code, char *param);
+int		print_error(int error_code, char *param);
 
 //free
 void	free_array(char **arr);

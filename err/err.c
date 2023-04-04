@@ -30,7 +30,7 @@ errno = 1 -> Operation not permitted hatası
 
 
 // needs to be change by ft_putchar to write into stderror
-void print_error(int error_code, char *param)
+int print_error(int error_code, char *param)
 {
 	errno = error_code;
 	if (errno == FILE_NOT_FOUND)
@@ -54,4 +54,5 @@ void print_error(int error_code, char *param)
 	if (!is_parent())
 		exit(errno);
 	// free minishell ?
+	return (errno);
 }

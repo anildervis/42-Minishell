@@ -144,20 +144,20 @@ int syntax_check(t_token *command_table)
             || tmp_command_table->type == TOKEN_APPEND)
         {
             if (!tmp_command_table->next)
-                return (print_syntax_error(SYNTAX_ERROR, "newline"));
+                return (print_error(SYNTAX_ERROR, "newline"));
             else if (tmp_command_table->next->type != TOKEN_STR)
-                return (print_syntax_error(SYNTAX_ERROR, tmp_command_table->next->value));
+                return (print_error(SYNTAX_ERROR, tmp_command_table->next->value));
         }
         else if (tmp_command_table->type == TOKEN_OPEN_PAR)
         {
             if (tmp_command_table->prev && tmp_command_table->prev->type == TOKEN_STR)
-                return (print_syntax_error(SYNTAX_ERROR, tmp_command_table->value));
+                return (print_error(SYNTAX_ERROR, tmp_command_table->value));
             paranthesis_count++;
         }
         else if (tmp_command_table->type == TOKEN_CLOSE_PAR)
         {
             if (tmp_command_table->next && tmp_command_table->next->type == TOKEN_STR)
-                return (print_syntax_error(SYNTAX_ERROR, tmp_command_table->next->value));
+                return (print_error(SYNTAX_ERROR, tmp_command_table->next->value));
             paranthesis_count--;
         }
         if (!tmp_command_table->next && paranthesis_count > 0)

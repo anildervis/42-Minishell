@@ -47,7 +47,7 @@ char	*get_path(char *cmd)
 		paths++;
 	}
 	if (ft_strchr(cmd, '/'))
-		no_file_err(cmd);
+		print_error(FILE_NOT_FOUND, cmd);
 	free(new_cmd);
 	return (0);
 }
