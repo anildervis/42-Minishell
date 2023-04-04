@@ -113,6 +113,8 @@ void command_executor(t_parsed *command, int default_in_file, int default_out_fi
             run_builtin(command->arguments);
         else
             execve(get_path(command->cmd), command->arguments, g_ms.ev);
+        print_error(CMD_NOT_FOUND, command->cmd);
+        exit (errno);
     }
     waitpid(pid, &(g_ms.error_status), 0);
     close_fd(command, default_in_file, default_out_file);
