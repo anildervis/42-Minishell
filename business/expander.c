@@ -11,8 +11,8 @@ int add_double_quote(char **str, char *val)
     {
         if (*(val + i) == *DOLLAR_SIGN)
             i += add_dollar(str, (val + i));
-        else 
-            i += add_char(str, (val + i));         
+        else
+            i += add_char(str, (val + i));
     }
     return i + 1;
 }
@@ -173,6 +173,7 @@ void	expander(t_parsed **command)
 	char	**tmp_arguments;
 	char	**wildcard_list;
 
+    (void)tmp_argument;                 //Kullanılmadığı için hata veriyor****************
 	i = -1;
 	wildcard_list = ft_calloc(2, sizeof(char *));
 	if (!(*command)->arguments || !((*command)->arguments[0]))
@@ -191,7 +192,10 @@ void	expander(t_parsed **command)
 		while (++i < list_len(wildcard_list))
 			tmp_arguments[k + i] = ft_strdup(wildcard_list[i]);
 		while (k < list_len((*command)->arguments))
-			tmp_arguments[k + i] = ft_strdup((*command)->arguments[k++]);
+        {
+			tmp_arguments[k + i] = ft_strdup((*command)->arguments[k]);     //unsequenced modification and access to 'k'*************
+            k++;                                                            //önceki hali(196. satır) : ft_strdup((*command)->arguments[k++]***
+        }
 		tmp_arguments[k + i] = NULL;
 		(*command)->arguments = tmp_arguments;
 		i += list_len(wildcard_list);

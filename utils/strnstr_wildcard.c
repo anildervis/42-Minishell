@@ -15,7 +15,7 @@
 char	*strnstr_wildcard(const char *haystack, const char *needle, size_t len)
 {
 	size_t	index;
-	int		k;
+	size_t	k;
 	char	*str;
 
 	str = (char *)haystack;

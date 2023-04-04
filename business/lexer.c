@@ -32,6 +32,7 @@ int add_token(char *input, t_token *command_table, enum tokens type, int len)
     t_token *tmp_table;
 
     i = -1;
+    (void)i;        //Kullanılmadığı için hata veriyor****************
     token = (t_token *)malloc(sizeof(t_token));
     token->type = type;
     if (type == TOKEN_STR)
@@ -185,7 +186,7 @@ int syntax_check(t_token *command_table)
 //     t_token *test;
 //     t_parsed **parsed_commands;
 //     t_parsed *tmp_parsed;
-    
+
 //     // test = tokenizer("cat deneme.c | echo wow >xd.txt || echo \"'$HOME'\" && (ls <input.txt || echo wow | cat) >out.txt <<input.c >>output.c");
 //     // test = tokenizer("echo uti*/ft_str*");
 //     // test = tokenizer(" cat    \"ec\"'h'o \"$? $$\"");

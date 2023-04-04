@@ -43,7 +43,7 @@ int	main(int ac, char **av, char **ev)
 	char	*str;
 
 	init_ms(ev);
-	while (1)
+	while (ac && av)
 	{
         g_ms.ignore = 0;
         signal(SIGINT, &ctrl_c);

@@ -1,7 +1,7 @@
 #include "../minishell.h"
 
 void close_fd(t_parsed *command, int default_in_file, int default_out_file)
-{    
+{
     if (command->in_file != default_in_file)
         close(command->in_file);
     if (command->out_file != default_out_file)
@@ -84,6 +84,8 @@ void child_organizer(t_parsed *command, int default_in_file, int default_out_fil
 {
     pid_t pid;
 
+    (void)default_in_file;              //Kullanılmadığı için hata veriyor*************
+    (void)default_out_file;             //Kullanılmadığı için hata veriyor*************
     pid = fork();
     if (pid < 0)
         ; // error
@@ -112,7 +114,7 @@ void command_executor(t_parsed *command, int default_in_file, int default_out_fi
         else
             execve(get_path(command->cmd), command->arguments, g_ms.ev);
     }
-    waitpid(pid, NULL, 0); // it will be -> waitpid(pid, &last_exec_status, 0);    
+    waitpid(pid, NULL, 0); // it will be -> waitpid(pid, &last_exec_status, 0);
     close_fd(command, default_in_file, default_out_file);
 }
 
