@@ -119,7 +119,7 @@ int wild_path(char *wild_one, char *expected_one)
         tmp_expected_one += i;
     }
     if (ft_strlen(tmp_expected_one) < ft_strlen(tmp_wild_one))
-        return -1;
+        return 0;
     else
         tmp_expected_one += ft_strlen(tmp_expected_one) - ft_strlen(tmp_wild_one);
     return !ft_strcmp(tmp_wild_one, tmp_expected_one);
@@ -169,11 +169,9 @@ void	expander(t_parsed **command)
 {
 	int		i;
 	int		k;
-	char	*tmp_argument;
 	char	**tmp_arguments;
 	char	**wildcard_list;
 
-    (void)tmp_argument;                 //Kullanılmadığı için hata veriyor****************
 	i = -1;
 	wildcard_list = ft_calloc(2, sizeof(char *));
 	if (!(*command)->arguments || !((*command)->arguments[0]))
@@ -184,19 +182,17 @@ void	expander(t_parsed **command)
 		if (ft_strnsearch((*command)->arguments[i], "*", ft_strlen((*command)->arguments[i])))
 			continue ;
 		wildcard(".", ft_split((*command)->arguments[i], '/'), 0, &wildcard_list);
-		tmp_arguments = ft_calloc(list_len((*command)->arguments) + list_len(wildcard_list), sizeof(char *));
+		tmp_arguments = ft_calloc(list_len((*command)->arguments) + list_len(wildcard_list) + 2, sizeof(char *));
 		k = -1;
 		while (++k < i)
 			tmp_arguments[k] = ft_strdup((*command)->arguments[k]);
-		i = -1;
-		while (++i < list_len(wildcard_list))
-			tmp_arguments[k + i] = ft_strdup(wildcard_list[i]);
-		while (k < list_len((*command)->arguments))
-        {
-			tmp_arguments[k + i] = ft_strdup((*command)->arguments[k]);     //unsequenced modification and access to 'k'*************
-            k++;                                                            //önceki hali(196. satır) : ft_strdup((*command)->arguments[k++]***
-        }
-		tmp_arguments[k + i] = NULL;
+        k -= 1;
+		while (++k < list_len(wildcard_list) + i)
+			tmp_arguments[k] = ft_strdup(wildcard_list[k - i]);
+        k -= 1;
+		while (++k < list_len((*command)->arguments) + list_len(wildcard_list))
+			tmp_arguments[k] = ft_strdup((*command)->arguments[k - list_len(wildcard_list) + 1]);
+		tmp_arguments[k] = NULL;
 		(*command)->arguments = tmp_arguments;
 		i += list_len(wildcard_list);
 	}

@@ -20,10 +20,8 @@ char	*strnstr_wildcard(const char *haystack, const char *needle, size_t len)
 
 	str = (char *)haystack;
 	index = 0;
-	if (!ft_strlen(needle))
+	if (!ft_strlen(needle) || (!len))
 		return (str);
-	if (!len)
-		return (0);
 	while (str[index])
 	{
 		k = 0;
