@@ -187,7 +187,7 @@ void		add_paranthesis(t_token **command_table, t_parsed **command);
 t_parsed	**parse_commands(int in_file, int out_file, t_token *command_table);
 
 //--------------executor--------------
-void		close_fd(t_parsed *command, int default_in_file, int default_out_file);
+void		close_fd(t_parsed *command);
 int			here_doc_fd(char *limiter);
 int			read_file_fd(char *file_name, int type);
 int			write_file_fd(char *file_name, int type);
