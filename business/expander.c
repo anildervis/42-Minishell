@@ -34,7 +34,7 @@ int add_dollar(char **str, char *val)
     if (*(val + 1) == *DOLLAR_SIGN)
         *str = ft_strjoin(*str, ft_itoa(g_ms.parent_pid));
     else if (*(val + 1) == *QUESTION_MARK)
-        *str = ft_strjoin(*str, ft_itoa(g_ms.error_status));
+        *str = ft_strjoin(*str, ft_itoa(errno));
     else if (*(val + 1) == *DOUBLE_QUOTE || *(val + 1) == *SINGLE_QUOTE)
         i -= add_char(str, DOLLAR_SIGN);
     else if (!(*(val + 1)) || *(val + 1) == ' '

@@ -10,6 +10,6 @@ void	builtin_cd(char **execute)
 	else
 		if (chdir(getenv("HOME")))
 			perror("minishell ");
-	if (!is_parent())
+	if (g_ms.parent_pid != getpid())
 		exit(errno);
 }

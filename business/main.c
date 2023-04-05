@@ -4,8 +4,11 @@ t_ms	g_ms;
 
 void	init_ms(char **ev)
 {
-    g_ms.error_status = 0;
+    errno = 0;
 	g_ms.parent_pid = getpid();
+    g_ms.opening_prompt = 0;
+    g_ms.in_file = STDIN_FILENO;
+    g_ms.out_file = STDOUT_FILENO;
 	g_ms.ev = set_ev(ev);
 	g_ms.paths = ft_split(getenv("PATH"), ':');    //Kontrol et
 }
@@ -19,7 +22,7 @@ void	init_shell(char *str)
 	if (syntax_check(test))
 		return ;
 	parsed_commands = parse_commands(0, 1, test);
-    executor(parsed_commands, 0, 1);
+    executor(parsed_commands);
 }
 
 void    ctrl_c(int sig)
@@ -39,6 +42,33 @@ void    ctrl_d(char *str)
     }
 }
 
+char *display_prompt()
+{
+    char *str;
+
+    if (!g_ms.opening_prompt)
+    {
+        printf("\033[31m\033[1m \
+ /$$      /$$ /$$           /$$           /$$                 /$$ /$$\n \
+| $$$    /$$$|__/          |__/          | $$                | $$| $$\n \
+| $$$$  /$$$$ /$$ /$$$$$$$  /$$  /$$$$$$$| $$$$$$$   /$$$$$$ | $$| $$\n \
+| $$ $$/$$ $$| $$| $$__  $$| $$ /$$_____/| $$__  $$ /$$__  $$| $$| $$\n \
+| $$  $$$| $$| $$| $$  \\ $$| $$|  $$$$$$ | $$  \\ $$| $$$$$$$$| $$| $$\n \
+| $$\\  $ | $$| $$| $$  | $$| $$ \\____  $$| $$  | $$| $$_____/| $$| $$\n \
+| $$ \\/  | $$| $$| $$  | $$| $$ /$$$$$$$/| $$  | $$|  $$$$$$$| $$| $$\n \
+|__/     |__/|__/|__/  |__/|__/|_______/ |__/  |__/ \\_______/|__/|__/\n");
+        g_ms.opening_prompt = 1;
+    }
+    if (!ft_strcmp(get_env("USER"), "aderviso") || !ft_strcmp(get_env("USER"), "anilalis"))
+        str = "\033[31m";
+    else if (!ft_strcmp(get_env("USER"), "bilalnrts") || !ft_strcmp(get_env("USER"), "bilalnrts"))
+        str = "\033[32m";
+    else
+        str = "\033[34m";
+    str = ft_strjoin("\033[1m", str);
+    return (ft_strjoin(str, ft_strjoin(getcwd(0, 0), " \033[31m︻\033[0m\033[32m┳\033[0m\033[33mデ\033[0m\033[34m═\033[0m\033[35m—\033[0m$ ")));
+}
+
 int	main(int ac, char **av, char **ev)
 {
 	char	*str;
@@ -49,7 +79,7 @@ int	main(int ac, char **av, char **ev)
         g_ms.ignore = 0;
         signal(SIGINT, &ctrl_c);
         signal(SIGQUIT, SIG_IGN);   // ctrl + \ sinyalini
-		str = readline(ft_strjoin(getcwd(0, 0), " \033[31m︻\033[0m\033[32m┳\033[0m\033[33mデ\033[0m\033[34m═\033[0m\033[35m—\033[0m$ "));
+		str = readline(display_prompt());
 		ctrl_d(str);                // bu sinyal 'end of file' karakteri. '\0'.
         if (g_ms.ignore)
         {
@@ -61,7 +91,6 @@ int	main(int ac, char **av, char **ev)
 			init_shell(str);
 			add_history(str);
 		}
-        // printf("error status -> %d\n", g_ms.error_status);
         free(str);
 	}
 	return (0);

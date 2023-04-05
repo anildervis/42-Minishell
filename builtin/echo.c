@@ -17,8 +17,8 @@ void	builtin_echo(char **input)
 	int	i;
 
 	i = 1;
-	if (!ft_strcmp(input[1], "-n"))
-		i = 2;
+	while (!ft_strcmp(input[i], "-n"))
+		i++;
 	while (input[i])
 	{
 		put_char(input[i]);
@@ -28,6 +28,6 @@ void	builtin_echo(char **input)
 	}
 	if (ft_strcmp(input[1], "-n"))
 		write(STDOUT_FILENO, "\n", 1);
-	if (!is_parent())
+	if (g_ms.parent_pid != getpid())
 		exit(0);
 }

@@ -10,6 +10,6 @@ void	builtin_env(void)
 		printf("%s\n", *env);
 		env++;
 	}
-	if (!is_parent())
+	if (g_ms.parent_pid != getpid())
 		exit(0);
 }

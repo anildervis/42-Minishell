@@ -58,7 +58,7 @@ int write_file_fd(char *file_name, int type)
     return -1;
 }
 
-void apply_redirection(t_parsed **command, int default_in_file, int default_out_file)
+void apply_redirection(t_parsed **command)
 {
     t_file *file_list;
 
@@ -67,7 +67,6 @@ void apply_redirection(t_parsed **command, int default_in_file, int default_out_
         return ;
     while (file_list)
     {
-        close_fd(*command, default_in_file, default_out_file);
         if (file_list->type == TOKEN_SMALLER)
             (*command)->in_file = read_file_fd(file_list->file_name, file_list->type);
         else if (file_list->type == TOKEN_HERE_DOC)
@@ -80,64 +79,83 @@ void apply_redirection(t_parsed **command, int default_in_file, int default_out_
     }
 }
 
-void child_organizer(t_parsed *command, int default_in_file, int default_out_file)
+void child_organizer(t_parsed *command)
 {
     pid_t pid;
+    int in;
+    int out;
 
-    (void)default_in_file;              //Kullanılmadığı için hata veriyor*************
-    (void)default_out_file;             //Kullanılmadığı için hata veriyor*************
-    pid = fork();
-    if (pid < 0)
+    if ((pid = fork()) < 0)
         print_error(FORK_ERR, NULL);
-    else if (!pid)
+    if (!pid)
     {
 	    g_ms.parent_pid = getpid();
-        organizer(command->parantheses_andor, command->in_file, command->out_file);
+        g_ms.in_file = command->in_file;
+        g_ms.out_file = command->out_file;
+        in = dup(g_ms.in_file);
+    	out = dup(g_ms.out_file);
+        dup2(command->in_file, g_ms.in_file);
+        dup2(command->out_file, g_ms.out_file);
+        close(command->in_file);
+        close(command->out_file);
+        run_builtin(command->arguments);
+        dup2(in, STDIN_FILENO);
+        dup2(out, STDOUT_FILENO);
+        close(in);
+        close(out);
+        organizer(command->parantheses_andor);
         exit(0);
     }
-    waitpid(pid, &(g_ms.error_status), 0);
+    waitpid(pid, &errno, 0);
 }
 
-void command_executor(t_parsed *command, int default_in_file, int default_out_file)
+void command_executor(t_parsed *command)
 {
     pid_t pid;
+	int	in;
+    int	out;
 
     expander(&command);
     if (is_builtin(command->cmd))
+    {
+	    in = dup(g_ms.in_file);
+    	out = dup(g_ms.out_file);
+        dup2(command->in_file, g_ms.in_file);
+        dup2(command->out_file, g_ms.out_file);
         run_builtin(command->arguments);
+        dup2(in, STDIN_FILENO);
+        dup2(out, STDOUT_FILENO);
+    }
     else
     {
-        pid = fork();
-        if (pid < 0)
+        if ((pid = fork()) < 0)
             print_error(FORK_ERR, NULL);
-        else if (!pid)
+        if (!pid)
         {
             dup2(command->in_file, STDIN_FILENO);
             dup2(command->out_file, STDOUT_FILENO);
-            errno = execve(get_path(command->cmd), command->arguments, g_ms.ev);
-            print_error(errno, command->cmd);
-            exit (errno);
+            errno = 0;
+            print_error(execve(get_path(command->cmd), command->arguments, g_ms.ev), command->cmd);
         }
-        waitpid(pid, &(g_ms.error_status), 0);
+        waitpid(pid, &errno, 0);
     }
-    close_fd(command, default_in_file, default_out_file);
 }
 
-void create_pipe(t_parsed **command, int default_in_file, int default_out_file)
+void create_pipe(t_parsed **command)
 {
     int fd[2];
 
     if (pipe(fd) == -1)
         print_error(PIPE_ERR, NULL);
-    if ((*command)->out_file != default_out_file)
-        close((*command)->out_file);
+    // if ((*command)->out_file != g_ms.out_file && (*command)->out_file != STDOUT_FILENO)
+    //     close((*command)->out_file);
     (*command)->out_file = fd[WRITE_END];
-    if ((*command)->next->in_file != default_in_file)
-        close((*command)->next->in_file);
+    // if ((*command)->next->in_file != g_ms.out_file && (*command)->next->in_file != STDIN_FILENO)
+    //     close((*command)->next->in_file);
     (*command)->next->in_file = fd[READ_END];
 }
 
-void create_redirections(t_parsed **andor_table, int default_in_file, int default_out_file)
+void create_redirections(t_parsed **andor_table)
 {
     int i;
     t_parsed *tmp_command;
@@ -149,19 +167,19 @@ void create_redirections(t_parsed **andor_table, int default_in_file, int defaul
         while (tmp_command)
         {
             if (tmp_command->next)
-                create_pipe(&tmp_command, default_in_file, default_out_file);
-            apply_redirection(&tmp_command, default_in_file, default_out_file);
+                create_pipe(&tmp_command);
+            apply_redirection(&tmp_command);
             if (tmp_command->paranthesis)
             {
                 tmp_command->parantheses_andor = parse_commands(tmp_command->in_file, tmp_command->out_file, tmp_command->paranthesis);
-                create_redirections(tmp_command->parantheses_andor, default_in_file, default_out_file);
+                create_redirections(tmp_command->parantheses_andor);
             }
             tmp_command = tmp_command->next;
         }
     }
 }
 
-void organizer(t_parsed **andor_table, int default_in_file, int default_out_file)
+void organizer(t_parsed **andor_table)
 {
     int i;
     t_parsed *tmp_command;
@@ -171,21 +189,21 @@ void organizer(t_parsed **andor_table, int default_in_file, int default_out_file
     {
         tmp_command = andor_table[i];
         if (tmp_command->exec == 3
-            || (tmp_command->exec == TOKEN_AND && g_ms.error_status == 0)
-            || (tmp_command->exec == TOKEN_OR && g_ms.error_status != 0))
+            || (tmp_command->exec == TOKEN_AND && errno == 0)
+            || (tmp_command->exec == TOKEN_OR && errno != 0))
             while (tmp_command)
             {
                 if (tmp_command->paranthesis)
-                    child_organizer(tmp_command, default_in_file, default_out_file);
+                    child_organizer(tmp_command);
                 else
-                    command_executor(tmp_command, default_in_file, default_out_file);
+                    command_executor(tmp_command);
                 tmp_command = tmp_command->next;
             }
     }
 }
 
-void executor(t_parsed **andor_table, int default_in_file, int default_out_file)
+void executor(t_parsed **andor_table)
 {
-    create_redirections(andor_table, default_in_file, default_out_file);
-    organizer(andor_table, default_in_file, default_out_file);
+    create_redirections(andor_table);
+    organizer(andor_table);
 }
