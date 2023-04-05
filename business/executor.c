@@ -91,6 +91,7 @@ void child_organizer(t_parsed *command, int default_in_file, int default_out_fil
         print_error(FORK_ERR, NULL);
     else if (!pid)
     {
+	    g_ms.parent_pid = getpid();
         organizer(command->parantheses_andor, command->in_file, command->out_file);
         exit(0);
     }
@@ -102,21 +103,23 @@ void command_executor(t_parsed *command, int default_in_file, int default_out_fi
     pid_t pid;
 
     expander(&command);
-    pid = fork();
-    if (pid < 0)
-        print_error(FORK_ERR, NULL);
-    else if (!pid)
+    if (is_builtin(command->cmd))
+        run_builtin(command->arguments);
+    else
     {
-        dup2(command->in_file, STDIN_FILENO);
-        dup2(command->out_file, STDOUT_FILENO);
-        if (is_builtin(command->cmd))
-            run_builtin(command->arguments);
-        else
-            execve(get_path(command->cmd), command->arguments, g_ms.ev);
-        print_error(CMD_NOT_FOUND, command->cmd);
-        exit (errno);
+        pid = fork();
+        if (pid < 0)
+            print_error(FORK_ERR, NULL);
+        else if (!pid)
+        {
+            dup2(command->in_file, STDIN_FILENO);
+            dup2(command->out_file, STDOUT_FILENO);
+            errno = execve(get_path(command->cmd), command->arguments, g_ms.ev);
+            print_error(errno, command->cmd);
+            exit (errno);
+        }
+        waitpid(pid, &(g_ms.error_status), 0);
     }
-    waitpid(pid, &(g_ms.error_status), 0);
     close_fd(command, default_in_file, default_out_file);
 }
 
