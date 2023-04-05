@@ -48,7 +48,7 @@ char *display_prompt()
 
     if (!g_ms.opening_prompt)
     {
-        printf("\033[31m\033[1m \
+        printf("\033[33m\033[1m \
  /$$      /$$ /$$           /$$           /$$                 /$$ /$$\n \
 | $$$    /$$$|__/          |__/          | $$                | $$| $$\n \
 | $$$$  /$$$$ /$$ /$$$$$$$  /$$  /$$$$$$$| $$$$$$$   /$$$$$$ | $$| $$\n \
@@ -60,12 +60,12 @@ char *display_prompt()
         g_ms.opening_prompt = 1;
     }
     if (!ft_strcmp(get_env("USER"), "aderviso") || !ft_strcmp(get_env("USER"), "anilalis"))
-        str = "\033[31m";
+        str = ft_strjoin("\033[1m\033[31m", get_env("USER"));
     else if (!ft_strcmp(get_env("USER"), "bilalnrts") || !ft_strcmp(get_env("USER"), "bilalnrts"))
-        str = "\033[32m";
+        str = ft_strjoin("\033[1m\033[32m", get_env("USER"));
     else
-        str = "\033[34m";
-    str = ft_strjoin("\033[1m", str);
+        str = ft_strjoin("\033[1m\033[33m", get_env("USER"));
+    str = ft_strjoin(str, "\033[34m ");
     return (ft_strjoin(str, ft_strjoin(getcwd(0, 0), " \033[31m︻\033[0m\033[32m┳\033[0m\033[33mデ\033[0m\033[34m═\033[0m\033[35m—\033[0m$ ")));
 }
 
