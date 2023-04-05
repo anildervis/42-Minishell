@@ -2,10 +2,34 @@
 
 void close_fd(t_parsed *command)
 {
-    if (command->in_file != g_ms.in_file && command->in_file != STDIN_FILENO)
+    if (command->in_file && command->in_file != STDIN_FILENO)
         close(command->in_file);
-    if (command->out_file != g_ms.out_file && command->out_file != STDOUT_FILENO)
+    if (command->out_file && command->out_file != STDOUT_FILENO)
         close(command->out_file);
+}
+
+void close_fd_parantheses(t_parsed *command)
+{
+    int i;
+    t_parsed *tmp_command;
+    t_parsed **tmp_andor_table;
+
+    if (command->paranthesis)
+    {
+        tmp_andor_table = command->parantheses_andor;
+        i = -1;
+        while (tmp_andor_table[++i])
+        {
+            tmp_command = tmp_andor_table[i];
+            while (tmp_command)
+            {
+                close_fd(tmp_command);
+                if (tmp_command->paranthesis)
+                    close_fd(command);
+                tmp_command = tmp_command->next;
+            }
+        }
+    }
 }
 
 int here_doc_fd(char *limiter)
@@ -82,28 +106,23 @@ void apply_redirection(t_parsed **command)
 void child_organizer(t_parsed *command)
 {
     pid_t pid;
-    int in;
-    int out;
 
     if ((pid = fork()) < 0)
         print_error(FORK_ERR, NULL);
     if (!pid)
     {
 	    g_ms.parent_pid = getpid();
-        g_ms.in_file = command->in_file;
-        g_ms.out_file = command->out_file;
-        in = dup(g_ms.in_file);
-    	out = dup(g_ms.out_file);
         dup2(command->in_file, g_ms.in_file);
         dup2(command->out_file, g_ms.out_file);
+        g_ms.in_file = command->in_file;
+        g_ms.out_file = command->out_file;
         organizer(command->parantheses_andor);
         close_fd(command);
-        dup2(in, g_ms.in_file);
-        dup2(out, g_ms.out_file);
         exit(0);
     }
-    close_fd(command);
     waitpid(pid, &errno, 0);
+    close_fd(command);
+    close_fd_parantheses(command);
 }
 
 void command_executor(t_parsed *command)
@@ -127,20 +146,23 @@ void command_executor(t_parsed *command)
     }
     else
     {
+	    in = dup(g_ms.in_file);
+    	out = dup(g_ms.out_file);
+        dup2(command->in_file, g_ms.in_file);
+        dup2(command->out_file, g_ms.out_file);
         if ((pid = fork()) < 0)
             print_error(FORK_ERR, NULL);
         if (!pid)
         {
             errno = 0;
-            dup2(command->in_file, g_ms.in_file);
-            dup2(command->out_file, g_ms.out_file);
-            close_fd(command);
             execve(get_path(command->cmd), command->arguments, g_ms.ev);
             print_error(CMD_NOT_FOUND, command->cmd);
             exit (errno);
         }
-        close_fd(command);
         waitpid(pid, &errno, 0);
+        close_fd(command);
+        dup2(in, g_ms.in_file);
+        dup2(out, g_ms.out_file);
     }
 }
 
