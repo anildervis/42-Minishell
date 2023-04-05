@@ -1,10 +1,10 @@
 #include "../minishell.h"
 
-void close_fd(t_parsed *command, int default_in_file, int default_out_file)
+void close_fd(t_parsed *command)
 {
-    if (command->in_file != default_in_file)
+    if (command->in_file != g_ms.in_file && command->in_file != STDIN_FILENO)
         close(command->in_file);
-    if (command->out_file != default_out_file)
+    if (command->out_file != g_ms.out_file && command->out_file != STDOUT_FILENO)
         close(command->out_file);
 }
 
@@ -96,16 +96,11 @@ void child_organizer(t_parsed *command)
     	out = dup(g_ms.out_file);
         dup2(command->in_file, g_ms.in_file);
         dup2(command->out_file, g_ms.out_file);
-        close(command->in_file);
-        close(command->out_file);
         run_builtin(command->arguments);
-        dup2(in, STDIN_FILENO);
-        dup2(out, STDOUT_FILENO);
-        close(in);
-        close(out);
         organizer(command->parantheses_andor);
         exit(0);
     }
+    close_fd(command);
     waitpid(pid, &errno, 0);
 }
 
@@ -118,13 +113,15 @@ void command_executor(t_parsed *command)
     expander(&command);
     if (is_builtin(command->cmd))
     {
+        errno = 0;
 	    in = dup(g_ms.in_file);
     	out = dup(g_ms.out_file);
         dup2(command->in_file, g_ms.in_file);
         dup2(command->out_file, g_ms.out_file);
         run_builtin(command->arguments);
-        dup2(in, STDIN_FILENO);
-        dup2(out, STDOUT_FILENO);
+        close_fd(command);
+        dup2(in, g_ms.in_file);
+        dup2(out, g_ms.out_file);
     }
     else
     {
@@ -132,11 +129,15 @@ void command_executor(t_parsed *command)
             print_error(FORK_ERR, NULL);
         if (!pid)
         {
-            dup2(command->in_file, STDIN_FILENO);
-            dup2(command->out_file, STDOUT_FILENO);
             errno = 0;
-            print_error(execve(get_path(command->cmd), command->arguments, g_ms.ev), command->cmd);
+            dup2(command->in_file, g_ms.in_file);
+            dup2(command->out_file, g_ms.out_file);
+            close_fd(command);
+            execve(get_path(command->cmd), command->arguments, g_ms.ev);
+            print_error(CMD_NOT_FOUND, command->cmd);
+            exit (errno);
         }
+        close_fd(command);
         waitpid(pid, &errno, 0);
     }
 }
@@ -147,11 +148,11 @@ void create_pipe(t_parsed **command)
 
     if (pipe(fd) == -1)
         print_error(PIPE_ERR, NULL);
-    // if ((*command)->out_file != g_ms.out_file && (*command)->out_file != STDOUT_FILENO)
-    //     close((*command)->out_file);
+    if ((*command)->out_file != g_ms.out_file && (*command)->out_file != STDOUT_FILENO)
+        close((*command)->out_file);
     (*command)->out_file = fd[WRITE_END];
-    // if ((*command)->next->in_file != g_ms.out_file && (*command)->next->in_file != STDIN_FILENO)
-    //     close((*command)->next->in_file);
+    if ((*command)->next->in_file != g_ms.out_file && (*command)->next->in_file != STDIN_FILENO)
+        close((*command)->next->in_file);
     (*command)->next->in_file = fd[READ_END];
 }
 
