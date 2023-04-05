@@ -96,8 +96,10 @@ void child_organizer(t_parsed *command)
     	out = dup(g_ms.out_file);
         dup2(command->in_file, g_ms.in_file);
         dup2(command->out_file, g_ms.out_file);
-        run_builtin(command->arguments);
         organizer(command->parantheses_andor);
+        close_fd(command);
+        dup2(in, g_ms.in_file);
+        dup2(out, g_ms.out_file);
         exit(0);
     }
     close_fd(command);
