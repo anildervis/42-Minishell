@@ -6,6 +6,8 @@ void	init_ms(char **ev)
 {
     errno = 0;
 	g_ms.parent_pid = getpid();
+    g_ms.child_pids = (int *)malloc(sizeof(int) * 100);
+    g_ms.child_pids_count = 0;
     g_ms.opening_prompt = 0;
     g_ms.in_file = STDIN_FILENO;
     g_ms.out_file = STDOUT_FILENO;
