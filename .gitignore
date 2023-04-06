@@ -1,0 +1,10 @@
+minishell
+a.out
+obj
+*.o
+*.d
+*.so
+*.a
+*.swp
+.DS_Store
+.cache_exists
