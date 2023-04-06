@@ -86,6 +86,8 @@ typedef struct	s_ms
 	int			ignore;
 	int			opening_prompt;
 	int			parent_pid;
+	int			*child_pids;
+	int			child_pids_count;
 	int			in_file;
 	int			out_file;
 	char		**ev;

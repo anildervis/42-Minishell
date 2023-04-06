@@ -146,23 +146,21 @@ void command_executor(t_parsed *command)
     }
     else
     {
-	    in = dup(g_ms.in_file);
-    	out = dup(g_ms.out_file);
-        dup2(command->in_file, g_ms.in_file);
-        dup2(command->out_file, g_ms.out_file);
-        if ((pid = fork()) < 0)
+        pid = fork();
+        g_ms.child_pids[g_ms.child_pids_count++] = pid;
+        if ((pid) < 0)
             print_error(FORK_ERR, NULL);
         if (!pid)
         {
             errno = 0;
+            dup2(command->in_file, g_ms.in_file);
+            dup2(command->out_file, g_ms.out_file);
+            close_fd(command);
             execve(get_path(command->cmd), command->arguments, g_ms.ev);
             print_error(CMD_NOT_FOUND, command->cmd);
             exit (errno);
         }
-        waitpid(pid, &errno, 0);
         close_fd(command);
-        dup2(in, g_ms.in_file);
-        dup2(out, g_ms.out_file);
     }
 }
 
@@ -231,4 +229,13 @@ void executor(t_parsed **andor_table)
 {
     create_redirections(andor_table);
     organizer(andor_table);
+    int i = 0;
+    int status;
+    while (i < g_ms.child_pids_count)
+        waitpid(g_ms.child_pids[i++], &status, 0);
+    ft_bzero(g_ms.child_pids, sizeof(int) * g_ms.child_pids_count);
+    /* 1. problem başlangıçta kaç tane process açacağını 
+    bilmediğimden dolayı 100lük limit koydum(inite bak) ama sen 10000de koyabilirsin
+    VLA sayılmıyor, 2. problem burada ft_bzero atıyorum ama*/
+    g_ms.child_pids_count = 0;
 }
