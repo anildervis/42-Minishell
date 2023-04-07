@@ -153,6 +153,10 @@ void command_executor(t_parsed *command)
         if (!pid)
         {
             errno = 0;
+            if (command->prev && command->prev->out_file != STDOUT_FILENO)
+                close(command->prev->out_file);
+            if (command->next && command->next->in_file != STDIN_FILENO)
+                close(command->next->in_file);
             dup2(command->in_file, g_ms.in_file);
             dup2(command->out_file, g_ms.out_file);
             close_fd(command);
