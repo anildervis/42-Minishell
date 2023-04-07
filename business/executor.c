@@ -2,9 +2,9 @@
 
 void close_fd(t_parsed *command)
 {
-    if (command->in_file && command->in_file != STDIN_FILENO)
+    if (command->in_file != g_ms.in_file && command->in_file != STDIN_FILENO)
         close(command->in_file);
-    if (command->out_file && command->out_file != STDOUT_FILENO)
+    if (command->out_file != g_ms.out_file  && command->out_file != STDOUT_FILENO)
         close(command->out_file);
 }
 
@@ -112,8 +112,10 @@ void child_organizer(t_parsed *command)
     if (!pid)
     {
 	    g_ms.parent_pid = getpid();
-        dup2(command->in_file, g_ms.in_file);
-        dup2(command->out_file, g_ms.out_file);
+        if (command->prev && command->prev->out_file != STDOUT_FILENO)
+            close(command->prev->out_file);
+        if (command->next && command->next->in_file != STDIN_FILENO)
+            close(command->next->in_file);
         g_ms.in_file = command->in_file;
         g_ms.out_file = command->out_file;
         organizer(command->parantheses_andor);
@@ -143,6 +145,8 @@ void command_executor(t_parsed *command)
         close_fd(command);
         dup2(in, g_ms.in_file);
         dup2(out, g_ms.out_file);
+        close(in);
+        close(out);
     }
     else
     {
@@ -157,13 +161,14 @@ void command_executor(t_parsed *command)
                 close(command->prev->out_file);
             if (command->next && command->next->in_file != STDIN_FILENO)
                 close(command->next->in_file);
-            dup2(command->in_file, g_ms.in_file);
-            dup2(command->out_file, g_ms.out_file);
+            dup2(command->in_file, STDIN_FILENO);
+            dup2(command->out_file, STDOUT_FILENO);
             close_fd(command);
             execve(get_path(command->cmd), command->arguments, g_ms.ev);
             print_error(CMD_NOT_FOUND, command->cmd);
             exit (errno);
         }
+        usleep(10000);
         close_fd(command);
     }
 }
@@ -209,6 +214,8 @@ void create_redirections(t_parsed **andor_table)
 void organizer(t_parsed **andor_table)
 {
     int i;
+    int child_count = 0;
+    g_ms.child_pids_count = 0;
     t_parsed *tmp_command;
 
     i = -1;
@@ -227,19 +234,14 @@ void organizer(t_parsed **andor_table)
                 tmp_command = tmp_command->next;
             }
     }
+    while (child_count < g_ms.child_pids_count)
+        waitpid(g_ms.child_pids[child_count++], &errno, 0);
+    ft_bzero(g_ms.child_pids, sizeof(int) * g_ms.child_pids_count);
 }
 
 void executor(t_parsed **andor_table)
 {
     create_redirections(andor_table);
     organizer(andor_table);
-    int i = 0;
-    int status;
-    while (i < g_ms.child_pids_count)
-        waitpid(g_ms.child_pids[i++], &status, 0);
-    ft_bzero(g_ms.child_pids, sizeof(int) * g_ms.child_pids_count);
-    /* 1. problem başlangıçta kaç tane process açacağını 
-    bilmediğimden dolayı 100lük limit koydum(inite bak) ama sen 10000de koyabilirsin
-    VLA sayılmıyor, 2. problem burada ft_bzero atıyorum ama*/
     g_ms.child_pids_count = 0;
 }
