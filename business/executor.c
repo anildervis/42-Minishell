@@ -107,7 +107,10 @@ void child_organizer(t_parsed *command)
 {
     pid_t pid;
 
-    if ((pid = fork()) < 0)
+
+    pid = fork();
+    g_ms.child_pids[g_ms.child_pids_count++] = pid;
+    if (pid < 0)
         print_error(FORK_ERR, NULL);
     if (!pid)
     {
@@ -122,7 +125,7 @@ void child_organizer(t_parsed *command)
         close_fd(command);
         exit(0);
     }
-    waitpid(pid, &errno, 0);
+    usleep(10000);
     close_fd(command);
     close_fd_parantheses(command);
 }
@@ -243,5 +246,4 @@ void executor(t_parsed **andor_table)
 {
     create_redirections(andor_table);
     organizer(andor_table);
-    g_ms.child_pids_count = 0;
 }
