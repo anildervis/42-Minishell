@@ -63,7 +63,7 @@ char *display_prompt()
     }
     if (!ft_strcmp(get_env("USER"), "aderviso") || !ft_strcmp(get_env("USER"), "anilalis"))
         str = ft_strjoin("\033[1m\033[31m", get_env("USER"));
-    else if (!ft_strcmp(get_env("USER"), "bilalnrts") || !ft_strcmp(get_env("USER"), "bilalnrts"))
+    else if (!ft_strcmp(get_env("USER"), "bilalnrts") || !ft_strcmp(get_env("USER"), "binurtas"))
         str = ft_strjoin("\033[1m\033[32m", get_env("USER"));
     else
         str = ft_strjoin("\033[1m\033[33m", get_env("USER"));
@@ -80,9 +80,9 @@ int	main(int ac, char **av, char **ev)
 	{
         g_ms.ignore = 0;
         signal(SIGINT, &ctrl_c);
-        signal(SIGQUIT, SIG_IGN);   // ctrl + \ sinyalini
+        signal(SIGQUIT, SIG_IGN);
 		str = readline(display_prompt());
-		ctrl_d(str);                // bu sinyal 'end of file' karakteri. '\0'.
+		ctrl_d(str);
         if (g_ms.ignore)
         {
             free(str);
@@ -92,6 +92,7 @@ int	main(int ac, char **av, char **ev)
 		{
 			init_shell(str);
 			add_history(str);
+            printf("\n");
 		}
         free(str);
 	}
