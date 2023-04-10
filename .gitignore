@@ -8,3 +8,4 @@ obj
 *.swp
 .DS_Store
 .cache_exists
+.vscode
