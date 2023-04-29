@@ -132,11 +132,14 @@ void	ft_bzero(void *s, size_t n);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	**ft_split(char const *s, char c);
-int     ft_strcmp(const char *s1, const char *s2);
-int     ft_strncmp(const char *s1, const char *s2, size_t n);
-int     find_pair(char *input, char c);
-int     list_len(char **char_list);
-int     ft_strnsearch(char *string, char *chars_to_search, size_t len);
+int		ft_strcmp(const char *s1, const char *s2);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		find_pair(char *input, char c);
+int		list_len(char **char_list);
+int		ft_strnsearch(char *string, char *chars_to_search, size_t len);
+int		is_metacharacter(char c);
+int		token_str_lexer(char *input);
+t_token	*new_token(enum tokens type, char *value);
 
 //error
 // void	cmd_err(char *str);
@@ -165,6 +168,8 @@ void		find_token(char *input, t_token *command_table);
 t_token		*tokenizer(char *input);
 void		get_next_token(t_token *command_table);
 int			syntax_check(t_token *command_table);
+int			init_token(char *input, t_token *command_table);
+int			init_token_continue(char *input, t_token *command_table);
 
 //--------------expander--------------
 int			add_double_quote(char **str, char *val);
@@ -201,4 +206,8 @@ void		create_redirections(t_parsed **andor_table);
 void		organizer(t_parsed **andor_table);
 void		executor(t_parsed **andor_table);
 
+//------------token_checker-------------
+int			ft_token_checker(t_token *tmp, int *p_count);
+int			ft_token_sgha(t_token *tmp, int *p_count);
+int			ft_token_paoc(t_token *tmp);
 #endif
