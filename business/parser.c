@@ -46,6 +46,13 @@ void	add_andor_list(t_parsed *command, t_parsed **andor_table)
 	andor_table[i + 1] = NULL;
 }
 
+/*
+echo bilal > bilal için:
+> tokenda(greater) bu fonksiyon çalışacak ve echo komutumuz için bir file list oluşacak.
+echo komutunun file listi bu fonksiyon bittikten sonra
+file_list->type = greater
+file_list->file_name = bilal (bu bilal greater tokenından ardından gelen bilal)
+*/
 void	add_redirection(t_token **command_table, t_parsed **command)
 {
 	t_file	*file_list;
@@ -98,6 +105,11 @@ t_parsed	*add_parse(t_token **command_table, t_parsed **old_command)
 	return (new_command);
 }
 
+/*
+tokenlar command olurken her komutun kendi argümanları oluşuyor.
+exmp : echo "bilal" > bilal
+burada echo bir komut ve argümanları "echo" "bilal" şeklinde iki char arrayi oluyor.
+*/
 void	add_argument(t_token **command_table, t_parsed **command)
 {
 	int		i;
@@ -160,23 +172,8 @@ t_parsed	**parse_commands(int in_file, int out_file, t_token *command_table)
 		add_andor_list(command, andor_table);
 		while (command_table)
 		{
-			if (command_table->type == TOKEN_AND
-				|| command_table->type == TOKEN_OR)
-			{
-				(command_table) = (command_table)->next;
+			if (!ft_decide_type(&command_table, &command))
 				break ;
-			}
-			else if (command_table->type == TOKEN_SMALLER
-				|| command_table->type == TOKEN_HERE_DOC
-				|| command_table->type == TOKEN_GREATER
-				|| command_table->type == TOKEN_APPEND)
-				add_redirection(&command_table, &command);
-			else if (command_table->type == TOKEN_OPEN_PAR)
-				add_paranthesis(&command_table, &command);
-			else if (command_table->type == TOKEN_STR)
-				add_argument(&command_table, &command);
-			else if (command_table->type == TOKEN_PIPE)
-				command = add_parse(&command_table, &command);
 		}
 	}
 	return (andor_table);
