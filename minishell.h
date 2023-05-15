@@ -210,4 +210,7 @@ void		executor(t_parsed **andor_table);
 int			ft_token_checker(t_token *tmp, int *p_count);
 int			ft_token_sgha(t_token *tmp, int *p_count);
 int			ft_token_paoc(t_token *tmp);
+
+int			ft_decide_type(t_token **command_table, t_parsed **command);
+int			ft_is_redirect(t_token **command_table);
 #endif
