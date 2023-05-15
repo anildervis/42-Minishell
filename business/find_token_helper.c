@@ -34,12 +34,12 @@ int	init_token_continue(char *input, t_token *command_table)
 			input += add_token(input, command_table, TOKEN_GREATER, 1);
 	}
 	else if (*(input) == '<')
-    {
+	{
 		if (*(input + 1) == '<')
 			input += add_token(input, command_table, TOKEN_HERE_DOC, 2);
 		else
 			input += add_token(input, command_table, TOKEN_SMALLER, 1);
-    }
+	}
 	else if (*(input) == ' ' || *(input) == '\t' || *(input) == '\n')
 		input += 1;
 	else
