@@ -12,7 +12,8 @@ CLEANED			=	@echo "\033[34mCleaned !\033[0m"
 BUILTIN_DIR		=	builtin/
 BUILTIN_FILES	=	builtin cd echo env exit export pwd unset
 BUSINESS_DIR	=	business/
-BUSINESS_FILES	=	executor expander lexer main parser syntax_check_helper find_token_helper parser_helper
+BUSINESS_FILES	=	executor expander lexer main parser syntax_check_helper find_token_helper parser_helper \
+					add_type
 ERROR_DIR		=	err/
 ERROR_FILES		=	err
 FREE_DIR		=	free/
