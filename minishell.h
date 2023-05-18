@@ -124,6 +124,7 @@ void	set_paths(void);
 size_t	ft_strlen(const char *s);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+size_t	ft_strcpy(char *dst, const char *src);
 char	*strnstr_wildcard(const char *haystack, const char *needle, size_t len);
 int		ft_atoi(const char *str);
 char	*ft_itoa(int n);
@@ -131,6 +132,7 @@ void	*ft_calloc(size_t count, size_t size);
 void	ft_bzero(void *s, size_t n);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin_freed(char *s1, char *s2, int free_place);
 char	**ft_split(char const *s, char c);
 int     ft_strcmp(const char *s1, const char *s2);
 int     ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -144,6 +146,10 @@ int     ft_strnsearch(char *string, char *chars_to_search, size_t len);
 int		print_error(int error_code, char *param);
 
 //free
+void	free_all(t_token *tokens, t_parsed **parsed_commands);
+void	free_tokens(t_token *tokens);
+void	free_parsed(t_parsed **parsed_commands);
+void	free_redirections(t_file *file_list);
 void	free_array(char **arr);
 
 //builtin
