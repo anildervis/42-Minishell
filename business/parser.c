@@ -27,7 +27,7 @@ t_parsed *new_parse_command(int in_file, int out_file)
 	command->exec = 0;
 	command->in_file = in_file;
 	command->out_file = out_file;
-	command->cmd = ft_calloc(2, sizeof(char));
+	command->cmd = NULL;
 	command->prev = NULL;
 	command->next = NULL;
 	command->file_list = NULL;
@@ -104,19 +104,19 @@ void add_argument(t_token **command_table, t_parsed **command)
 	char **new_arguments;
 
 	i = 0;
-	if (!(*(*command)->cmd))
+	if (!((*command)->cmd))
 	{
-		(*command)->cmd = (*command_table)->value;
-		(*command)->arguments = (char **)ft_calloc(2, sizeof(char *));
+		(*command)->cmd = ft_calloc(ft_strlen((*command_table)->value) + 2, sizeof(char));
+		ft_strcpy((*command)->cmd, (*command_table)->value);
 	}
 	while ((*command)->arguments[i])
 		i++;
-	new_arguments = (char **)malloc(sizeof(char *) * (i + 2));
+	new_arguments = ft_calloc((i + 2), sizeof(char *));
 	new_arguments[i + 1] = NULL;
-	new_arguments[i] = (*command_table)->value;
+	new_arguments[i] = ft_strdup((*command_table)->value);
 	while (i--)
 		new_arguments[i] = ft_strdup((*command)->arguments[i]);
-	// free old arguments
+	free_array((*command)->arguments);
 	(*command)->arguments = new_arguments;
 	(*command_table) = (*command_table)->next;
 }
