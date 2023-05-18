@@ -22,7 +22,7 @@ int add_single_quote(char **str, char *val)
     int count;
 
     count = find_pair(val, *SINGLE_QUOTE);
-    *str = ft_strjoin(*str, ft_substr(val, 1, count - 1));
+    *str = ft_strjoin_freed(*str, ft_substr(val, 1, count - 1), 0b11);
     return count + 1;
 }
 
@@ -32,9 +32,9 @@ int add_dollar(char **str, char *val)
 
     i = 2;
     if (*(val + 1) == *DOLLAR_SIGN)
-        *str = ft_strjoin(*str, ft_itoa(g_ms.parent_pid));
+        *str = ft_strjoin_freed(*str, ft_itoa(g_ms.parent_pid), 0b11);
     else if (*(val + 1) == *QUESTION_MARK)
-        *str = ft_strjoin(*str, ft_itoa(errno));
+        *str = ft_strjoin_freed(*str, ft_itoa(errno), 0b11);
     else if (*(val + 1) == *DOUBLE_QUOTE || *(val + 1) == *SINGLE_QUOTE)
         i -= add_char(str, DOLLAR_SIGN);
     else if (!(*(val + 1)) || *(val + 1) == ' '
@@ -44,7 +44,7 @@ int add_dollar(char **str, char *val)
         if (*(val + 1) == BRACETS[0])
         {
             i = find_pair(val, BRACETS[1]) + 1;
-            *str = ft_strjoin(*str, get_env(ft_substr(val, 2, i - 3)));
+            *str = ft_strjoin_freed(*str, get_env(ft_substr(val, 2, i - 3)), 0b11);
         }
         else
         {
@@ -52,14 +52,14 @@ int add_dollar(char **str, char *val)
             while (*(val + i) != ' ' && *(val + i) && *(val + i) != *DOUBLE_QUOTE
 		        && *(val + i) != *SINGLE_QUOTE && *(val + i) != *DOLLAR_SIGN && *(val + i) != *SLASH)
                 i++;
-            *str = ft_strjoin(*str, get_env(ft_substr(val, 1, i - 1)));
+            *str = ft_strjoin_freed(*str, get_env(ft_substr(val, 1, i - 1)), 0b11);
         }
     return i;
 }
 
 int add_char(char **str, char *val)
 {
-    *str = ft_strjoin(*str, ft_substr(val, 0, 1));
+    *str = ft_strjoin_freed(*str, ft_substr(val, 0, 1), 0b11);
     return 1;
 }
 
@@ -151,7 +151,6 @@ void    wildcard(char *path, char **destined_path, int way, char ***arguments)
     closedir(dir);
 }
 
-
 void add_wildcard_to_list(char *path, char ***arguments)
 {
     int     i;
@@ -162,6 +161,7 @@ void add_wildcard_to_list(char *path, char ***arguments)
     while ((*arguments)[++i])
         new_list[i] = ft_strdup((*arguments)[i]);
     new_list[i] = ft_strdup(path + 2);
+    free(arguments);
     *arguments = new_list;
 }
 
@@ -173,7 +173,6 @@ void	expander(t_parsed **command)
 	char	**wildcard_list;
 
 	i = -1;
-	wildcard_list = ft_calloc(2, sizeof(char *));
 	if (!(*command)->arguments || !((*command)->arguments[0]))
 		return ;
 	while ((*command)->arguments[++i])
@@ -181,6 +180,7 @@ void	expander(t_parsed **command)
 		(*command)->arguments[i] = check_str((*command)->arguments[i]);
 		if (ft_strnsearch((*command)->arguments[i], "*", ft_strlen((*command)->arguments[i])))
 			continue ;
+    	wildcard_list = ft_calloc(2, sizeof(char *));
 		wildcard(".", ft_split((*command)->arguments[i], '/'), 0, &wildcard_list);
 		tmp_arguments = ft_calloc(list_len((*command)->arguments) + list_len(wildcard_list) + 2, sizeof(char *));
 		k = -1;
@@ -193,7 +193,9 @@ void	expander(t_parsed **command)
 		while (++k < list_len((*command)->arguments) + list_len(wildcard_list))
 			tmp_arguments[k] = ft_strdup((*command)->arguments[k - list_len(wildcard_list) + 1]);
 		tmp_arguments[k] = NULL;
+        free_array((*command)->arguments);
 		(*command)->arguments = tmp_arguments;
-		i += list_len(wildcard_list);
+		i += list_len(wildcard_list) - 1;
+        free_array(wildcard_list);
 	}
 }
