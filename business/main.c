@@ -17,14 +17,15 @@ void	init_ms(char **ev)
 
 void	init_shell(char *str)
 {
-    t_token *test;
+    t_token *tokens;
     t_parsed **parsed_commands;
 
-	test = tokenizer(str);
-	if (syntax_check(test))
+	tokens = tokenizer(str);
+	if (syntax_check(tokens))
 		return ;
-	parsed_commands = parse_commands(0, 1, test);
+	parsed_commands = parse_commands(0, 1, tokens);
     executor(parsed_commands);
+    free_all(tokens, parsed_commands);
 }
 
 void    ctrl_c(int sig)
@@ -47,7 +48,9 @@ void    ctrl_d(char *str)
 char *display_prompt()
 {
     char *str;
+    char *user;
 
+    user = get_env("USER");
     if (!g_ms.opening_prompt)
     {
         printf("\033[33m\033[1m\n \
@@ -61,19 +64,23 @@ char *display_prompt()
 |__/     |__/|__/|__/  |__/|__/|_______/ |__/  |__/ \\_______/|__/|__/\n\n");
         g_ms.opening_prompt = 1;
     }
-    if (!ft_strcmp(get_env("USER"), "aderviso") || !ft_strcmp(get_env("USER"), "anilalis"))
-        str = ft_strjoin("\033[1m\033[31m", get_env("USER"));
-    else if (!ft_strcmp(get_env("USER"), "bilalnrts") || !ft_strcmp(get_env("USER"), "binurtas"))
-        str = ft_strjoin("\033[1m\033[32m", get_env("USER"));
+    if (!ft_strcmp(user, "aderviso") || !ft_strcmp(user, "anilalis"))
+        str = ft_strjoin("\033[1m\033[31m", user);
+    else if (!ft_strcmp(user, "bilalnrts") || !ft_strcmp(user, "binurtas"))
+        str = ft_strjoin("\033[1m\033[32m", user);
     else
-        str = ft_strjoin("\033[1m\033[33m", get_env("USER"));
-    str = ft_strjoin(str, "\033[34m ");
-    return (ft_strjoin(str, ft_strjoin(getcwd(0, 0), " \033[31m︻\033[0m\033[32m┳\033[0m\033[33mデ\033[0m\033[34m═\033[0m\033[35m—\033[0m$ ")));
+        str = ft_strjoin("\033[1m\033[33m", user);
+    free(user);
+    str = ft_strjoin_freed(str, "@\033[34m", 0b10);
+    str = ft_strjoin_freed(str, getcwd(0, 0), 0b11);
+    str = ft_strjoin_freed(str, " \033[31m︻\033[0m\033[32m┳\033[0m\033[33mデ\033[0m\033[34m═\033[0m\033[35m—\033[0m$ ", 0b10);
+    return (str);
 }
 
 int	main(int ac, char **av, char **ev)
 {
 	char	*str;
+    char    *prompt;
 
 	init_ms(ev);
 	while (ac && av)
@@ -81,7 +88,8 @@ int	main(int ac, char **av, char **ev)
         g_ms.ignore = 0;
         signal(SIGINT, &ctrl_c);
         signal(SIGQUIT, SIG_IGN);
-		str = readline(display_prompt());
+		str = readline(prompt = display_prompt());
+        free(prompt);
 		ctrl_d(str);
         if (g_ms.ignore)
         {
@@ -92,9 +100,7 @@ int	main(int ac, char **av, char **ev)
 		{
 			init_shell(str);
 			add_history(str);
-            printf("\n");
 		}
-        free(str);
 	}
 	return (0);
 }
