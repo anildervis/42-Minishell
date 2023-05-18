@@ -25,19 +25,13 @@ int token_str_lexer(char *input)
     return i;
 }
 
-int add_token(char *input, t_token *command_table, enum tokens type, int len)
+int add_token(char *input, t_token *command_table, enum tokens type, int len) // This function can be simplified!! No need to divide it.
 {
     t_token *token;
     t_token *tmp_table;
 
     if (type == TOKEN_STR)
         len = token_str_lexer(input);
-    token = (t_token *)malloc(sizeof(t_token));
-    token->type = type;
-    token->value = ft_substr(input, 0, len);
-    token->next = NULL;
-    token->prev = NULL;
-    tmp_table = command_table;
     if (!(command_table->value))
     {
         command_table->value = ft_substr(input, 0, len);
@@ -47,6 +41,12 @@ int add_token(char *input, t_token *command_table, enum tokens type, int len)
     }
     else
     {
+        token = (t_token *)malloc(sizeof(t_token));
+        token->type = type;
+        token->value = ft_substr(input, 0, len);
+        token->next = NULL;
+        token->prev = NULL;
+        tmp_table = command_table;
         while (tmp_table->next)
             tmp_table = tmp_table->next;
         token->prev = tmp_table;
