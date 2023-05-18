@@ -18,8 +18,10 @@ char	*get_env(char *str)
 		{
 			while (g_ms.ev[i][j] != '=')
 				j++;
+			free(strp);
 			return (ft_strdup(&g_ms.ev[i][j + 1]));
 		}
 	}
+	free(strp);
 	return (ft_calloc(sizeof(char *), 1));
 }
