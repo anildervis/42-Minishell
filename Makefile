@@ -18,7 +18,7 @@ ERROR_FILES		=	err
 FREE_DIR		=	free/
 FREE_FILES		=	free
 UTILS_DIR		=	utils/
-UTILS_FILES		=	find_pair ft_atoi ft_bzero ft_calloc ft_itoa ft_split ft_strcmp ft_strchr ft_strdup ft_strjoin ft_strlcpy ft_strlen ft_strncmp ft_strnsearch ft_substr get_env get_path is_whitespace key_val list_len set_env set_paths strnstr_wildcard
+UTILS_FILES		=	find_pair ft_atoi ft_bzero ft_calloc ft_itoa ft_split ft_strcmp ft_strchr ft_strdup ft_strjoin ft_strlcpy ft_strcpy ft_strlen ft_strncmp ft_strnsearch ft_substr get_env get_path is_whitespace key_val list_len set_env set_paths strnstr_wildcard
 
 B_FILES			=	$(addprefix $(BUILTIN_DIR), $(BUILTIN_FILES))
 BS_FILES		=	$(addprefix $(BUSINESS_DIR), $(BUSINESS_FILES))
@@ -46,7 +46,7 @@ OBJF			=	.cache_exists
 all:				$(NAME) $(LIB)
 
 $(NAME):			$(OBJF) $(BOBJ) $(BSOBJ) $(EOBJ) $(FOBJ) $(UOBJ)
-					@$(CC) $(CFLAGS) $(BOBJ) $(BSOBJ) $(EOBJ) $(FOBJ) $(UOBJ) $(READLINE) -o $(NAME)
+					@$(CC) $(CFLAGS) $(BOBJ) $(BSOBJ) $(EOBJ) $(FOBJ) $(UOBJ) $(READLINE) -o $(NAME) -fsanitize=address
 					$(SUCCESS)
 
 $(OBJ_DIR)%.o:		%.c
