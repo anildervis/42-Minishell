@@ -46,7 +46,7 @@ OBJF			=	.cache_exists
 all:				$(NAME) $(LIB)
 
 $(NAME):			$(OBJF) $(BOBJ) $(BSOBJ) $(EOBJ) $(FOBJ) $(UOBJ)
-					@$(CC) $(CFLAGS) $(BOBJ) $(BSOBJ) $(EOBJ) $(FOBJ) $(UOBJ) $(READLINE) -o $(NAME) -fsanitize=address
+					@$(CC) $(CFLAGS) $(BOBJ) $(BSOBJ) $(EOBJ) $(FOBJ) $(UOBJ) $(READLINE) -o $(NAME)
 					$(SUCCESS)
 
 $(OBJ_DIR)%.o:		%.c

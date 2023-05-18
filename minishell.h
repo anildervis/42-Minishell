@@ -92,6 +92,8 @@ typedef struct	s_ms
 	int			out_file;
 	char		**ev;
 	char		**paths;
+	struct s_parsed	**parsed_commands;
+	struct s_token	*tokens;
 }				t_ms;
 
 typedef struct s_parsed

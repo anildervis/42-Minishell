@@ -93,6 +93,7 @@ t_token *tokenizer(char *input)
 
     command_table = (t_token *)ft_calloc(1, sizeof(t_token));
     find_token(input, command_table);
+    g_ms.tokens = command_table;
     return (command_table);
 }
 
