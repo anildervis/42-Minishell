@@ -206,6 +206,9 @@ void		create_redirections(t_parsed **andor_table);
 void		organizer(t_parsed **andor_table);
 void		executor(t_parsed **andor_table);
 void		close_fd_parantheses(t_parsed *command);
+void		execute_builtin(t_parsed *command);
+void		execute_not_builtin(t_parsed *command);
+int			organizer_conditions(t_parsed *tmp_command);
 
 //------------token_checker-------------
 int			ft_token_checker(t_token *tmp, int *p_count);
