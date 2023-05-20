@@ -59,7 +59,9 @@ void	ctrl_d(char *str)
 char	*display_prompt(void)
 {
 	char	*str;
+    char    *s1;
 
+    s1 = " \033[31m︻\033[0m\033[32m┳\033[0m\033[33mデ\033[0m\033[34m═\033[0m\033[35m—\033[0m$ ";
 	if (!g_ms.opening_prompt)
 	{
 		printf("\033[33m\033[1m\n \
@@ -82,8 +84,7 @@ char	*display_prompt(void)
 	else
 		str = ft_strjoin("\033[1m\033[33m", get_env("USER"));
 	str = ft_strjoin(str, "\033[34m ");
-	return (ft_strjoin(str, ft_strjoin(getcwd(0, 0),
-		" \033[31m︻\033[0m\033[32m┳\033[0m\033[33mデ\033[0m\033[34m═\033[0m\033[35m—\033[0m$ ")));
+	return (ft_strjoin(str, ft_strjoin(getcwd(0, 0), s1)));
 }
 
 int	main(int ac, char **av, char **ev)

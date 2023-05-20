@@ -14,7 +14,7 @@
 
 void	check_dir(char *cmd)
 {
-	DIR *dir;
+	DIR	*dir;
 
 	if (!cmd)
 		exit(0);
@@ -26,16 +26,11 @@ void	check_dir(char *cmd)
 	}
 }
 
-char	*free_new_path(char *np, char *path) // bu fonksiyon gereksiz ama diğer türlü 25 satırı geçiyor get_path xd
+char	*free_new_path(char *np, char *path)
 {
 	free (np);
 	return (path);
 }
-
-/*
-Eğer path tamsa (var olan bir dosya yolunu yollarsan) 'minishell/builtin/cd' şeklinde bir path yollarsan bu pathi sana geri döndürür.
-Eğer 'ls' şeklinde bir komut yollarsan pathlerin arasında arar ve cevap bulursa onu döndürür.
-*/
 
 char	*get_path(char *cmd)
 {
