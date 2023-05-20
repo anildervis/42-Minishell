@@ -1,13 +1,13 @@
 #include "../minishell.h"
 
 // needs to be change by ft_putchar to write into stderror
-int print_error(int error_code, char *param)
+int	print_error(int error_code, char *param)
 {
 	errno = error_code;
 	if (errno == FILE_NOT_FOUND)
 		printf("minishell: %s: No such file or directory\n", param);
 	else if (errno == SYNTAX_ERROR)
-	    printf("bash: syntax error near unexpected token '%s\n'", param);
+		printf("bash: syntax error near unexpected token '%s\n'", param);
 	else if (errno == CMD_NOT_FOUND)
 		printf("minishell: %s: command not found\n", param);
 	else if (errno == PERM_DENIED)
