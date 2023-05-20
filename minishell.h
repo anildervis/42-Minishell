@@ -6,7 +6,7 @@
 /*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:13:52 by binurtas          #+#    #+#             */
-/*   Updated: 2023/05/20 14:13:53 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/05/20 18:49:53 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ enum				e_builtin_types
 	EXPORT
 };
 
-enum				tokens
+enum				e_tokens
 {
 	TOKEN_PIPE,
 	TOKEN_OR,
@@ -67,7 +67,7 @@ enum				tokens
 	TOKEN_STR
 };
 
-enum				errors
+enum				e_errors
 {
 	FILE_NOT_FOUND = 1,
 	SYNTAX_ERROR = 2,
@@ -82,7 +82,7 @@ enum				errors
 
 typedef struct s_token
 {
-	enum tokens		type;
+	enum e_tokens	type;
 	char			*value;
 	struct s_token	*prev;
 	struct s_token	*next;
@@ -90,7 +90,7 @@ typedef struct s_token
 
 typedef struct s_file
 {
-	enum tokens		type;
+	enum e_tokens	type;
 	char			*file_name;
 	struct s_file	*next;
 }					t_file;
@@ -155,7 +155,7 @@ int					ft_strnsearch(char *string, char *chars_to_search,
 						size_t len);
 int					is_metacharacter(char c);
 int					token_str_lexer(char *input);
-t_token				*new_token(enum tokens type, char *value);
+t_token				*new_token(enum e_tokens type, char *value);
 
 //error
 // void	cmd_err(char *str);
@@ -180,7 +180,7 @@ void				builtin_unset(char **input);
 int					is_metacharacter(char c);
 int					token_str_lexer(char *input);
 int					add_token(char *input, t_token *command_table,
-						enum tokens type, int len);
+						enum e_tokens type, int len);
 void				find_token(char *input, t_token *command_table);
 t_token				*tokenizer(char *input);
 void				get_next_token(t_token *command_table);

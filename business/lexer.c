@@ -6,13 +6,13 @@
 /*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:25 by binurtas          #+#    #+#             */
-/*   Updated: 2023/05/20 14:11:26 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/05/20 18:42:32 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	add_token(char *input, t_token *command_table, enum tokens type, int len)
+int	add_token(char *input, t_token *command_table, enum e_tokens type, int len)
 {
 	t_token	*token;
 	t_token	*tmp_table;

@@ -21,9 +21,9 @@ FREE_FILES		=	free
 UTILS_DIR		=	utils/
 UTILS_FILES		=	find_pair ft_atoi ft_bzero ft_calloc ft_itoa ft_split ft_strcmp \
 					ft_strchr ft_strdup ft_strjoin ft_strlcpy ft_strlen ft_strncmp  \
-					ft_strnsearch ft_substr get_env get_path is_whitespace key_val  \
+					ft_strnsearch ft_substr get_env get_path is_whitespace new_token  \
 					list_len set_env set_paths strnstr_wildcard is_metachar         \
-					t_str_lexer new_token ft_is_redirect
+					t_str_lexer ft_is_redirect
 
 B_FILES			=	$(addprefix $(BUILTIN_DIR), $(BUILTIN_FILES))
 BS_FILES		=	$(addprefix $(BUSINESS_DIR), $(BUSINESS_FILES))
