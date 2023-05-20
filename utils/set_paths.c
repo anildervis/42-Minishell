@@ -6,7 +6,7 @@
 /*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:13:22 by binurtas          #+#    #+#             */
-/*   Updated: 2023/05/20 14:13:23 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/05/20 15:28:33 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	set_paths(void)
 	char	*path;
 
 	if (g_ms.paths)
-		free_array(g_ms.paths);  // yapmasam leak mi oluşur ???
+		free_array(g_ms.paths);
 	path = get_env("PATH");
 	if (!(*path))
 		g_ms.paths = 0;

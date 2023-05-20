@@ -6,15 +6,15 @@
 /*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:13:05 by binurtas          #+#    #+#             */
-/*   Updated: 2023/05/20 14:13:06 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/05/20 15:33:06 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int is_metacharacter(char c)
+int	is_metacharacter(char c)
 {
-    if (ft_strchr("|&><()", c))
-        return 0;
-    return 1;
+	if (ft_strchr("|&><()", c))
+		return (0);
+	return (1);
 }
