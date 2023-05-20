@@ -6,7 +6,7 @@
 /*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:19 by binurtas          #+#    #+#             */
-/*   Updated: 2023/05/20 14:11:20 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/05/20 15:20:20 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	close_fd(t_parsed *command)
 		&& command->out_file != STDOUT_FILENO)
 		close(command->out_file);
 }
+
 //*******While döngüsünün içini kontrol edelim********
 int	here_doc_fd(char *limiter)
 {

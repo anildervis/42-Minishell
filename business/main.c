@@ -6,7 +6,7 @@
 /*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:29 by binurtas          #+#    #+#             */
-/*   Updated: 2023/05/20 14:11:30 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/05/20 15:26:07 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ctrl_d(char *str)
 	}
 }
 
-char	*display_prompt()
+char	*display_prompt(void)
 {
 	char	*str;
 
@@ -77,13 +77,13 @@ char	*display_prompt()
 			"anilalis"))
 		str = ft_strjoin("\033[1m\033[31m", get_env("USER"));
 	else if (!ft_strcmp(get_env("USER"), "bilalnrts")
-			|| !ft_strcmp(get_env("USER"), "binurtas"))
+		|| !ft_strcmp(get_env("USER"), "binurtas"))
 		str = ft_strjoin("\033[1m\033[32m", get_env("USER"));
 	else
 		str = ft_strjoin("\033[1m\033[33m", get_env("USER"));
 	str = ft_strjoin(str, "\033[34m ");
 	return (ft_strjoin(str, ft_strjoin(getcwd(0, 0),
-				" \033[31m︻\033[0m\033[32m┳\033[0m\033[33mデ\033[0m\033[34m═\033[0m\033[35m—\033[0m$ ")));
+		" \033[31m︻\033[0m\033[32m┳\033[0m\033[33mデ\033[0m\033[34m═\033[0m\033[35m—\033[0m$ ")));
 }
 
 int	main(int ac, char **av, char **ev)

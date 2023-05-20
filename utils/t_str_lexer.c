@@ -6,7 +6,7 @@
 /*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:13:29 by binurtas          #+#    #+#             */
-/*   Updated: 2023/05/20 14:13:30 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/05/20 15:24:06 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,5 @@ int token_str_lexer(char *input)
         else
             i++;
     }
-    return i;
+    return (i);
 }

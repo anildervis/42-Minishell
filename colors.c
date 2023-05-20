@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   colors.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/20 14:17:39 by binurtas          #+#    #+#             */
+/*   Updated: 2023/05/20 14:24:11 by binurtas         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 
-int	main(void)
+void	print_part1(void)
 {
 	printf("\033[0mabow\033[0m\n");
 	printf("\033[1mabow\033[0m\n");
@@ -19,6 +31,10 @@ int	main(void)
 	printf("\033[14mabow\033[0m\n");
 	printf("\033[15mabow\033[0m\n");
 	printf("\033[16mabow\033[0m\n");
+}
+
+void	print_part2(void)
+{
 	printf("\033[17mabow\033[0m\n");
 	printf("\033[18mabow\033[0m\n");
 	printf("\033[19mabow\033[0m\n");
@@ -37,4 +53,11 @@ int	main(void)
 	printf("\033[34mabow\033[0m\n");
 	printf("\033[35mabow\033[0m\n");
 	printf("\033[36mabow\033[0m\n");
+}
+
+int	main(void)
+{
+	print_part1();
+	print_part2();
+	return (0);
 }
