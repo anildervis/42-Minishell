@@ -20,7 +20,7 @@ char	*strnstr_wildcard(const char *haystack, const char *needle, size_t len)
 
 	str = (char *)haystack;
 	index = 0;
-	if (!ft_strlen(needle) || (!len))
+	if ((!ft_strlen(needle)) || (!len))
 		return (str);
 	while (str[index])
 	{
