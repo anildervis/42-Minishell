@@ -164,6 +164,10 @@ int					print_error(int error_code, char *param);
 
 //free
 void				free_array(char **arr);
+void				free_all(t_token *tokens, t_parsed **parsed_commands);
+void				free_tokens(t_token *tokens);
+void				free_parsed(t_parsed **parsed_commands);
+void				free_redirections(t_file *file_list);
 
 //builtin
 int					is_builtin(char *command);
