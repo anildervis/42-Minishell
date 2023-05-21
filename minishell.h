@@ -180,10 +180,15 @@ int			add_single_quote(char **str, char *val);
 int			add_dollar(char **str, char *val);
 int			add_char(char **str, char *val);
 char		*check_str(char *value);
-int			wild_path(char *wild_one, char *expected_one);
-void		wildcard(char *path, char **destined_path, int way, char ***arguments);
-void		add_wildcard_to_list(char *path, char ***arguments);
+void		updating_argument_list(int argument_no, t_parsed **command, char **wildcard_list);
 void		expander(t_parsed **command);
+
+//--------------wildcard--------------
+int			wildcard_count(char *wild_string);
+int			checking_between_wildcards(int wildcard_count, char *wild_str, char *expected_str);
+int			is_wild_eq_string(char *wild_str, char *expected_str);
+void		add_wildcard_to_list(char *path, char ***arguments);
+void		wildcard(char *path, char **destined_path, int way, char ***arguments);
 
 //--------------parser--------------
 int			andor_count(t_token *command_table);
