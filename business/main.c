@@ -108,7 +108,6 @@ int	main(int ac, char **av, char **ev)
 		{
 			init_shell(str);
 			add_history(str);
-			printf("\n");
 		}
 		free(str);
 	}
