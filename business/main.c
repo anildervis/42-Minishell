@@ -22,7 +22,10 @@ void	init_shell(char *str)
 
 	tokens = tokenizer(str);
 	if (syntax_check(tokens))
+	{
+		free_tokens(tokens);
 		return ;
+	}
 	parsed_commands = parse_commands(0, 1, tokens);
 	executor(parsed_commands);
 	free_all(tokens, parsed_commands);
