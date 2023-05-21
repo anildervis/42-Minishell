@@ -31,8 +31,9 @@ t_parsed *new_parse_command(int in_file, int out_file)
 	command->prev = NULL;
 	command->next = NULL;
 	command->file_list = NULL;
-	command->arguments = ft_calloc(2, sizeof(char *));
+	command->arguments = NULL;
 	command->paranthesis = NULL;
+	command->parantheses_andor = NULL;
 	return (command);
 }
 
@@ -108,6 +109,7 @@ void add_argument(t_token **command_table, t_parsed **command)
 	{
 		(*command)->cmd = ft_calloc(ft_strlen((*command_table)->value) + 2, sizeof(char));
 		ft_strcpy((*command)->cmd, (*command_table)->value);
+		(*command)->arguments = ft_calloc(2, sizeof(char *));
 	}
 	while ((*command)->arguments[i])
 		i++;
@@ -147,7 +149,6 @@ t_parsed	**parse_commands(int in_file, int out_file, t_token *command_table)
 	t_parsed	**andor_table;
 	t_parsed	*command;
 
-	// andor_table = (t_parsed **)malloc(sizeof(t_parsed *) * (andor_count(command_table) + 2));
 	andor_table = ft_calloc(andor_count(command_table) + 2, sizeof(t_parsed *));
 	while (command_table)
 	{
