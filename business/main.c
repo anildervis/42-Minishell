@@ -2,7 +2,7 @@
 
 t_ms	g_ms;
 
-void	init_ms(char **ev)
+void	init_ms(char **ev) // free global variable in the end
 {
     errno = 0;
 	g_ms.parent_pid = getpid();
