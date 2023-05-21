@@ -38,7 +38,10 @@ void	free_parsed(t_parsed **parsed_commands)
 			to_free = tmp_command;
 			free_redirections(tmp_command->file_list);
 			if (tmp_command->paranthesis)
+			{
 				free_tokens(tmp_command->paranthesis);
+				free_parsed(tmp_command->parantheses_andor);
+			}
 			else
 			{
 				free(tmp_command->cmd);
@@ -57,10 +60,9 @@ void	free_redirections(t_file *file_list)
 	t_file *to_free;
 
 	tmp = file_list;
-	if (tmp != NULL)
+	while (tmp != NULL)
 	{
 		to_free = tmp;
-		free(tmp->file_name);
 		tmp = tmp->next;
 		free(to_free);
 	}
