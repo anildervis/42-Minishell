@@ -146,7 +146,7 @@ int     ft_strnsearch(char *string, char *chars_to_search, size_t len);
 // void	cmd_err(char *str);
 // void	no_file_err(char *str);
 int		print_error(int error_code, char *param);
-
+void	open_file_error(void);
 //free
 void	free_all(t_token *tokens, t_parsed **parsed_commands);
 void	free_tokens(t_token *tokens);
@@ -178,6 +178,7 @@ int			syntax_check(t_token *command_table);
 int			add_double_quote(char **str, char *val);
 int			add_single_quote(char **str, char *val);
 int			add_dollar(char **str, char *val);
+void		add_dollar_other(char **str, char *val);
 int			add_char(char **str, char *val);
 char		*check_str(char *value);
 void		updating_argument_list(int argument_no, t_parsed **command, char **wildcard_list);

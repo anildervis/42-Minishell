@@ -27,3 +27,9 @@ int print_error(int error_code, char *param)
 	// free minishell ?
 	return (errno);
 }
+
+void	open_file_error(void)
+{
+	perror("Failed to open directory");
+	exit(EXIT_FAILURE);
+}
