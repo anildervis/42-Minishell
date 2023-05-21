@@ -24,6 +24,7 @@ char	*check_str(char *value)
 		else
 			i += add_char(&str, (value + i));
 	}
+	free(value);
 	return (str);
 }
 
