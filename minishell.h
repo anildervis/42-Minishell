@@ -156,7 +156,8 @@ int					ft_strnsearch(char *string, char *chars_to_search,
 int					is_metacharacter(char c);
 int					token_str_lexer(char *input);
 t_token				*new_token(enum e_tokens type, char *value);
-char				*ft_strjoin_freed(char *s1, char *s2, int free_place)
+char				*ft_strjoin_freed(char *s1, char *s2, int free_place);
+size_t				ft_strcpy(char *dst, const char *src);
 
 //error
 // void	cmd_err(char *str);
