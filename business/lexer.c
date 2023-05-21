@@ -89,6 +89,8 @@ int	syntax_check(t_token *ct)
 	while (tmp)
 	{
 		t_check1 = ft_token_checker(tmp, p_count);
+		if (t_check1 == 0)
+			continue ;
 		if (t_check1 != -5)
 			return (t_check1);
 		if (!tmp->next && *p_count > 0)
