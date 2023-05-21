@@ -108,6 +108,7 @@ void get_next_token(t_token *command_table)
         tmp_command_table = tmp_command_table->next;
     input = readline("> ");
     new_tokens = tokenizer(input);
+    free(input);
     new_tokens->prev = tmp_command_table;
     tmp_command_table->next = new_tokens;
 }
@@ -136,7 +137,7 @@ int syntax_check(t_token *command_table)
                 && !tmp_command_table->next)
             {
                 get_next_token(tmp_command_table);
-                break ;
+                continue ;
             }
         }
         if (tmp_command_table->type == TOKEN_SMALLER
@@ -164,7 +165,7 @@ int syntax_check(t_token *command_table)
         if (!tmp_command_table->next && paranthesis_count > 0)
         {
             get_next_token(tmp_command_table);
-            break ;
+            continue ;
         }
         tmp_command_table = tmp_command_table->next;
     }
