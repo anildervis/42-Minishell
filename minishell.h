@@ -152,10 +152,11 @@ int					ft_strncmp(const char *s1, const char *s2, size_t n);
 int					find_pair(char *input, char c);
 int					list_len(char **char_list);
 int					ft_strnsearch(char *string, char *chars_to_search,
-						size_t len);
+					 size_t len);
 int					is_metacharacter(char c);
 int					token_str_lexer(char *input);
 t_token				*new_token(enum e_tokens type, char *value);
+char				*ft_strjoin_freed(char *s1, char *s2, int free_place)
 
 //error
 // void	cmd_err(char *str);
