@@ -66,6 +66,8 @@ void	updating_argument_list(int argument_no, t_parsed **command,
 void	expander(t_parsed **command)
 {
 	int		i;
+	char	*file;
+	char	**given_path;
 	char	**wildcard_list;
 
 	i = -1;
@@ -77,8 +79,10 @@ void	expander(t_parsed **command)
 		if (!wildcard_count((*command)->arguments[i]))
 			continue ;
 		wildcard_list = ft_calloc(2, sizeof(char *));
-		wildcard(".", ft_split((*command)->arguments[i], '/'), 0,
-			&wildcard_list);
+		given_path = ft_split((*command)->arguments[i], '/');
+		file = ft_strdup(".");
+		wildcard(file, given_path, 0, &wildcard_list);
+		free_array(given_path);
 		updating_argument_list(i, command, wildcard_list);
 		i += list_len(wildcard_list) - 1;
 		free_array(wildcard_list);

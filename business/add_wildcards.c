@@ -63,7 +63,7 @@ int	add_dollar_other(char **str, char *val)
 		&& *(val + i) != *SINGLE_QUOTE && *(val + i) != *DOLLAR_SIGN
 		&& *(val + i) != *SLASH)
 			i++;
-	to_free = ft_substr(val, 2, i - 3);
+	to_free = ft_substr(val, 1, i - 1);
 	*str = ft_strjoin_freed(*str, get_env(to_free), 0b11);
 	free(to_free);
 	return (i);
