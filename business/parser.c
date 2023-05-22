@@ -20,7 +20,7 @@ t_parsed	*new_parse_command(int in_file, int out_file)
 	command->exec = 0;
 	command->in_file = in_file;
 	command->out_file = out_file;
-	command->cmd = ft_calloc(2, sizeof(char));
+	command->cmd = NULL;
 	command->prev = NULL;
 	command->next = NULL;
 	command->file_list = NULL;
