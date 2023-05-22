@@ -39,6 +39,7 @@ void	builtin_exit(char **input)
 	if (ft_get_arg_count(input) == 1)
 	{
 		printf("exit\n");
+		free_all(g_ms.tokens, g_ms.parsed_commands);
 		exit(errno);
 	}
 	else
