@@ -72,7 +72,6 @@ void	free_redirections(t_file *file_list)
 	if (tmp != NULL)
 	{
 		to_free = tmp;
-		free(tmp->file_name);
 		tmp = tmp->next;
 		free(to_free);
 	}

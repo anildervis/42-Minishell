@@ -24,8 +24,9 @@ t_parsed	*new_parse_command(int in_file, int out_file)
 	command->prev = NULL;
 	command->next = NULL;
 	command->file_list = NULL;
-	command->arguments = ft_calloc(2, sizeof(char *));
+	command->arguments = NULL;
 	command->paranthesis = NULL;
+	command->parantheses_andor = NULL;
 	return (command);
 }
 
