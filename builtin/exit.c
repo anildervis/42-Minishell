@@ -52,9 +52,12 @@ void	builtin_exit(char **input)
 				errno = 1;
 				return ;
 			}
+			printf("exit\n");
 			exit(ft_atoi(input[1]) % 256);
 		}
-		write(2, "exit\nminishell: exit: numeric argument required\n", 48);
+		write(2, "exit\nminishell: exit: ", 22);
+		write(2, input[1], ft_strlen(input[1]));
+		write(2, ": numeric argument required\n", 28);
 		exit(-1 % 256);
 	}
 }
