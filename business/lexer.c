@@ -77,6 +77,7 @@ void	get_next_token(t_token *command_table)
 		tmp_command_table = tmp_command_table->next;
 	input = readline("> ");
 	new_tokens = tokenizer(input);
+	free(input);
 	new_tokens->prev = tmp_command_table;
 	tmp_command_table->next = new_tokens;
 }
@@ -101,7 +102,7 @@ int	syntax_check(t_token *ct)
 		{
 			free(p_count);
 			get_next_token(tmp);
-			return (0);
+			continue ;
 		}
 		tmp = tmp->next;
 	}
