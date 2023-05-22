@@ -59,5 +59,5 @@ void	add_dollar_other(char **str, char *val)
 		&& *(val + i) != *SINGLE_QUOTE && *(val + i) != *DOLLAR_SIGN
 		&& *(val + i) != *SLASH)
 			i++;
-	*str = ft_strjoin(*str, get_env(ft_substr(val, 1, i - 1)));
+	str = ft_strjoin_freed(str, get_env(ft_substr(val, 1, i - 1)), 0b11);
 }
