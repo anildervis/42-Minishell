@@ -70,8 +70,7 @@ void	expander(t_parsed **command)
 	char	**wildcard_list;
 
 	i = -1;
-	if (!(*command)->arguments || !((*command)->arguments[0]))
-		return ;
+	(*command)->cmd = check_str((*command)->cmd);
 	while ((*command)->arguments[++i])
 	{
 		(*command)->arguments[i] = check_str((*command)->arguments[i]);

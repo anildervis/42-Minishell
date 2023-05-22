@@ -33,11 +33,9 @@ int	here_doc_fd(char *limiter)
 	final_line = (char *)ft_calloc(2, sizeof(char));
 	while (ft_strcmp(limiter, input))
 	{
-		input = ft_strjoin(input, "\n");
+		input = ft_strjoin_freed(input, "\n", 0b10);
 		tmp = final_line;
-		final_line = ft_strjoin(final_line, input);
-		free(tmp);
-		free(input);
+		final_line = ft_strjoin_freed(final_line, input, 0b11);
 		input = readline(">");
 	}
 	free(input);
