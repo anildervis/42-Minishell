@@ -50,5 +50,6 @@ t_parsed	**parse_commands(int in_file, int out_file, t_token *command_table)
 				break ;
 		}
 	}
+	g_ms.parsed_commands = andor_table;
 	return (andor_table);
 }
