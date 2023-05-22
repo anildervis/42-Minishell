@@ -20,8 +20,8 @@ void	free_all(t_token *tokens, t_parsed **parsed_commands)
 
 void	free_tokens(t_token *tokens)
 {
-	t_token *tmp;
-	t_token *to_free;
+	t_token	*tmp;
+	t_token	*to_free;
 
 	tmp = tokens;
 	while (tmp)
@@ -35,10 +35,10 @@ void	free_tokens(t_token *tokens)
 
 void	free_parsed(t_parsed **parsed_commands)
 {
-	t_parsed **tmp_list;
-	t_parsed *tmp_command;
-	t_parsed *to_free;
-	int i;
+	t_parsed	**tmp_list;
+	t_parsed	*tmp_command;
+	t_parsed	*to_free;
+	int			i;
 
 	tmp_list = parsed_commands;
 	i = -1;
@@ -69,7 +69,7 @@ void	free_redirections(t_file *file_list)
 	t_file *to_free;
 
 	tmp = file_list;
-	if (tmp != NULL)
+	while (tmp != NULL)
 	{
 		to_free = tmp;
 		tmp = tmp->next;
