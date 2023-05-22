@@ -33,7 +33,7 @@ void	init_shell(char *str)
 	t_parsed	**parsed_commands;
 
 	tokens = tokenizer(str);
-	if (syntax_check(tokens))
+	if ((!tokens || !tokens->value) || syntax_check(tokens))
 	{
 		free_tokens(tokens);
 		return ;
