@@ -28,7 +28,8 @@ int	add_single_quote(char **str, char *val)
 
 int	add_dollar(char **str, char *val)
 {
-	int	i;
+	int		i;
+	char	*to_free;
 
 	i = 2;
 	if (*(val + 1) == *DOLLAR_SIGN)
@@ -43,7 +44,9 @@ int	add_dollar(char **str, char *val)
 	else if (*(val + 1) == BRACETS[0])
 	{
 		i = find_pair(val, BRACETS[1]) + 1;
-		*str = ft_strjoin_freed(*str, get_env(ft_substr(val, 2, i - 3)), 0b11);
+		to_free = ft_substr(val, 2, i - 3);
+		*str = ft_strjoin_freed(*str, get_env(to_free), 0b11);
+		free(to_free);
 	}
 	else
 		i = add_dollar_other(str, val);
@@ -52,13 +55,16 @@ int	add_dollar(char **str, char *val)
 
 int	add_dollar_other(char **str, char *val)
 {
-	int	i;
+	int		i;
+	char	*to_free;
 
 	i = 1;
 	while (*(val + i) != ' ' && *(val + i) && *(val + i) != *DOUBLE_QUOTE
 		&& *(val + i) != *SINGLE_QUOTE && *(val + i) != *DOLLAR_SIGN
 		&& *(val + i) != *SLASH)
 			i++;
-	*str = ft_strjoin_freed(*str, get_env(ft_substr(val, 1, i - 1)), 0b11);
+	to_free = ft_substr(val, 2, i - 3);
+	*str = ft_strjoin_freed(*str, get_env(to_free), 0b11);
+	free(to_free);
 	return (i);
 }
