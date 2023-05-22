@@ -165,6 +165,7 @@ size_t				ft_strcpy(char *dst, const char *src);
 // void	cmd_err(char *str);
 // void	no_file_err(char *str);
 int					print_error(int error_code, char *param);
+void				open_file_error(void);
 
 //free
 void				free_array(char **arr);
@@ -210,6 +211,7 @@ void				expander(t_parsed **command);
 void				add_dollar_other(char **str, char *val);
 int					wild_path_helper(int start_count, char **tmp_wild_one,
 						char **tmp_expected_one);
+int					wildcard_count(char *wild_string);
 
 //--------------parser--------------
 int					andor_count(t_token *command_table);
