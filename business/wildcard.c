@@ -73,6 +73,7 @@ void	add_wildcard_to_list(char *path, char ***arguments)
 		new_list[i] = ft_strdup((*arguments)[i]);
 	new_list[i] = ft_strdup(path + 2);
 	free_array(*arguments);
+	free(path);
 	*arguments = new_list;
 }
 
@@ -98,10 +99,9 @@ void	wildcard(char *path, char **destined_path, int way, char ***arguments)
 		else if (ft_strncmp(ent->d_name, ".", 1) || !ft_strncmp(ent->d_name,
 				destined_path[way], 1))
 			if (is_wild_eq_string(destined_path[way], ent->d_name))
-				add_wildcard_to_list(ft_strjoin_freed(ft_strjoin(path,
-					"/"),	ent->d_name, 0b10), arguments);
+				add_wildcard_to_list(ft_strjoin_freed(ft_strjoin(path, "/"),
+					ent->d_name, 0b10), arguments);
 		ent = readdir(dir);
 	}
-	free(path);
 	closedir(dir);
 }
