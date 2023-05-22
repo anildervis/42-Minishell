@@ -208,7 +208,7 @@ void				wildcard(char *path, char **destined_path, int way,
 						char ***arguments);
 void				add_wildcard_to_list(char *path, char ***arguments);
 void				expander(t_parsed **command);
-void				add_dollar_other(char **str, char *val);
+int				add_dollar_other(char **str, char *val);
 int					wild_path_helper(int start_count, char **tmp_wild_one,
 						char **tmp_expected_one);
 int					wildcard_count(char *wild_string);
