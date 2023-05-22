@@ -26,7 +26,6 @@ int	here_doc_fd(char *limiter)
 {
 	char	*input;
 	char	*final_line;
-	char	*tmp;
 	int		fd[2];
 
 	input = readline(">");
