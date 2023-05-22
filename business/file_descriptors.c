@@ -41,7 +41,6 @@ int	here_doc_fd(char *limiter)
 		input = readline(">");
 	}
 	free(input);
-	free(limiter);
 	if (pipe(fd) == -1)
 		print_error(PIPE_ERR, NULL);
 	write(fd[WRITE_END], final_line, ft_strlen(final_line));
