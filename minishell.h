@@ -160,6 +160,8 @@ int					token_str_lexer(char *input);
 t_token				*new_token(enum e_tokens type, char *value);
 char				*ft_strjoin_freed(char *s1, char *s2, int free_place);
 size_t				ft_strcpy(char *dst, const char *src);
+void				set_current_pwd(void);
+void				set_old_pwd(char *pwd);
 
 //error
 // void	cmd_err(char *str);

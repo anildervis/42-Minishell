@@ -14,10 +14,18 @@
 
 void	builtin_cd(char **execute)
 {
+	char	*pwd;
+
+	pwd = getcwd(0, 0);
 	if (execute[1])
 	{
 		if (chdir(execute[1]))
 			perror("minishell ");
+		else
+		{
+			set_current_pwd();
+			set_old_pwd(pwd);
+		}
 	}
 	else
 		if (chdir(getenv("HOME")))

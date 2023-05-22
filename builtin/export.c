@@ -85,7 +85,10 @@ void	builtin_export(char **input)
 		{
 			pos = is_include(*input);
 			if (pos != -1)
+			{
+				free(g_ms.ev[pos]);
 				g_ms.ev[pos] = ft_strdup(*input);
+			}
 			else
 				add_env(*input);
 		}
