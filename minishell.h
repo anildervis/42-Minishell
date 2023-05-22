@@ -106,6 +106,8 @@ typedef struct s_ms
 	int				out_file;
 	char			**ev;
 	char			**paths;
+	struct s_parsed	**parsed_commands;
+	struct s_token	*tokens;
 }					t_ms;
 
 typedef struct s_parsed
@@ -152,7 +154,7 @@ int					ft_strncmp(const char *s1, const char *s2, size_t n);
 int					find_pair(char *input, char c);
 int					list_len(char **char_list);
 int					ft_strnsearch(char *string, char *chars_to_search,
-					 size_t len);
+						size_t len);
 int					is_metacharacter(char c);
 int					token_str_lexer(char *input);
 t_token				*new_token(enum e_tokens type, char *value);
