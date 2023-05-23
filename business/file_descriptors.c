@@ -51,7 +51,7 @@ int	read_file_fd(char *file_name, int type)
 		return (here_doc_fd(file_name));
 	if (access(file_name, F_OK) == -1)
 		print_error(FILE_NOT_FOUND, file_name);
-	if (access(file_name, R_OK) == -1)
+	else if (access(file_name, R_OK) == -1)
 		print_error(PERM_DENIED, file_name);
 	return (open(file_name, O_RDONLY, 0666));
 }
