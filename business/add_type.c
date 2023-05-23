@@ -23,15 +23,15 @@ void	add_paranthesis(t_token **command_table, t_parsed **command)
 	(*command_table) = (*command_table)->next;
 	while (*command_table && i != 0)
 	{
-		if ((*command_table)->next->type == TOKEN_OPEN_PAR)
+		if ((*command_table)->type == TOKEN_OPEN_PAR)
 			i++;
-		else if ((*command_table)->next->type == TOKEN_CLOSE_PAR)
+		else if ((*command_table)->type == TOKEN_CLOSE_PAR)
 			i--;
-		add_token((*command_table)->value, (*command)->paranthesis,
-			(*command_table)->type, 2);
+		if (i != 0)
+			add_token((*command_table)->value, (*command)->paranthesis,
+				(*command_table)->type, 2);
 		(*command_table) = (*command_table)->next;
 	}
-	(*command_table) = (*command_table)->next;
 }
 
 /*

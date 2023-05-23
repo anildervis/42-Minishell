@@ -77,6 +77,8 @@ void	child_organizer(t_parsed *command)
 		print_error(FORK_ERR, NULL);
 	if (!pid)
 	{
+		signal(SIGINT, &ctrl_c);
+		signal(SIGQUIT, SIG_IGN);
 		g_ms.parent_pid = getpid();
 		if (command->prev && command->prev->out_file != STDOUT_FILENO)
 			close(command->prev->out_file);
@@ -86,6 +88,7 @@ void	child_organizer(t_parsed *command)
 		g_ms.out_file = command->out_file;
 		organizer(command->parantheses_andor);
 		close_fd(command);
+		free_all(g_ms.tokens, g_ms.parsed_commands);
 		exit(0);
 	}
 	usleep(10000);

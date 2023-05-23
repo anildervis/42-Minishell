@@ -35,7 +35,6 @@ t_parsed	**parse_commands(int in_file, int out_file, t_token *command_table)
 	t_parsed	**andor_table;
 	t_parsed	*command;
 
-	// andor_table = (t_parsed **)malloc(sizeof(t_parsed *) * (andor_count(command_table) + 2));
 	andor_table = ft_calloc(andor_count(command_table) + 2, sizeof(t_parsed *));
 	while (command_table)
 	{
