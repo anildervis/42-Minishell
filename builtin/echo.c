@@ -29,7 +29,7 @@ void	builtin_echo(char **input)
 	int	i;
 
 	i = 1;
-	while (!ft_strncmp(input[i], "-n", 2))
+	while (input[i] && !ft_strncmp(input[i], "-n", 2))
 		i++;
 	while (input[i])
 	{
