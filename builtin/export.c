@@ -27,7 +27,12 @@ int	check_env(char *str)
 	char	*head;
 
 	head = ft_strchr(str, '=');
-	if (!head || (head == str))
+	if (head == str)
+	{
+		errno = 1;
+		printf("minishell: export: %s: not a valid identifier\n", str);
+	}
+	if (!head)
 		return (0);
 	while (*str)
 	{
@@ -90,11 +95,6 @@ void	builtin_export(char **input)
 			}
 			else
 				add_env(*input);
-		}
-		else
-		{
-			errno = 1;
-			printf("minishell: export: %s: not a valid identifier\n", *input);
 		}
 	}
 	set_paths();
