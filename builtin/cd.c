@@ -17,7 +17,7 @@ void	builtin_cd(char **execute)
 	char	*pwd;
 
 	pwd = getcwd(0, 0);
-	if (execute[1])
+	if (execute[1] && ft_strcmp(execute[1], "~"))
 	{
 		if (chdir(execute[1]))
 			perror("minishell ");
