@@ -42,7 +42,11 @@ void	create_pipe(t_parsed **command)
 	int	fd[2];
 
 	if (pipe(fd) == -1)
+	{
 		print_error(PIPE_ERR, NULL);
+		fd[0] = -1;
+		fd[1] = -1;
+	}
 	if ((*command)->out_file != g_ms.out_file
 		&& (*command)->out_file != STDOUT_FILENO)
 		close((*command)->out_file);

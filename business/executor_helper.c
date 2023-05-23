@@ -14,6 +14,8 @@
 
 void	command_executor(t_parsed *command)
 {
+	if (command->in_file == -1 || command->out_file == -1)
+		return ;
 	expander(&command);
 	if (is_builtin(command->cmd))
 		execute_builtin(command);

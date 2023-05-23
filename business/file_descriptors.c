@@ -64,9 +64,9 @@ int	write_file_fd(char *file_name, int type)
 		fd = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0666);
 	else if (type == TOKEN_APPEND)
 		fd = open(file_name, O_CREAT | O_WRONLY | O_APPEND, 0666);
-	if (fd > 0)
-		return (fd);
-	return (print_error(FILE_NOT_FOUND, file_name));
+	if (fd < 0)
+		print_error(FILE_NOT_FOUND, file_name);
+	return (fd);
 }
 
 void	close_fd_parantheses(t_parsed *command)
