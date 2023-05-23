@@ -27,10 +27,18 @@ void	put_char(char *input)
 void	builtin_echo(char **input)
 {
 	int	i;
+	int	j;
 
 	i = 1;
-	while (input[i] && !ft_strncmp(input[i], "-n", 3))
+	while (input[i] && !ft_strncmp(input[i], "-n", 2))
+	{
+		j = 1;
+		while(input[i][j] && input[i][j] == 'n')
+			j++;
+		if (input[i][j] != '\0')
+			break ;
 		i++;
+	}
 	while (input[i])
 	{
 		put_char(input[i]);
