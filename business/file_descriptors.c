@@ -21,7 +21,6 @@ void	close_fd(t_parsed *command)
 		close(command->out_file);
 }
 
-//*******While döngüsünün içini kontrol edelim********
 int	here_doc_fd(char *limiter)
 {
 	char	*input;

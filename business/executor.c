@@ -33,6 +33,8 @@ void	apply_redirection(t_parsed **command)
 		else if (file_list->type == TOKEN_APPEND)
 			(*command)->out_file = write_file_fd(file_list->file_name,
 					file_list->type);
+		if ((*command)->in_file < 0 || (*command)->out_file < 0)
+			break ;
 		file_list = file_list->next;
 	}
 }
