@@ -60,6 +60,7 @@ int	write_file_fd(char *file_name, int type)
 {
 	int	fd;
 
+	fd = 0;
 	if (type == TOKEN_GREATER)
 		fd = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0666);
 	else if (type == TOKEN_APPEND)
