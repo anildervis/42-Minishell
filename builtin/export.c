@@ -78,8 +78,7 @@ void	builtin_export(char **input)
 {
 	int		pos;
 
-	input++;
-	while (*input)
+	while (*(++input))
 	{
 		if (check_env(*input))
 		{
@@ -92,7 +91,11 @@ void	builtin_export(char **input)
 			else
 				add_env(*input);
 		}
-		input++;
+		else
+		{
+			errno = 1;
+			printf("minishell: export: %s: not a valid identifier\n", *input);
+		}
 	}
 	set_paths();
 	if (g_ms.parent_pid != getpid())
