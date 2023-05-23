@@ -48,6 +48,4 @@ void	builtin_echo(char **input)
 	}
 	if (ft_strcmp(input[1], "-n"))
 		write(STDOUT_FILENO, "\n", 1);
-	if (g_ms.parent_pid != getpid())
-		exit(0);
 }

@@ -95,6 +95,4 @@ void	builtin_export(char **input)
 		input++;
 	}
 	set_paths();
-	if (g_ms.parent_pid != getpid())
-		exit(1);
 }

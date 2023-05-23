@@ -48,6 +48,4 @@ void	builtin_unset(char **input)
 	}
 	free(data);
 	set_paths();
-	if (g_ms.parent_pid != getpid())
-		exit(1);
 }

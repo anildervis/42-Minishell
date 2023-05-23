@@ -12,24 +12,37 @@
 
 #include "../minishell.h"
 
+void	set_working_directories(char *pwd)
+{
+	set_current_pwd();
+	set_old_pwd(pwd);
+}
+
 void	builtin_cd(char **execute)
 {
 	char	*pwd;
+	char	*old_pwd;
 
 	pwd = getcwd(0, 0);
-	if (execute[1] && ft_strcmp(execute[1], "~"))
+	old_pwd = get_env("OLDPWD");
+	if (execute[1] && !ft_strcmp(execute[1], "-"))
+	{
+		if (!(*old_pwd))
+			perror("minishell ");
+		printf("%s\n", old_pwd);
+	}
+	else if (execute[1] && ft_strcmp(execute[1], "~"))
 	{
 		if (chdir(execute[1]))
 			perror("minishell ");
-		else
-		{
-			set_current_pwd();
-			set_old_pwd(pwd);
-		}
+		set_working_directories(pwd);
 	}
-	else if (chdir(getenv("HOME")))
-		perror("minishell ");
+	else
+	{
+		if (chdir(getenv("HOME")))
+			perror("minishell ");
+		set_working_directories(pwd);
+	}
 	free(pwd);
-	if (g_ms.parent_pid != getpid())
-		exit(errno);
+	free(old_pwd);
 }

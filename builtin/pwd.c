@@ -22,6 +22,4 @@ void	builtin_pwd(void)
 	else
 		printf("%s\n", cwd);
 	free(cwd);
-	if (g_ms.parent_pid != getpid())
-		exit(errno);
 }
