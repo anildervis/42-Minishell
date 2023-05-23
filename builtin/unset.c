@@ -42,10 +42,18 @@ void	builtin_unset(char **input)
 	input++;
 	while (*input)
 	{
-		data = ft_strjoin(*input, "=");
-		remove_env(data);
+		if (ft_strchr(*input, '='))
+		{
+			errno = 1;
+			printf("minishell: unset: `%s': not a valid identifier\n", *input);
+		}
+		else
+		{
+			data = ft_strjoin(*input, "=");
+			remove_env(data);
+			free(data);
+		}
 		input++;
 	}
-	free(data);
 	set_paths();
 }
