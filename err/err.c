@@ -16,28 +16,58 @@
 int	print_error(int error_code, char *param)
 {
 	errno = error_code;
-	if (errno == FILE_NOT_FOUND)
-		printf("minishell: %s: No such file or directory\n", param);
-	else if (errno == SYNTAX_ERROR)
-		printf("bash: syntax error near unexpected token '%s\n'", param);
-	else if (errno == CMD_NOT_FOUND)
-		printf("minishell: %s: command not found\n", param);
-	else if (errno == PERM_DENIED)
-		printf("permission denied on %s\n", param);
-	else if (errno == SYSTEM_ERR)
-		printf("internal code error\n");
-	else if (errno == MEMORY_ERR)
-		printf("memory allocation failed\n");
-	else if (errno == DUP_ERR)
-		printf("could not duplicate fd\n");
-	else if (errno == FORK_ERR)
-		printf("could not create fork\n");
-	else if (errno == PIPE_ERR)
-		printf("could not create pipe\n");
+	syntax_errors(param);
+	not_found_errors(param);
+	system_errors(param);
 	if (g_ms.parent_pid != getpid())
 		exit(errno);
-	// free minishell ?
 	return (errno);
+}
+
+void	syntax_errors(char *param)
+{
+	if (errno == SYNTAX_ERROR)
+	{
+		perror("bash: syntax error near unexpected token '");
+		perror(param);
+		perror("'\n");
+	}
+}
+
+void	not_found_errors(char *param)
+{
+	if (errno == FILE_NOT_FOUND)
+	{
+		perror("minishell: ");
+		perror(param);
+		perror("No such file or directory\n");
+	}
+	else if (errno == CMD_NOT_FOUND)
+	{
+		perror("minishell: ");
+		perror(param);
+		perror("command not found\n");
+	}
+}
+
+void	system_errors(char *param)
+{
+	if (errno == SYSTEM_ERR)
+		perror("internal code error\n");
+	else if (errno == MEMORY_ERR)
+		perror("memory allocation failed\n");
+	else if (errno == DUP_ERR)
+		perror("could not duplicate fd\n");
+	else if (errno == FORK_ERR)
+		perror("could not create fork\n");
+	else if (errno == PIPE_ERR)
+		perror("could not create pipe\n");
+	else if (errno == PERM_DENIED)
+	{
+		perror("permission denied on ");
+		perror(param);
+		perror("\n");
+	}
 }
 
 void	open_file_error(void)
