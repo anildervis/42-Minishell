@@ -27,9 +27,9 @@ void	builtin_cd(char **execute)
 			set_old_pwd(pwd);
 		}
 	}
-	else
-		if (chdir(getenv("HOME")))
-			perror("minishell ");
+	else if (chdir(getenv("HOME")))
+		perror("minishell ");
+	free(pwd);
 	if (g_ms.parent_pid != getpid())
 		exit(errno);
 }

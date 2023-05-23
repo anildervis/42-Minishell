@@ -93,7 +93,7 @@ char *display_prompt()
 	free(user);
 	str = ft_strjoin_freed(str, "@\033[34m", 0b10);
 	str = ft_strjoin_freed(str, getcwd(0, 0), 0b11);
-	str = ft_strjoin_freed(str, " \033[31m︻\033[0m\033[32m┳\033[0m\033[33mデ\033[0m\033[34m═\033[0m\033[35m—\033[0m$ ", 0b10);
+	str = ft_strjoin_freed(str, "\033[0m$ ", 0b10);
 	return (str);
 }
 
