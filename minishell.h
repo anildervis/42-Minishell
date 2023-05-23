@@ -126,7 +126,7 @@ typedef struct s_parsed
 
 extern t_ms			g_ms;
 
-// utils
+//--------------utils--------------
 char				*ft_strdup(const char *str);
 void				init_ms(char **ev);
 char				*get_env(char *str);
@@ -163,20 +163,21 @@ size_t				ft_strcpy(char *dst, const char *src);
 void				set_current_pwd(void);
 void				set_old_pwd(char *pwd);
 
-//error
-// void	cmd_err(char *str);
-// void	no_file_err(char *str);
+//--------------error--------------
 int					print_error(int error_code, char *param);
+void				syntax_errors(char *param);
+void				not_found_errors(char *param);
+void				system_errors(char *param);
 void				open_file_error(void);
 
-//free
+//--------------free--------------
 void				free_array(char **arr);
 void				free_all(t_token *tokens, t_parsed **parsed_commands);
 void				free_tokens(t_token *tokens);
 void				free_parsed(t_parsed **parsed_commands);
 void				free_redirections(t_file *file_list);
 
-//builtin
+//--------------builtin--------------
 int					is_builtin(char *command);
 void				run_builtin(char **exe);
 void				builtin_cd(char **execute);
@@ -252,7 +253,7 @@ int					organizer_conditions(t_parsed *tmp_command);
 int					ft_token_checker(t_token *tmp, int *p_count);
 int					ft_token_sgha(t_token *tmp, int *p_count);
 int					ft_token_paoc(t_token *tmp);
-
 int					ft_decide_type(t_token **command_table, t_parsed **command);
 int					ft_is_redirect(t_token **command_table);
+
 #endif
