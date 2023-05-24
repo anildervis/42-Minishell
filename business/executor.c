@@ -39,24 +39,31 @@ void	apply_redirection(t_parsed **command)
 	}
 }
 
-void	create_pipe(t_parsed **command)
+void	create_pipes(t_parsed **original_command)
 {
 	int	fd[2];
-
-	if (pipe(fd) == -1)
+	t_parsed **command;
+	
+	command = original_command;
+	while ((*command) && (*command)->next)
 	{
-		print_error(PIPE_ERR, NULL);
-		fd[0] = -1;
-		fd[1] = -1;
+		if (pipe(fd) == -1)
+		{
+			print_error(PIPE_ERR, NULL);
+			fd[0] = -1;
+			fd[1] = -1;
+		}
+		if ((*command)->out_file != g_ms.out_file
+			&& (*command)->out_file != STDOUT_FILENO)
+			close((*command)->out_file);
+		(*command)->out_file = fd[WRITE_END];
+		if ((*command)->next->in_file != g_ms.out_file
+			&& (*command)->next->in_file != STDIN_FILENO)
+			close((*command)->next->in_file);
+		(*command)->next->in_file = fd[READ_END];
+		if ((*command)->next)
+			(*command) = (*command)->next;
 	}
-	if ((*command)->out_file != g_ms.out_file
-		&& (*command)->out_file != STDOUT_FILENO)
-		close((*command)->out_file);
-	(*command)->out_file = fd[WRITE_END];
-	if ((*command)->next->in_file != g_ms.out_file
-		&& (*command)->next->in_file != STDIN_FILENO)
-		close((*command)->next->in_file);
-	(*command)->next->in_file = fd[READ_END];
 }
 
 void	create_redirections(t_parsed **andor_table)
@@ -68,10 +75,10 @@ void	create_redirections(t_parsed **andor_table)
 	while (andor_table[++i])
 	{
 		tmp_command = andor_table[i];
+		create_pipes(&tmp_command);
+		tmp_command = andor_table[i];
 		while (tmp_command)
 		{
-			if (tmp_command->next)
-				create_pipe(&tmp_command);
 			apply_redirection(&tmp_command);
 			if (tmp_command->paranthesis)
 			{

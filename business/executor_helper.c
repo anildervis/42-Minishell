@@ -31,8 +31,8 @@ void	execute_builtin(t_parsed *command)
 	errno = 0;
 	in = dup(g_ms.in_file);
 	out = dup(g_ms.out_file);
-	dup2(command->in_file, g_ms.in_file);
-	dup2(command->out_file, g_ms.out_file);
+	dup2(command->in_file, STDIN_FILENO);
+	dup2(command->out_file, STDOUT_FILENO);
 	run_builtin(command->arguments);
 	close_fd(command);
 	dup2(in, g_ms.in_file);

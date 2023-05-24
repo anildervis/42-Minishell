@@ -240,7 +240,7 @@ int					write_file_fd(char *file_name, int type);
 void				apply_redirection(t_parsed **command);
 void				child_organizer(t_parsed *command);
 void				command_executor(t_parsed *command);
-void				create_pipe(t_parsed **command);
+void				create_pipes(t_parsed **original_command);
 void				create_redirections(t_parsed **andor_table);
 void				organizer(t_parsed **andor_table);
 void				executor(t_parsed **andor_table);
