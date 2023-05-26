@@ -39,12 +39,10 @@ void	apply_redirection(t_parsed **command)
 	}
 }
 
-void	create_pipes(t_parsed **original_command)
+void	create_pipes(t_parsed **command)
 {
 	int	fd[2];
-	t_parsed **command;
-	
-	command = original_command;
+
 	while ((*command) && (*command)->next)
 	{
 		if (pipe(fd) == -1)

@@ -44,6 +44,7 @@ void	execute_builtin(t_parsed *command)
 void	execute_not_builtin(t_parsed *command)
 {
 	pid_t	pid;
+	char	*command_path;
 
 	pid = fork();
 	g_ms.child_pids[g_ms.child_pids_count++] = pid;
@@ -59,7 +60,9 @@ void	execute_not_builtin(t_parsed *command)
 		dup2(command->in_file, STDIN_FILENO);
 		dup2(command->out_file, STDOUT_FILENO);
 		close_fd(command);
-		execve(get_path(command->cmd), command->arguments, g_ms.ev);
+		command_path = get_path(command->cmd);
+		execve(command_path, command->arguments, g_ms.ev);
+		free(command_path);
 		print_error(CMD_NOT_FOUND, command->cmd);
 		exit(errno);
 	}
