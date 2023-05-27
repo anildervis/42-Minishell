@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/20 14:11:25 by binurtas          #+#    #+#             */
-/*   Updated: 2023/05/20 18:42:32 by binurtas         ###   ########.fr       */
+/*   Created: 2023/05/27 18:32:26 by aderviso          #+#    #+#             */
+/*   Updated: 2023/05/27 15:00:26 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,32 +80,4 @@ void	get_next_token(t_token *command_table)
 	free(input);
 	new_tokens->prev = tmp_command_table;
 	tmp_command_table->next = new_tokens;
-}
-
-int	syntax_check(t_token *ct)
-{
-	t_token	*tmp;
-	int		*p_count;
-	int		t_check1;
-
-	tmp = ct;
-	p_count = malloc(sizeof(int));
-	*p_count = 0;
-	while (tmp)
-	{
-		t_check1 = ft_token_checker(tmp, p_count);
-		if (t_check1 == 0)
-			continue ;
-		if (t_check1 != -5)
-			return (t_check1);
-		if (!tmp->next && *p_count > 0)
-		{
-			free(p_count);
-			get_next_token(tmp);
-			continue ;
-		}
-		tmp = tmp->next;
-	}
-	free(p_count);
-	return (0);
 }

@@ -156,7 +156,6 @@ int					list_len(char **char_list);
 int					ft_strnsearch(char *string, char *chars_to_search,
 						size_t len);
 int					is_metacharacter(char c);
-int					token_str_lexer(char *input);
 t_token				*new_token(enum e_tokens type, char *value);
 char				*ft_strjoin_freed(char *s1, char *s2, int free_place);
 size_t				ft_strcpy(char *dst, const char *src);
@@ -196,9 +195,12 @@ int					add_token(char *input, t_token *command_table,
 void				find_token(char *input, t_token *command_table);
 t_token				*tokenizer(char *input);
 void				get_next_token(t_token *command_table);
-int					syntax_check(t_token *command_table);
 int					init_token(char *input, t_token *command_table);
 int					init_token_continue(char *input, t_token *command_table);
+void				not_paired(char **str, int *i);
+void				adding_new_tokens_to_list(t_token *command_table, char *str);
+void				string_completer(t_token *command_table);
+int					syntax_check(t_token *command_table);
 
 //--------------expander--------------
 int					add_double_quote(char **str, char *val);
