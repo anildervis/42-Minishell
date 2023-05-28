@@ -236,6 +236,7 @@ t_parsed			**parse_commands(int in_file, int out_file,
 
 //--------------executor--------------
 void				close_fd(t_parsed *command);
+void				close_all_fds();
 int					here_doc_fd(char *limiter);
 int					read_file_fd(char *file_name, int type);
 int					write_file_fd(char *file_name, int type);
@@ -246,7 +247,6 @@ void				create_pipes(t_parsed **command);
 void				create_redirections(t_parsed **andor_table);
 void				organizer(t_parsed **andor_table);
 void				executor(t_parsed **andor_table);
-void				close_fd_parantheses(t_parsed *command);
 void				execute_builtin(t_parsed *command);
 void				execute_not_builtin(t_parsed *command);
 int					organizer_conditions(t_parsed *tmp_command);

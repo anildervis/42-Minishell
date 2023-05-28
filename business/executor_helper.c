@@ -59,7 +59,7 @@ void	execute_not_builtin(t_parsed *command)
 			close(command->next->in_file);
 		dup2(command->in_file, STDIN_FILENO);
 		dup2(command->out_file, STDOUT_FILENO);
-		close_fd(command);
+		close_all_fds();
 		command_path = get_path(command->cmd);
 		execve(command_path, command->arguments, g_ms.ev);
 		free(command_path);
@@ -91,12 +91,11 @@ void	child_organizer(t_parsed *command)
 		g_ms.out_file = command->out_file;
 		organizer(command->parantheses_andor);
 		close_fd(command);
-		free_all(g_ms.tokens, g_ms.parsed_commands);
 		exit(0);
 	}
 	usleep(10000);
 	close_fd(command);
-	close_fd_parantheses(command);
+	close_all_fds(command->parantheses_andor);
 }
 
 int	organizer_conditions(t_parsed *tmp_command)

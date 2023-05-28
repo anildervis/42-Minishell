@@ -21,6 +21,28 @@ void	close_fd(t_parsed *command)
 		close(command->out_file);
 }
 
+void	close_all_fds()
+{
+	t_parsed	**tmp_command_table;
+	t_parsed	*tmp_command;
+	int			i;
+
+	i = -1;
+	tmp_command_table = g_ms.parsed_commands;
+	while (tmp_command_table[++i])
+	{
+		tmp_command = tmp_command_table[i];
+		while (tmp_command)
+		{
+			if (tmp_command->paranthesis)
+				close_all_fds(tmp_command->parantheses_andor);
+			else
+				close_fd(tmp_command);
+			tmp_command = tmp_command->next;
+		}
+	}
+}
+
 int	here_doc_fd(char *limiter)
 {
 	char	*input;
@@ -67,28 +89,4 @@ int	write_file_fd(char *file_name, int type)
 	if (fd < 0)
 		print_error(FILE_NOT_FOUND, file_name);
 	return (fd);
-}
-
-void	close_fd_parantheses(t_parsed *command)
-{
-	int			i;
-	t_parsed	*tmp_command;
-	t_parsed	**tmp_andor_table;
-
-	if (command->paranthesis)
-	{
-		tmp_andor_table = command->parantheses_andor;
-		i = -1;
-		while (tmp_andor_table[++i])
-		{
-			tmp_command = tmp_andor_table[i];
-			while (tmp_command)
-			{
-				close_fd(tmp_command);
-				if (tmp_command->paranthesis)
-					close_fd(command);
-				tmp_command = tmp_command->next;
-			}
-		}
-	}
 }
