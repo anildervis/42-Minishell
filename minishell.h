@@ -236,7 +236,7 @@ t_parsed			**parse_commands(int in_file, int out_file,
 
 //--------------executor--------------
 void				close_fd(t_parsed *command);
-void				close_all_fds();
+void				close_all_fds(t_parsed **command_table);
 int					here_doc_fd(char *limiter);
 int					read_file_fd(char *file_name, int type);
 int					write_file_fd(char *file_name, int type);

@@ -97,10 +97,10 @@ void	organizer(t_parsed **andor_table)
 	t_parsed	*tmp_command;
 
 	child_count = 0;
-	g_ms.child_pids_count = 0;
 	i = -1;
 	while (andor_table[++i])
 	{
+		g_ms.child_pids_count = 0;
 		tmp_command = andor_table[i];
 		if (organizer_conditions(tmp_command))
 		{
@@ -113,10 +113,10 @@ void	organizer(t_parsed **andor_table)
 				tmp_command = tmp_command->next;
 			}
 		}
+		while (child_count < g_ms.child_pids_count)
+			waitpid(g_ms.child_pids[child_count++], &errno, 0);
+		ft_bzero(g_ms.child_pids, sizeof(int) * g_ms.child_pids_count);
 	}
-	while (child_count < g_ms.child_pids_count)
-		waitpid(g_ms.child_pids[child_count++], &errno, 0);
-	ft_bzero(g_ms.child_pids, sizeof(int) * g_ms.child_pids_count);
 }
 
 void	executor(t_parsed **andor_table)

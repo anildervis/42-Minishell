@@ -59,7 +59,7 @@ void	execute_not_builtin(t_parsed *command)
 			close(command->next->in_file);
 		dup2(command->in_file, STDIN_FILENO);
 		dup2(command->out_file, STDOUT_FILENO);
-		close_all_fds();
+		close_all_fds(g_ms.parsed_commands);
 		command_path = get_path(command->cmd);
 		execve(command_path, command->arguments, g_ms.ev);
 		free(command_path);
@@ -90,8 +90,8 @@ void	child_organizer(t_parsed *command)
 		g_ms.in_file = command->in_file;
 		g_ms.out_file = command->out_file;
 		organizer(command->parantheses_andor);
-		close_fd(command);
-		exit(0);
+		close_all_fds(g_ms.parsed_commands);
+		exit(errno);
 	}
 	usleep(10000);
 	close_fd(command);

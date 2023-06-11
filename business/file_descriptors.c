@@ -14,21 +14,20 @@
 
 void	close_fd(t_parsed *command)
 {
-	if (command->in_file != g_ms.in_file && command->in_file != STDIN_FILENO)
+	if (command->in_file != STDIN_FILENO)
 		close(command->in_file);
-	if (command->out_file != g_ms.out_file
-		&& command->out_file != STDOUT_FILENO)
+	if (command->out_file != STDOUT_FILENO)
 		close(command->out_file);
 }
 
-void	close_all_fds()
+void	close_all_fds(t_parsed **command_table)
 {
 	t_parsed	**tmp_command_table;
 	t_parsed	*tmp_command;
 	int			i;
 
 	i = -1;
-	tmp_command_table = g_ms.parsed_commands;
+	tmp_command_table = command_table;
 	while (tmp_command_table[++i])
 	{
 		tmp_command = tmp_command_table[i];
