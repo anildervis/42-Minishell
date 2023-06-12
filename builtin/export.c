@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:59 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/12 17:28:18 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/12 20:50:26 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,7 @@ void	builtin_export(char **input)
 	int		pos;
 
 	if (!input[1])
-	{
-		printf("Buradayim\n");
 		ft_pure_export();
-	}
 	while (*(++input))
 	{
 		if (check_env(*input))
