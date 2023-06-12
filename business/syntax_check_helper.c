@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check_helper.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:37 by binurtas          #+#    #+#             */
-/*   Updated: 2023/05/20 14:11:38 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/12 20:12:09 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	ft_token_checker(t_token *tmp, int *p_count)
 	t_check2 = ft_token_sgha(tmp, p_count);
 	if (t_check1 != 1 || t_check2 != 1)
 	{
-		free(p_count);
 		if (t_check1 != 1)
 			return (t_check1);
 		return (t_check2);

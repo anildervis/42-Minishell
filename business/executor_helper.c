@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:07 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/12 17:19:30 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/12 18:04:51 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	command_executor(t_parsed *command)
 {
 	if (command->in_file == -1 || command->out_file == -1)
 		return ;
+	// if (strcmp(command->cmd, " "))
 	expander(&command);
 	if (is_builtin(command->cmd))
 		execute_builtin(command);

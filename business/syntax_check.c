@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 18:41:04 by aderviso          #+#    #+#             */
-/*   Updated: 2023/06/12 15:01:36 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/12 20:12:13 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,25 +74,23 @@ void	string_completer(t_token *command_table)
 int	syntax_check(t_token *ct)
 {
 	t_token	*tmp;
-	int		*p_count;
+	int		p_count;
 	int		t_check1;
 
 	tmp = ct;
-	p_count = malloc(sizeof(int));
-	*p_count = 0;
+	p_count = 0;
 	while (tmp)
 	{
-		t_check1 = ft_token_checker(tmp, p_count);
+		t_check1 = ft_token_checker(tmp, &p_count);
 		if (t_check1 == 0)
 			continue ;
 		if (t_check1 != -5)
 			return (t_check1);
 		if (tmp->type == TOKEN_STR)
 			string_completer(tmp);
-		if (!tmp->next && *p_count > 0)
+		if (!tmp->next && p_count > 0)
 			get_next_token(tmp);
 		tmp = tmp->next;
 	}
-	free(p_count);
 	return (0);
 }
