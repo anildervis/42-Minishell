@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:13:52 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/12 14:56:39 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:30:43 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,9 @@ char				*ft_strjoin_freed(char *s1, char *s2, int free_place);
 size_t				ft_strcpy(char *dst, const char *src);
 void				set_current_pwd(void);
 void				set_old_pwd(char *pwd);
+int 				ft_size_aoa(char **arr);
+void				ft_pure_export(void);
+void				ft_pure_export_print(char **export);
 
 //--------------error--------------
 int					print_error(int error_code, char *param);
