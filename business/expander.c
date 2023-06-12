@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:16 by binurtas          #+#    #+#             */
-/*   Updated: 2023/05/20 14:11:17 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:17:46 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*check_str(char *value)
 
 	i = 0;
 	str = ft_calloc(2, sizeof(char));
-	while (*(value + i))
+	while (value && *(value + i))
 	{
 		if (*(value + i) == *DOUBLE_QUOTE)
 			i += add_double_quote(&str, (value + i));
@@ -71,7 +71,7 @@ void	expander(t_parsed **command)
 
 	i = -1;
 	(*command)->cmd = check_str((*command)->cmd);
-	while ((*command)->arguments[++i])
+	while ((*command)->arguments && (*command)->arguments[++i])
 	{
 		(*command)->arguments[i] = check_str((*command)->arguments[i]);
 		if (!wildcard_count((*command)->arguments[i]))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:12:18 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/12 14:24:50 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:23:14 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	free_array(char **arr)
 	int	i;
 
 	i = -1;
-	while (arr[++i])
+	while (arr && arr[++i])
 		free(arr[i]);
 	free(arr);
 }

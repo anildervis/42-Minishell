@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:46 by binurtas          #+#    #+#             */
-/*   Updated: 2023/05/20 14:11:47 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/12 16:57:09 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@ int	is_builtin(char *command)
 {
 	if (!ft_strcmp(command, "cd"))
 		return (CD);
-	if (!ft_strcmp(command, "env"))
+	else if (!ft_strcmp(command, "env"))
 		return (ENV);
-	if (!ft_strcmp(command, "pwd"))
+	else if (!ft_strcmp(command, "pwd"))
 		return (PWD);
-	if (!ft_strcmp(command, "echo"))
+	else if (!ft_strcmp(command, "echo"))
 		return (ECHO);
-	if (!ft_strcmp(command, "exit"))
+	else if (!ft_strcmp(command, "exit"))
 		return (EXIT);
-	if (!ft_strcmp(command, "unset"))
+	else if (!ft_strcmp(command, "unset"))
 		return (UNSET);
-	if (!ft_strcmp(command, "export"))
+	else if (!ft_strcmp(command, "export"))
 		return (EXPORT);
 	return (0);
 }
@@ -38,16 +38,16 @@ void	run_builtin(char **exe)
 	type = is_builtin(exe[0]);
 	if (type == CD)
 		builtin_cd(exe);
-	if (type == ENV)
+	else if (type == ENV)
 		builtin_env();
-	if (type == PWD)
+	else if (type == PWD)
 		builtin_pwd();
-	if (type == ECHO)
+	else if (type == ECHO)
 		builtin_echo(exe);
-	if (type == EXIT)
+	else if (type == EXIT)
 		builtin_exit(exe);
-	if (type == UNSET)
+	else if (type == UNSET)
 		builtin_unset(exe);
-	if (type == EXPORT)
+	else if (type == EXPORT)
 		builtin_export(exe);
 }
