@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:10 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/12 17:20:11 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/12 20:47:43 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	organizer(t_parsed **andor_table)
 				if (tmp_command->paranthesis)
 					child_organizer(tmp_command);
 				else
-					command_executor(tmp_command);
+					command_executor(tmp_command, i);
 				tmp_command = tmp_command->next;
 			}
 		}

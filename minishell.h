@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:13:52 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/12 17:51:32 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/12 20:48:05 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,7 +247,7 @@ int					read_file_fd(char *file_name, int type);
 int					write_file_fd(char *file_name, int type);
 void				apply_redirection(t_parsed **command);
 void				child_organizer(t_parsed *command);
-void				command_executor(t_parsed *command);
+void				command_executor(t_parsed *command, int i);
 void				create_pipes(t_parsed **command);
 void				create_redirections(t_parsed **andor_table);
 void				organizer(t_parsed **andor_table);

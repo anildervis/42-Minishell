@@ -6,20 +6,41 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:07 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/12 18:04:51 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/12 20:55:56 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	command_executor(t_parsed *command)
+void	command_executor(t_parsed *command, int i)
 {
+	pid_t	pid;
+	
 	if (command->in_file == -1 || command->out_file == -1)
 		return ;
-	// if (strcmp(command->cmd, " "))
+	if (!(command->cmd) || !ft_strnsearch(command->cmd, " \n\t",
+			ft_strlen(command->cmd)))
+		return ;
 	expander(&command);
 	if (is_builtin(command->cmd))
-		execute_builtin(command);
+	{
+		if (g_ms.parsed_commands[i]->next)
+		{
+			pid = fork();
+			g_ms.child_pids[g_ms.child_pids_count++] = pid;
+			if ((pid) < 0)
+				print_error(FORK_ERR, NULL);
+			if (!pid)
+			{
+				execute_builtin(command);
+				exit(errno);
+			}
+			usleep(10000);
+			close_fd(command);
+		}
+		else
+			execute_builtin(command);			
+	}
 	else
 		execute_not_builtin(command);
 }
