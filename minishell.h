@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:13:52 by binurtas          #+#    #+#             */
-/*   Updated: 2023/05/20 18:49:53 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/12 14:56:39 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,8 @@ void				get_next_token(t_token *command_table);
 int					init_token(char *input, t_token *command_table);
 int					init_token_continue(char *input, t_token *command_table);
 void				not_paired(char **str, int *i);
-void				adding_new_tokens_to_list(t_token *command_table, char *str);
+void				adding_new_tokens_to_list(t_token *command_table,
+						char *str);
 void				string_completer(t_token *command_table);
 int					syntax_check(t_token *command_table);
 
@@ -214,11 +215,12 @@ void				add_wildcard_to_list(char *path, char ***arguments);
 void				expander(t_parsed **command);
 int					add_dollar_other(char **str, char *val);
 int					wildcard_count(char *wild_string);
-int					checking_between_wildcards(int wildcard_count, char *wild_str,
-					char *expected_str);
+int					checking_between_wildcards(int wildcard_count,
+						char *wild_str, char *expected_str);
 int					is_wild_eq_string(char *wild_str, char *expected_str);
 void				add_wildcard_to_list(char *path, char ***arguments);
-void				wildcard(char *path, char **destined_path, int way, char ***arguments);
+void				wildcard(char *path, char **destined_path,
+						int way, char ***arguments);
 
 //--------------parser--------------
 int					andor_count(t_token *command_table);

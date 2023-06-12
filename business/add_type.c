@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_type.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:02 by binurtas          #+#    #+#             */
-/*   Updated: 2023/05/20 14:20:37 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/12 14:57:44 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,6 @@ void	add_paranthesis(t_token **command_table, t_parsed **command)
 	}
 }
 
-/*
-tokenlar command olurken her komutun kendi argümanları oluşuyor.
-exmp : echo "bilal" > bilal
-burada echo bir komut ve argümanları "echo" "bilal" şeklinde iki char arrayi oluyor.
-*/
 void	add_argument(t_token **command_table, t_parsed **command)
 {
 	int		i;
@@ -76,13 +71,6 @@ t_parsed	*add_parse(t_token **command_table, t_parsed **old_command)
 	return (new_command);
 }
 
-/*
-echo bilal > bilal için:
-> tokenda(greater) bu fonksiyon çalışacak ve echo komutumuz için bir file list oluşacak.
-echo komutunun file listi bu fonksiyon bittikten sonra
-file_list->type = greater
-file_list->file_name = bilal (bu bilal greater tokenından ardından gelen bilal)
-*/
 void	add_redirection(t_token **command_table, t_parsed **command)
 {
 	t_file	*file_list;
@@ -93,7 +81,7 @@ void	add_redirection(t_token **command_table, t_parsed **command)
 	file_list->next = NULL;
 	file_list->type = (*command_table)->type;
 	(*command_table) = (*command_table)->next;
-	file_list->file_name = (*command_table)->value; // if there is?
+	file_list->file_name = (*command_table)->value;
 	if (!tmp_list)
 		(*command)->file_list = file_list;
 	else

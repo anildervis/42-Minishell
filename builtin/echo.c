@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:51 by binurtas          #+#    #+#             */
-/*   Updated: 2023/05/20 14:11:52 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/12 14:57:06 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	builtin_echo(char **input)
 	while (input[i] && !ft_strncmp(input[i], "-n", 2))
 	{
 		j = 1;
-		while(input[i][j] && input[i][j] == 'n')
+		while (input[i][j] && input[i][j] == 'n')
 			j++;
 		if (input[i][j] != '\0')
 			break ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_helper.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:07 by binurtas          #+#    #+#             */
-/*   Updated: 2023/05/20 14:11:08 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/12 14:52:09 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,18 +83,18 @@ void	child_organizer(t_parsed *command)
 		signal(SIGINT, &ctrl_c);
 		signal(SIGQUIT, SIG_IGN);
 		g_ms.parent_pid = getpid();
-		if (command->prev && command->prev->out_file != STDOUT_FILENO)
-			close(command->prev->out_file);
-		if (command->next && command->next->in_file != STDIN_FILENO)
-			close(command->next->in_file);
+		// if (command->prev && command->prev->out_file != STDOUT_FILENO)
+		// 	close(command->prev->out_file);
+		// if (command->next && command->next->in_file != STDIN_FILENO)
+		// 	close(command->next->in_file);
 		g_ms.in_file = command->in_file;
 		g_ms.out_file = command->out_file;
 		organizer(command->parantheses_andor);
-		close_all_fds(g_ms.parsed_commands);
+		// close_all_fds(g_ms.parsed_commands);
 		exit(errno);
 	}
 	usleep(10000);
-	close_fd(command);
+	// close_fd(command);
 	close_all_fds(command->parantheses_andor);
 }
 

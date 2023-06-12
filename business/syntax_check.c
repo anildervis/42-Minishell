@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderviso <aderviso@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 18:41:04 by aderviso          #+#    #+#             */
-/*   Updated: 2023/05/27 18:41:04 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:01:36 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,9 @@ void	adding_new_tokens_to_list(t_token *command_table, char *str)
 
 void	string_completer(t_token *command_table)
 {
-
 	char	*str;
 	int		i;
-	
+
 	str = ft_strdup(command_table->value);
 	i = -1;
 	while (*(str + ++i))

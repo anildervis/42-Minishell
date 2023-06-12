@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:29 by binurtas          #+#    #+#             */
-/*   Updated: 2023/05/20 15:26:07 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:00:17 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	init_ms(char **ev)
 	g_ms.in_file = STDIN_FILENO;
 	g_ms.out_file = STDOUT_FILENO;
 	g_ms.ev = set_ev(ev);
-	g_ms.paths = ft_split(getenv("PATH"), ':'); //Kontrol et
+	g_ms.paths = ft_split(getenv("PATH"), ':');
 }
 
 void	init_shell(char *str)
@@ -73,10 +73,10 @@ void	display_prompt_print(void)
 |__/     |__/|__/|__/  |__/|__/|_______/ |__/  |__/ \\_______/|__/|__/\n\n");
 }
 
-char *display_prompt()
+char	*display_prompt(void)
 {
-	char *str;
-	char *user;
+	char	*str;
+	char	*user;
 
 	user = get_env("USER");
 	if (!g_ms.opening_prompt)
@@ -108,7 +108,8 @@ int	main(int ac, char **av, char **ev)
 		g_ms.ignore = 0;
 		signal(SIGINT, &ctrl_c);
 		signal(SIGQUIT, SIG_IGN);
-		str = readline(prompt = display_prompt());
+		prompt = display_prompt();
+		str = readline(prompt);
 		free(prompt);
 		ctrl_d(str);
 		if (g_ms.ignore)
