@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   wildcard.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/12 14:32:22 by binurtas          #+#    #+#             */
+/*   Updated: 2023/06/12 14:40:12 by binurtas         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	wildcard_count(char *wild_string)
@@ -15,7 +27,6 @@ int	wildcard_count(char *wild_string)
 	return (wildcard_count);
 }
 
-// returns 0 if the strings doesn't match
 int	checking_between_wildcards(int wildcard_count, char *wild_str,
 		char *expected_str)
 {
@@ -35,7 +46,6 @@ int	checking_between_wildcards(int wildcard_count, char *wild_str,
 	if (ft_strlen(expected_str) > ft_strlen(wild_str))
 		expected_str += ft_strlen(expected_str) - ft_strlen(wild_str);
 	return (!ft_strcmp(wild_str, expected_str));
-	// comparing the part after the last wildcard
 }
 
 int	is_wild_eq_string(char *wild_str, char *expected_str)
@@ -45,19 +55,16 @@ int	is_wild_eq_string(char *wild_str, char *expected_str)
 
 	i = 0;
 	count = wildcard_count(wild_str);
-	if (!count) // getting wildcard count
+	if (!count)
 		return (!ft_strcmp(wild_str, expected_str));
 	i = 0;
 	while (wild_str[i] && wild_str[i] != *WILD_CARD)
-	// getting the index of first wildcard
 		i++;
 	if (i != 0 && ft_strncmp(wild_str, expected_str, i))
-	// comparing the part before the first wildcard
 		return (0);
 	wild_str += i + 1;
 	expected_str += i;
 	if (!checking_between_wildcards(count, wild_str, expected_str))
-	// checking if between the wildcards are correct
 		return (0);
 	return (1);
 }
@@ -100,7 +107,7 @@ void	wildcard(char *path, char **destined_path, int way, char ***arguments)
 				destined_path[way], 1))
 			if (is_wild_eq_string(destined_path[way], ent->d_name))
 				add_wildcard_to_list(ft_strjoin_freed(ft_strjoin(path, "/"),
-					ent->d_name, 0b10), arguments);
+						ent->d_name, 0b10), arguments);
 		ent = readdir(dir);
 	}
 	closedir(dir);

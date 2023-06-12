@@ -6,7 +6,7 @@
 /*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:12:18 by binurtas          #+#    #+#             */
-/*   Updated: 2023/05/20 14:12:19 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/12 14:24:50 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ void	free_parsed(t_parsed **parsed_commands)
 
 void	free_redirections(t_file *file_list)
 {
-	t_file *tmp;
-	t_file *to_free;
+	t_file	*tmp;
+	t_file	*to_free;
 
 	tmp = file_list;
 	while (tmp != NULL)
