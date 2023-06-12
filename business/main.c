@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:29 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/12 17:23:41 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:43:45 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	main(int ac, char **av, char **ev)
 			free(str);
 			str = malloc(1);
 		}
-		if (*str)
+		else if (*str)
 		{
 			init_shell(str);
 			add_history(str);
