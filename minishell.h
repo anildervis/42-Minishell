@@ -38,11 +38,6 @@
 # define READ_END 0
 # define WRITE_END 1
 
-# define ESLASH 1   // Komutun slash karakteri içerdiği hata kodu
-# define EADDPATH 2 // Path eklerken oluşan hata kodu
-# define EPWD 3     // Getcwd fonksiyonu çalışmazsa oluşacak hata kodu
-# define ECD 4      // Chdir fonksiyonu çalışmazsa oluşacak hata kodu
-
 enum				e_builtin_types
 {
 	CD = 1,
