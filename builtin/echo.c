@@ -57,6 +57,6 @@ void	ft_check_enter(char **input)
 	if (input[1] && !ft_strncmp(input[1], "-n", 2))
 		while (input[1][i] && input[1][i] == 'n')
 			i++;
-	if (input[1][i] != '\0' || i == 1)
+	if (input[1] && (input[1][i] != '\0' || i == 1))
 		write(STDOUT_FILENO, "\n", 1);
 }
