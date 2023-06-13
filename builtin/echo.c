@@ -46,6 +46,10 @@ void	builtin_echo(char **input)
 			write(STDOUT_FILENO, " ", 1);
 		i++;
 	}
-	if (ft_strcmp(input[1], "-n"))
+	j = 1;
+	if (input[1] && !ft_strncmp(input[1], "-n", 2))
+		while (input[1][j] && input[1][j] == 'n')
+			j++;
+	if (input[1][j] != '\0')
 		write(STDOUT_FILENO, "\n", 1);
 }
