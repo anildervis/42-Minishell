@@ -49,7 +49,7 @@ int	add_dollar(char **str, char *val)
 	else if (*(val + 1) == *QUESTION_MARK)
 		*str = ft_strjoin_freed(*str, ft_itoa(errno), 0b11);
 	else if (*(val + 1) == *DOUBLE_QUOTE || *(val + 1) == *SINGLE_QUOTE)
-		i++;
+		i--;
 	else if (!(*(val + 1)) || *(val + 1) == ' ' || *(val + 1) == '\t' || *(val
 			+ 1) == '\n')
 		i -= add_char(str, DOLLAR_SIGN);
