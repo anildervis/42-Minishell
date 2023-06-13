@@ -50,7 +50,7 @@ int	here_doc_fd(char *limiter)
 
 	input = readline(">");
 	final_line = (char *)ft_calloc(2, sizeof(char));
-	while (ft_strcmp(limiter, input))
+	while (g_ms.ignore && ft_strcmp(limiter, input))
 	{
 		input = ft_strjoin_freed(input, "\n", 0b10);
 		final_line = ft_strjoin_freed(final_line, input, 0b11);

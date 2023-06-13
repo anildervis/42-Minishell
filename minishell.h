@@ -164,6 +164,7 @@ void				set_old_pwd(char *pwd);
 int					ft_size_aoa(char **arr);
 void				ft_pure_export(void);
 void				ft_pure_export_print(char **export);
+int					ft_tolower(int c);
 
 //--------------error--------------
 int					print_error(int error_code, char *param);
