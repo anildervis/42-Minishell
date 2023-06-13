@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:16 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/12 17:17:46 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/13 16:37:47 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,12 @@ void	to_lower_string(char **big_str)
 		str[i] = ft_tolower(str[i]);
 }
 
-int	add_char(char **str, char *val)
+int	add_home(char **str)
 {
-	*str = ft_strjoin_freed(*str, ft_substr(val, 0, 1), 0b11);
+	char	*home;
+
+	home = get_env("HOME");
+	*str = ft_strjoin_freed(*str, home, 0b11);
 	return (1);
 }
 
@@ -36,6 +39,8 @@ char	*check_str(char *value)
 
 	i = 0;
 	str = ft_calloc(2, sizeof(char));
+	if (*(value + i) == *HOME)
+		i += add_home(&str);
 	while (value && *(value + i))
 	{
 		if (*(value + i) == *DOUBLE_QUOTE)
@@ -82,6 +87,7 @@ void	expander(t_parsed **command)
 
 	i = -1;
 	to_lower_string(&((*command)->cmd));
+	to_lower_string(&((*command)->arguments[0]));
 	(*command)->cmd = check_str((*command)->cmd);
 	while ((*command)->arguments && (*command)->arguments[++i])
 	{

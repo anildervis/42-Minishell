@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 14:57:58 by aderviso          #+#    #+#             */
-/*   Updated: 2023/06/12 19:54:25 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:59:48 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,10 @@ int	add_dollar_other(char **str, char *val)
 	*str = ft_strjoin_freed(*str, get_env(to_free), 0b11);
 	free(to_free);
 	return (i);
+}
+
+int	add_char(char **str, char *val)
+{
+	*str = ft_strjoin_freed(*str, ft_substr(val, 0, 1), 0b11);
+	return (1);
 }
