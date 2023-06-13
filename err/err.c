@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   err.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:12:15 by binurtas          #+#    #+#             */
-/*   Updated: 2023/05/20 14:12:16 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:17:38 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ int	print_error(int error_code, char *param)
 void	syntax_errors(char *param)
 {
 	if (errno == SYNTAX_ERROR)
-		printf("bash: syntax error near unexpected token '%s'\n", param);
+		printf("minishell: syntax error near unexpected token '%s'\n", param);
+	else if (errno == UNEXPECTED_EOF)
+		printf("minishell: syntax error: unexpected %s\n", param);
 }
 
 void	not_found_errors(char *param)

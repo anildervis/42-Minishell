@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:13:52 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/12 20:48:05 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:17:27 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ enum				e_errors
 {
 	FILE_NOT_FOUND = 1,
 	SYNTAX_ERROR = 2,
+	UNEXPECTED_EOF = 258,
 	PERM_DENIED = 4,
 	CMD_NOT_FOUND = 127,
 	SYSTEM_ERR = -1,
@@ -264,7 +265,9 @@ int					ft_token_paoc(t_token *tmp);
 int					ft_decide_type(t_token **command_table, t_parsed **command);
 int					ft_is_redirect(t_token **command_table);
 
+//------------signals-------------
 void				ctrl_c(int sig);
 void				ctrl_d(char *str);
+void				ctrl_d_as_eof(char *str);
 
 #endif

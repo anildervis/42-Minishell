@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:19 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/12 17:08:07 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:04:25 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,17 @@ int	here_doc_fd(char *limiter)
 	char	*final_line;
 	int		fd[2];
 
-	input = readline(">");
+	input = readline("> ");
 	final_line = (char *)ft_calloc(2, sizeof(char));
 	signal(SIGQUIT, SIG_IGN);
-	while (g_ms.ignore && ft_strcmp(limiter, input))
+	while (!g_ms.ignore && ft_strcmp(limiter, input))
 	{
 		input = ft_strjoin_freed(input, "\n", 0b10);
 		final_line = ft_strjoin_freed(final_line, input, 0b11);
-		input = readline(">");
-		ctrl_d(str);
+		input = readline("> ");
+		ctrl_d_as_eof(input);
 	}
+	g_ms.ignore = 0;
 	free(input);
 	if (pipe(fd) == -1)
 		print_error(PIPE_ERR, NULL);

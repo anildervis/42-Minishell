@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 18:41:04 by aderviso          #+#    #+#             */
-/*   Updated: 2023/06/12 20:12:13 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:13:59 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@ void	not_paired(char **str, int *i)
 	final_str = ft_strjoin_freed(ft_strdup(*str), "\n", 0b10);
 	input = readline("> ");
 	signal(SIGQUIT, SIG_IGN);
-	while (g_ms.ignore && !ft_strchr(input, *(*str + *i)))
+	while (!g_ms.ignore && !ft_strchr(input, *(*str + *i)))
 	{
 		final_str = ft_strjoin_freed(final_str, input, 0b11);
 		input = readline("> ");
-		ctrl_d(str);
+		ctrl_d_as_eof(input);
 		final_str = ft_strjoin_freed(final_str, "\n", 0b10);
 	}
+	g_ms.ignore = 0;
 	final_str = ft_strjoin_freed(final_str, input, 0b11);
 	free(*str);
 	*str = final_str;
@@ -92,6 +93,8 @@ int	syntax_check(t_token *ct)
 			string_completer(tmp);
 		if (!tmp->next && p_count > 0)
 			get_next_token(tmp);
+		if (g_ms.ignore)
+			return (g_ms.ignore);
 		tmp = tmp->next;
 	}
 	return (0);

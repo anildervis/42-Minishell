@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:29 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/12 17:43:45 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/13 14:59:36 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,6 @@ void	init_shell(char *str)
 	parsed_commands = parse_commands(0, 1, tokens);
 	executor(parsed_commands);
 	free_all(tokens, parsed_commands);
-}
-
-void	ctrl_c(int sig)
-{
-	(void)sig;
-	g_ms.ignore = 1;
-	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-	write(1, "\033[A", 3);
-}
-
-void	ctrl_d(char *str)
-{
-	if (!str)
-	{
-		printf("exit\n");
-		exit(errno);
-	}
 }
 
 void	display_prompt_print(void)
