@@ -129,7 +129,6 @@ void				init_ms(char **ev);
 char				*get_env(char *str);
 void				check_dir(char *cmd);
 char				*get_path(char *cmd);
-int					addenv(char *key, char *val);
 int					is_whitespace(char c);
 char				**set_ev(char **ev);
 int					env_len(void);
