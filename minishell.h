@@ -187,6 +187,7 @@ void				builtin_exit(char **input);
 void				builtin_export(char **input);
 void				builtin_pwd(void);
 void				builtin_unset(char **input);
+void				ft_check_enter(char **input);
 
 //--------------lexer--------------
 int					is_metacharacter(char c);
