@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:29 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/13 14:59:36 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/13 16:31:47 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ void	init_shell(char *str)
 		return ;
 	}
 	parsed_commands = parse_commands(0, 1, tokens);
+	create_redirections(parsed_commands);
 	executor(parsed_commands);
-	free_all(tokens, parsed_commands);
+	free_tokens(tokens);
+	free_parsed_commands(parsed_commands);
 }
 
 void	display_prompt_print(void)

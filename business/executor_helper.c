@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:07 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/12 20:55:56 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/13 16:38:36 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,19 @@
 
 void	command_executor(t_parsed *command, int i)
 {
-	pid_t	pid;
-	
 	if (command->in_file == -1 || command->out_file == -1)
 		return ;
 	if (!(command->cmd) || !ft_strnsearch(command->cmd, " \n\t",
 			ft_strlen(command->cmd)))
 		return ;
 	expander(&command);
+	builtin_conditions(command, i);
+}
+
+void	builtin_conditions(t_parsed *command, int i)
+{
+	pid_t	pid;
+
 	if (is_builtin(command->cmd))
 	{
 		if (g_ms.parsed_commands[i]->next)
@@ -39,7 +44,7 @@ void	command_executor(t_parsed *command, int i)
 			close_fd(command);
 		}
 		else
-			execute_builtin(command);			
+			execute_builtin(command);
 	}
 	else
 		execute_not_builtin(command);
@@ -111,19 +116,11 @@ void	child_organizer(t_parsed *command)
 		// 	close(command->next->in_file);
 		g_ms.in_file = command->in_file;
 		g_ms.out_file = command->out_file;
-		organizer(command->parantheses_andor);
+		executor(command->parantheses_andor);
 		// close_all_fds(g_ms.parsed_commands);
 		exit(errno);
 	}
 	usleep(10000);
 	// close_fd(command);
 	close_all_fds(command->parantheses_andor);
-}
-
-int	organizer_conditions(t_parsed *tmp_command)
-{
-	if (tmp_command->exec == 3 || (tmp_command->exec == TOKEN_AND
-			&& errno == 0) || (tmp_command->exec == TOKEN_OR && errno != 0))
-		return (1);
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 18:32:26 by aderviso          #+#    #+#             */
-/*   Updated: 2023/06/13 15:13:04 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/13 16:23:28 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,7 @@ int	add_token(char *input, t_token *command_table, enum e_tokens type, int len)
 	if (type == TOKEN_STR)
 		len = token_str_lexer(input);
 	if (!(command_table->value))
-	{
-		command_table->value = ft_substr(input, 0, len);
-		command_table->next = NULL;
-		command_table->prev = NULL;
-		command_table->type = type;
-	}
+		create_first_token(input, command_table, type, len);
 	else
 	{
 		token = (t_token *)malloc(sizeof(t_token));
@@ -40,6 +35,15 @@ int	add_token(char *input, t_token *command_table, enum e_tokens type, int len)
 		tmp_table->next = token;
 	}
 	return (len);
+}
+
+void	create_first_token(char *input, t_token *command_table,
+		enum e_tokens type, int len)
+{
+	command_table->value = ft_substr(input, 0, len);
+	command_table->next = NULL;
+	command_table->prev = NULL;
+	command_table->type = type;
 }
 
 void	find_token(char *input, t_token *command_table)
@@ -84,7 +88,7 @@ void	get_next_token(t_token *command_table)
 	{
 		new_tokens = tokenizer(input);
 		new_tokens->prev = tmp_command_table;
-		tmp_command_table->next = new_tokens;		
+		tmp_command_table->next = new_tokens;
 	}
 	free(input);
 }

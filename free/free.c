@@ -6,17 +6,11 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:12:18 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/12 17:23:14 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/13 16:20:39 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	free_all(t_token *tokens, t_parsed **parsed_commands)
-{
-	free_tokens(tokens);
-	free_parsed(parsed_commands);
-}
 
 void	free_tokens(t_token *tokens)
 {
@@ -33,7 +27,7 @@ void	free_tokens(t_token *tokens)
 	}
 }
 
-void	free_parsed(t_parsed **parsed_commands)
+void	free_parsed_commands(t_parsed **parsed_commands)
 {
 	t_parsed	**tmp_list;
 	t_parsed	*tmp_command;
@@ -48,22 +42,30 @@ void	free_parsed(t_parsed **parsed_commands)
 		while (tmp_command)
 		{
 			to_free = tmp_command;
-			free_redirections(tmp_command->file_list);
-			if (tmp_command->paranthesis)
-			{
-				free_tokens(tmp_command->paranthesis);
-				free_parsed(tmp_command->parantheses_andor);
-			}
-			else
-			{
-				free(tmp_command->cmd);
-				free_array(tmp_command->arguments);
-			}
+			free_command_block(tmp_command);
 			tmp_command = tmp_command->next;
 			free(to_free);
 		}
 	}
 	free(tmp_list);
+}
+
+void	free_command_block(t_parsed *command)
+{
+	t_parsed	*tmp_command;
+
+	tmp_command = command;
+	free_redirections(tmp_command->file_list);
+	if (tmp_command->paranthesis)
+	{
+		free_tokens(tmp_command->paranthesis);
+		free_parsed_commands(tmp_command->parantheses_andor);
+	}
+	else
+	{
+		free(tmp_command->cmd);
+		free_array(tmp_command->arguments);
+	}
 }
 
 void	free_redirections(t_file *file_list)

@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:10 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/12 20:47:43 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/13 16:31:19 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	create_redirections(t_parsed **andor_table)
 	}
 }
 
-void	organizer(t_parsed **andor_table)
+void	executor(t_parsed **andor_table)
 {
 	int			i;
 	int			child_count;
@@ -119,8 +119,10 @@ void	organizer(t_parsed **andor_table)
 	}
 }
 
-void	executor(t_parsed **andor_table)
+int	organizer_conditions(t_parsed *tmp_command)
 {
-	create_redirections(andor_table);
-	organizer(andor_table);
+	if (tmp_command->exec == 3 || (tmp_command->exec == TOKEN_AND
+			&& errno == 0) || (tmp_command->exec == TOKEN_OR && errno != 0))
+		return (1);
+	return (0);
 }

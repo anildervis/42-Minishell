@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:56 by binurtas          #+#    #+#             */
-/*   Updated: 2023/05/20 14:11:57 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/13 16:20:03 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	builtin_exit(char **input)
 	if (ft_get_arg_count(input) == 1)
 	{
 		printf("exit\n");
-		free_all(g_ms.tokens, g_ms.parsed_commands);
+		free_tokens(g_ms.tokens);
+		free_parsed_commands(g_ms.parsed_commands);
 		exit(errno);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:13:52 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/13 15:17:27 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/13 16:34:29 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define QUESTION_MARK "?"
 # define BRACETS "{}"
 # define SLASH "/"
+# define HOME "~"
 # define READ_END 0
 # define WRITE_END 1
 
@@ -175,11 +176,11 @@ void				system_errors(char *param);
 void				open_file_error(void);
 
 //--------------free--------------
-void				free_array(char **arr);
-void				free_all(t_token *tokens, t_parsed **parsed_commands);
 void				free_tokens(t_token *tokens);
-void				free_parsed(t_parsed **parsed_commands);
+void				free_parsed_commands(t_parsed **parsed_commands);
+void				free_command_block(t_parsed *command);
 void				free_redirections(t_file *file_list);
+void				free_array(char **arr);
 
 //--------------builtin--------------
 int					is_builtin(char *command);
@@ -196,6 +197,8 @@ void				builtin_unset(char **input);
 int					is_metacharacter(char c);
 int					token_str_lexer(char *input);
 int					add_token(char *input, t_token *command_table,
+						enum e_tokens type, int len);
+void				create_first_token(char *input, t_token *command_table,
 						enum e_tokens type, int len);
 void				find_token(char *input, t_token *command_table);
 t_token				*tokenizer(char *input);
@@ -250,9 +253,9 @@ int					write_file_fd(char *file_name, int type);
 void				apply_redirection(t_parsed **command);
 void				child_organizer(t_parsed *command);
 void				command_executor(t_parsed *command, int i);
+void				builtin_conditions(t_parsed *command, int i);
 void				create_pipes(t_parsed **command);
 void				create_redirections(t_parsed **andor_table);
-void				organizer(t_parsed **andor_table);
 void				executor(t_parsed **andor_table);
 void				execute_builtin(t_parsed *command);
 void				execute_not_builtin(t_parsed *command);
