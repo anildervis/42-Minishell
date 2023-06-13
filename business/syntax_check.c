@@ -19,10 +19,12 @@ void	not_paired(char **str, int *i)
 
 	final_str = ft_strjoin_freed(ft_strdup(*str), "\n", 0b10);
 	input = readline("> ");
-	while (!ft_strchr(input, *(*str + *i)))
+	signal(SIGQUIT, SIG_IGN);
+	while (g_ms.ignore && !ft_strchr(input, *(*str + *i)))
 	{
 		final_str = ft_strjoin_freed(final_str, input, 0b11);
 		input = readline("> ");
+		ctrl_d(str);
 		final_str = ft_strjoin_freed(final_str, "\n", 0b10);
 	}
 	final_str = ft_strjoin_freed(final_str, input, 0b11);

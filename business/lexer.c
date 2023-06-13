@@ -72,10 +72,14 @@ void	get_next_token(t_token *command_table)
 	t_token	*new_tokens;
 	char	*input;
 
+	signal(SIGQUIT, SIG_IGN);
 	tmp_command_table = command_table;
 	while (tmp_command_table->next)
 		tmp_command_table = tmp_command_table->next;
 	input = readline("> ");
+	ctrl_d(str);
+	if (g_ms.ignore)
+		exit(1);
 	new_tokens = tokenizer(input);
 	free(input);
 	new_tokens->prev = tmp_command_table;
