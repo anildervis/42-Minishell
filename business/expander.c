@@ -12,6 +12,17 @@
 
 #include "../minishell.h"
 
+void	to_lower_string(char **big_str)
+{
+	char	*str;
+	int		i;
+
+	i = -1;
+	str = (*big_str);
+	while (str[++i])
+		str[i] = ft_tolower(str[i]);
+}
+
 int	add_char(char **str, char *val)
 {
 	*str = ft_strjoin_freed(*str, ft_substr(val, 0, 1), 0b11);
@@ -70,6 +81,7 @@ void	expander(t_parsed **command)
 	char	**wildcard_list;
 
 	i = -1;
+	to_lower_string(&((*command)->cmd));
 	(*command)->cmd = check_str((*command)->cmd);
 	while ((*command)->arguments && (*command)->arguments[++i])
 	{
