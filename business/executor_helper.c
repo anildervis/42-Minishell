@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:07 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/13 16:38:36 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/14 14:37:25 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ void	command_executor(t_parsed *command, int i)
 {
 	if (command->in_file == -1 || command->out_file == -1)
 		return ;
-	if (!(command->cmd) || !ft_strnsearch(command->cmd, " \n\t",
-			ft_strlen(command->cmd)))
+	if (!(command->cmd) || !ft_strlen(command->cmd))
 		return ;
 	expander(&command);
 	builtin_conditions(command, i);
@@ -107,20 +106,18 @@ void	child_organizer(t_parsed *command)
 		print_error(FORK_ERR, NULL);
 	if (!pid)
 	{
-		signal(SIGINT, &ctrl_c);
-		signal(SIGQUIT, SIG_IGN);
 		g_ms.parent_pid = getpid();
-		// if (command->prev && command->prev->out_file != STDOUT_FILENO)
-		// 	close(command->prev->out_file);
-		// if (command->next && command->next->in_file != STDIN_FILENO)
-		// 	close(command->next->in_file);
+		if (command->next && command->next->in_file != g_ms.in_file)
+			close(command->next->in_file);
+		if (command->prev && command->prev->out_file != g_ms.out_file)
+			close(command->prev->out_file);
 		g_ms.in_file = command->in_file;
 		g_ms.out_file = command->out_file;
 		executor(command->parantheses_andor);
-		// close_all_fds(g_ms.parsed_commands);
+		close_all_fds(g_ms.parsed_commands);
 		exit(errno);
 	}
 	usleep(10000);
-	// close_fd(command);
+	close_fd(command);
 	close_all_fds(command->parantheses_andor);
 }
