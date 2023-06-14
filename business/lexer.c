@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 18:32:26 by aderviso          #+#    #+#             */
-/*   Updated: 2023/06/13 16:23:28 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/14 13:59:09 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ void	get_next_token(t_token *command_table)
 		tmp_command_table = tmp_command_table->next;
 	input = readline("> ");
 	ctrl_d_as_eof(input);
-	if (g_ms.ignore)
+	if (g_ms.ignore == 1)
 		print_error(258, "end of file");
-	else
+	else if (ft_whitespace_string(input))
 	{
 		new_tokens = tokenizer(input);
 		new_tokens->prev = tmp_command_table;
