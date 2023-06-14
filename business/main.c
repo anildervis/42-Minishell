@@ -24,6 +24,7 @@ void	init_ms(char **ev)
 	g_ms.in_file = STDIN_FILENO;
 	g_ms.out_file = STDOUT_FILENO;
 	g_ms.ev = set_ev(ev);
+	g_ms.export = set_ev(ev);
 	g_ms.paths = ft_split(getenv("PATH"), ':');
 }
 

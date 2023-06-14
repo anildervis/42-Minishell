@@ -102,6 +102,7 @@ typedef struct s_ms
 	int				in_file;
 	int				out_file;
 	char			**ev;
+	char			**export;
 	char			**paths;
 	struct s_parsed	**parsed_commands;
 	struct s_token	*tokens;
@@ -158,8 +159,7 @@ size_t				ft_strcpy(char *dst, const char *src);
 void				set_current_pwd(void);
 void				set_old_pwd(char *pwd);
 int					ft_size_aoa(char **arr);
-void				ft_pure_export(void);
-void				ft_pure_export_print(char **export);
+void				ft_pure_export_print(void);
 int					ft_tolower(int c);
 int					ft_whitespace_string(char *str);
 
@@ -184,7 +184,7 @@ void				builtin_cd(char **execute);
 void				builtin_echo(char **input);
 void				builtin_env(void);
 void				builtin_exit(char **input);
-void				builtin_export(char **input);
+//void				builtin_export(char **input);
 void				builtin_pwd(void);
 void				builtin_unset(char **input);
 void				ft_check_enter(char **input);
@@ -271,4 +271,15 @@ void				ctrl_c_inside_child(int sig);
 void				ctrl_d(char *str);
 void				ctrl_d_as_eof(char *str);
 
+//new
+int is_special_char(char c);
+int ft_is_numeric(char c);
+int check_char(char *input);
+int is_there_equal(char *input);
+int ft_is_exist_export(char *input);
+int ft_is_exist_env(char *input);
+void    new_builtin_export(char **input);
+void	add_env(char *input);
+void	add_export(char *input);
+void	ft_sort_export(void);
 #endif

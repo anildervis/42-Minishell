@@ -49,5 +49,5 @@ void	run_builtin(char **exe)
 	else if (type == UNSET)
 		builtin_unset(exe);
 	else if (type == EXPORT)
-		builtin_export(exe);
+		new_builtin_export(exe);
 }

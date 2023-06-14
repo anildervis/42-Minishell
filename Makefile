@@ -10,7 +10,7 @@ SUCCESS			=	@echo "\033[32mSuccessfull !\033[0m"
 CLEANED			=	@echo "\033[34mCleaned !\033[0m"
 
 BUILTIN_DIR		=	builtin/
-BUILTIN_FILES	=	builtin cd echo env exit export pwd unset
+BUILTIN_FILES	=	builtin cd echo env exit pwd unset export
 BUSINESS_DIR	=	business/
 BUSINESS_FILES	=	executor expander lexer main parser syntax_check_helper find_token_helper parser_helper \
 					add_type file_descriptors executor_helper wildcard add_wildcards syntax_check signals
@@ -24,7 +24,8 @@ UTILS_FILES		=	find_pair ft_atoi ft_bzero ft_calloc ft_itoa ft_split ft_strcmp \
 					ft_strnsearch ft_substr get_env get_path is_whitespace new_token  \
 					list_len set_env set_paths strnstr_wildcard is_metachar         \
 					t_str_lexer ft_is_redirect ft_strcpy set_current_pwd set_old_pwd \
-					ft_size_aoa ft_pure_export ft_tolower ft_whitespace_string
+					ft_size_aoa ft_pure_export ft_tolower ft_whitespace_string \
+					ft_is_numeric is_special_char
 
 B_FILES			=	$(addprefix $(BUILTIN_DIR), $(BUILTIN_FILES))
 BS_FILES		=	$(addprefix $(BUSINESS_DIR), $(BUSINESS_FILES))

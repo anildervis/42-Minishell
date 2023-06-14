@@ -12,42 +12,14 @@
 
 #include "../minishell.h"
 
-void	ft_pure_export(void)
-{
-	char	**export;
-	char	*tmp;
-	int		i;
-	int		j;
-
-	export = set_ev(g_ms.ev);
-	i = 0;
-	while (i < ft_size_aoa(export))
-	{
-		j = i + 1;
-		while (j < ft_size_aoa(export))
-		{
-			if (ft_strcmp(export[i], export[j]) > 0)
-			{
-				tmp = export[i];
-				export[i] = export[j];
-				export[j] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
-	ft_pure_export_print(export);
-}
-
-void	ft_pure_export_print(char **export)
+void	ft_pure_export_print()
 {
 	int	i;
 
 	i = -1;
-	while (export[++i])
+	while (g_ms.export[++i])
 	{
 		printf("declare -x ");
-		printf("%s\n", export[i]);
+		printf("%s\n", g_ms.export[i]);
 	}
-	free_array(export);
 }

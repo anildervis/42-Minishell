@@ -22,6 +22,6 @@ void	set_current_pwd(void)
 	command[0] = ft_strdup("export");
 	command[1] = ft_strjoin_freed("PWD=", getcwd(0, 0), 0b01);
 	command[2] = 0;
-	builtin_export(command);
+	new_builtin_export(command);
 	free_array(command);
 }
