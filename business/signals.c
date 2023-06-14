@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:59:45 by aderviso          #+#    #+#             */
-/*   Updated: 2023/06/13 15:00:37 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/14 13:58:00 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ctrl_c(int sig)
 {
 	(void)sig;
-	g_ms.ignore = 1;
+	g_ms.ignore = 2;
 	ioctl(STDIN_FILENO, TIOCSTI, "\n");
 	write(1, "\033[A", 3);
 }
