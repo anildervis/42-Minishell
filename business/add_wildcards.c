@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 14:57:58 by aderviso          #+#    #+#             */
-/*   Updated: 2023/06/13 15:59:48 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/14 14:21:23 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ int	add_dollar_other(char **str, char *val)
 	char	*to_free;
 
 	i = 1;
-	while (*(val + i) != ' ' && *(val + i) && *(val + i) != *DOUBLE_QUOTE
-		&& *(val + i) != *SINGLE_QUOTE && *(val + i) != *DOLLAR_SIGN
-		&& *(val + i) != *SLASH && *(val + i) != '.' && *(val + i) != '\\')
+	while (*(val + i) && *(val + i) != *SLASH && *(val + i) != *DOUBLE_QUOTE
+		&& *(val + i) != *SINGLE_QUOTE && *(val + i) != *WILD_CARD
+		&& *(val + i) != ' ' && *(val + i) != '.' && *(val + i) != *DOLLAR_SIGN)
 			i++;
 	to_free = ft_substr(val, 1, i - 1);
 	*str = ft_strjoin_freed(*str, get_env(to_free), 0b11);
