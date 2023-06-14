@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:51 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/12 14:57:06 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/14 15:19:23 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	builtin_echo(char **input)
 	int	i;
 	int	j;
 
+	if (ft_get_arg_count(input) == 1)
+		write(1, "\n", 1);
 	i = 1;
 	while (input[i] && !ft_strncmp(input[i], "-n", 2))
 	{

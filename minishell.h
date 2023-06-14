@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:13:52 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/14 13:55:46 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/14 15:14:54 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ void				builtin_export(char **input);
 void				builtin_pwd(void);
 void				builtin_unset(char **input);
 void				ft_check_enter(char **input);
+int					ft_get_arg_count(char **input);
 
 //--------------lexer--------------
 int					is_metacharacter(char c);
