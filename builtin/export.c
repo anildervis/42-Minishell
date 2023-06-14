@@ -12,113 +12,12 @@
 
 #include "../minishell.h"
 
-/*
-***********BİTMEDİ***********
-*/
-
-int	env_len(void)
-{
-	int	i;
-
-	i = -1;
-	while (g_ms.ev[++i])
-		;
-	return (i);
-}
-
-int check_char(char *input)
-{
-	int i;
-
-	i = 0;
-	while (input[i])
-	{
-		if (is_special_char(input[i]) || ft_is_numeric(input[0]) || input[0] == '=')
-		{
-			errno = 1;
-			printf("minishell: export: %s: not a valid identifier\n", input);
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-//burak
-//^
-int is_there_equal(char *input)
-{
-	char    *head;
-
-	head = ft_strchr(input, '=');
-	printf("\nhead = %s\n", head);
-	printf("\ninput = %s\n", input);
-	if (head && head != input)
-	{
-		printf("Buraya girdi\n");
-		return (1);
-	}
-	return (0);
-}
-
-/*
-bilal
-bila
-bil
--> bil=
-*/
-
-int ft_is_exist_export(char *input)
-{
-	int i;
-	int j;
-
-	i = -1;
-	while (g_ms.export[++i])
-	{
-		j = 0;
-		while (g_ms.export[i][j] && input[j])
-		{
-			if (input[j] == '=' && g_ms.export[i][j] == '=')
-				return (i);
-			if (input[j] != g_ms.export[i][j])
-				break ;
-			j++;
-		}
-		if (!input[j] && g_ms.export[i][j] == '=')
-			return (-2);
-		if (!g_ms.export[i][j] && input[j] == '=' && g_ms.export[i][j - 1] == input[j - 1]) // export -> abc | input -> abc=
-			return (i);
-	}
-	return (-1);
-}
-
-int ft_is_exist_env(char *input)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while (g_ms.ev[++i])
-	{
-		j = 0;
-		while (g_ms.ev[i][j] && input[j])
-		{
-			if (input[j] == '=' && g_ms.ev[i][j] == '=')
-				return (i);
-			if (input[j] != g_ms.ev[i][j])
-				break ;
-			j++;
-		}
-	}
-	return (-1);
-}
-
-void    new_builtin_export(char **input)
+void	new_builtin_export(char **input)
 {
 	int check_env;
 	int check_export;
 	int i;
-	//export bilal=42 burak=talha talha
+
 	printf("0 buradayim\n");
 	if (!input[1])
 		ft_pure_export_print();
@@ -126,7 +25,7 @@ void    new_builtin_export(char **input)
 	while (input[i])
 	{
 		printf("1 buradayim\n");
-		if (check_char(input[i]))
+		if (check_char(input[0], input[i]))
 		{
 			i++;
 			continue ;
@@ -190,18 +89,13 @@ void	add_env(char *input)
 	char	**new_env;
 
 	i = -1;
-	new_env = ft_calloc(sizeof(char *), env_len() + 2);
+	new_env = ft_calloc(sizeof(char *), ft_get_arg_count(g_ms.ev) + 2);
 	while (g_ms.ev[++i])
 		new_env[i] = ft_strdup(g_ms.ev[i]);
 	new_env[i] = ft_strdup(input);
 	free_array(g_ms.ev);
 	g_ms.ev = new_env;
 }
-/*
--> export;
--> new input added;
--> export = sıralanmış export (fonksiyon)
-*/
 
 void	add_export(char *input)
 {

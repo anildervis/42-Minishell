@@ -274,7 +274,7 @@ void				ctrl_d_as_eof(char *str);
 //new
 int is_special_char(char c);
 int ft_is_numeric(char c);
-int check_char(char *input);
+int check_char(char *command, char *input);
 int is_there_equal(char *input);
 int ft_is_exist_export(char *input);
 int ft_is_exist_env(char *input);
