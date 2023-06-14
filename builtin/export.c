@@ -12,6 +12,18 @@
 
 #include "../minishell.h"
 
+void	ft_update_export(int index, char *input)
+{
+	free(g_ms.export[index]);
+	g_ms.export[index] = ft_strdup(input);
+}
+
+void	ft_update_env(int index, char *input)
+{
+	free(g_ms.ev[index]);
+	g_ms.ev[index] = ft_strdup(input);
+}
+
 void	new_builtin_export(char **input)
 {
 	int check_env;
@@ -33,27 +45,18 @@ void	new_builtin_export(char **input)
 		if (is_there_equal(input[i]))
 		{
 			if (check_export >= 0)
-			{
-				free(g_ms.export[check_export]);
-				g_ms.export[check_export] = ft_strdup(input[i]);
-			}
+				ft_update_export(check_export, input[i]);
 			else
 				add_export(input[i]);
 			if (check_env >= 0)
-			{
-				free(g_ms.ev[check_env]);
-				g_ms.ev[check_env] = ft_strdup(input[i]);
-			}
+				ft_update_env(check_env, input[i]);
 			else
 				add_env(input[i]);
 		}
 		else
 		{
 			if (check_export >= 0)
-			{
-				free(g_ms.export[check_export]);
-				g_ms.export[check_export] = ft_strdup(input[i]);
-			}
+				ft_update_export(check_export, input[i]);
 			else
 				if (check_export != -2)
 					add_export(input[i]);
