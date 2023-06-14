@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:13:52 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/14 15:14:54 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/14 16:34:45 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,6 +267,7 @@ int					ft_is_redirect(t_token **command_table);
 
 //------------signals-------------
 void				ctrl_c(int sig);
+void				ctrl_c_inside_child(int sig);
 void				ctrl_d(char *str);
 void				ctrl_d_as_eof(char *str);
 

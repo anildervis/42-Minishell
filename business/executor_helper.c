@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:07 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/14 14:37:25 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/14 16:34:17 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	execute_not_builtin(t_parsed *command)
 
 	pid = fork();
 	g_ms.child_pids[g_ms.child_pids_count++] = pid;
+	signal(SIGINT, &ctrl_c_inside_child);
 	if ((pid) < 0)
 		print_error(FORK_ERR, NULL);
 	if (!pid)

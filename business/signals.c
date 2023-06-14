@@ -6,19 +6,11 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:59:45 by aderviso          #+#    #+#             */
-/*   Updated: 2023/06/14 13:58:00 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/14 16:34:34 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	ctrl_c(int sig)
-{
-	(void)sig;
-	g_ms.ignore = 2;
-	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-	write(1, "\033[A", 3);
-}
 
 void	ctrl_d(char *str)
 {
@@ -33,4 +25,18 @@ void	ctrl_d_as_eof(char *str)
 {
 	if (!str)
 		g_ms.ignore = 1;
+}
+
+void	ctrl_c(int sig)
+{
+	(void)sig;
+	g_ms.ignore = 2;
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
+	write(1, "\033[A", 3);
+}
+
+void	ctrl_c_inside_child(int sig)
+{
+	(void)sig;
+	errno = 130;
 }
