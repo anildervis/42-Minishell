@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 18:41:04 by aderviso          #+#    #+#             */
-/*   Updated: 2023/06/13 15:13:59 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/14 14:20:26 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,13 @@ int	syntax_check(t_token *ct)
 		if (tmp->type == TOKEN_STR)
 			string_completer(tmp);
 		if (!tmp->next && p_count > 0)
+		{
 			get_next_token(tmp);
-		if (g_ms.ignore)
-			return (g_ms.ignore);
-		tmp = tmp->next;
+			if (g_ms.ignore)
+				return (g_ms.ignore);
+		}
+		else
+			tmp = tmp->next;
 	}
 	return (0);
 }

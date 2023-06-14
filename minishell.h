@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:13:52 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/13 16:34:29 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/14 13:55:46 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ int					ft_size_aoa(char **arr);
 void				ft_pure_export(void);
 void				ft_pure_export_print(char **export);
 int					ft_tolower(int c);
+int					ft_whitespace_string(char *str);
 
 //--------------error--------------
 int					print_error(int error_code, char *param);
