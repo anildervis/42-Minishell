@@ -6,7 +6,7 @@
 /*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:59 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/15 19:41:08 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/15 20:16:37 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,5 @@ void	builtin_export(char **input)
 			ft_no_equal(check_export, input[i]);
 		i++;
 	}
+	set_paths();
 }
