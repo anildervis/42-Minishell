@@ -33,6 +33,8 @@ int ft_is_exist_export(char *input)
 				return (i);
 			if (input[j] != g_ms.export[i][j])
 				break ;
+			if (!input[j + 1] && !g_ms.export[i][j + 1] && input[j] == g_ms.export[i][j])
+				return (i);
 			j++;
 		}
 		if (!input[j] && g_ms.export[i][j] == '=')
