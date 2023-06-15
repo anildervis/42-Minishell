@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:13:52 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/15 19:28:45 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:37:49 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ enum				e_tokens
 enum				e_errors
 {
 	FILE_NOT_FOUND = 1,
-	SYNTAX_ERROR = 2,
+	SYNTAX_ERROR = 258,
 	UNEXPECTED_EOF = 258,
 	PERM_DENIED = 4,
 	CMD_NOT_FOUND = 127,

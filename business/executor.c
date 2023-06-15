@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:10 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/15 19:28:07 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:30:27 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,9 @@ void	executor(t_parsed **andor_table)
 
 void	organizer(t_parsed *tmp_command, int i)
 {
-	if (tmp_command->exec == 3 || (tmp_command->exec == TOKEN_AND
-			&& errno == 0) || (tmp_command->exec == TOKEN_OR && errno != 0))
+	if (tmp_command->exec == 3
+		|| (tmp_command->exec == TOKEN_AND && errno == 0)
+		|| (tmp_command->exec == TOKEN_OR && errno != 0))
 	{
 		while (tmp_command)
 		{

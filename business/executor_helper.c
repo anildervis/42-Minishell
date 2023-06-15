@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_helper.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:07 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/15 19:10:41 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:30:52 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void	execute_not_builtin(t_parsed *command)
 		print_error(FORK_ERR, NULL);
 	if (!pid)
 	{
-		errno = 0;
 		if (command->prev && command->prev->out_file != STDOUT_FILENO)
 			close(command->prev->out_file);
 		if (command->next && command->next->in_file != STDIN_FILENO)
