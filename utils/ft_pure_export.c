@@ -6,7 +6,7 @@
 /*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 17:50:08 by aderviso          #+#    #+#             */
-/*   Updated: 2023/06/15 17:14:37 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:40:35 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_pure_export_print(void)
 		{
 			ft_write_begin(g_ms.export[i], '=');
 			if (!val[1])
-				printf("%s\"\"\n", g_ms.export[i]);
+				printf("\"\"\n");
 			else
 				printf("\"%s\"\n", ++val);
 		}
