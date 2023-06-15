@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:46 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/12 16:57:09 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/15 16:33:50 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,5 @@ void	run_builtin(char **exe)
 	else if (type == UNSET)
 		builtin_unset(exe);
 	else if (type == EXPORT)
-		new_builtin_export(exe);
+		builtin_export(exe);
 }

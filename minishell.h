@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:13:52 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/14 16:34:45 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/15 16:35:33 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,8 @@ int					ft_size_aoa(char **arr);
 void				ft_pure_export_print(void);
 int					ft_tolower(int c);
 int					ft_whitespace_string(char *str);
+int					is_special_char(char c);
+int					ft_is_numeric(char c);
 
 //--------------error--------------
 int					print_error(int error_code, char *param);
@@ -184,11 +186,20 @@ void				builtin_cd(char **execute);
 void				builtin_echo(char **input);
 void				builtin_env(void);
 void				builtin_exit(char **input);
-//void				builtin_export(char **input);
+void				builtin_export(char **input);
 void				builtin_pwd(void);
 void				builtin_unset(char **input);
 void				ft_check_enter(char **input);
 int					ft_get_arg_count(char **input);
+int					check_char(char *command, char *input);
+int					is_there_equal(char *input);
+int					ft_is_exist_export(char *input);
+int					ft_is_exist_env(char *input);
+void				add_env(char *input);
+void				add_export(char *input);
+void				ft_sort_export(void);
+void				ft_update_export(int index, char *input);
+void				ft_update_env(int index, char *input);
 
 //--------------lexer--------------
 int					is_metacharacter(char c);
@@ -271,17 +282,4 @@ void				ctrl_c_inside_child(int sig);
 void				ctrl_d(char *str);
 void				ctrl_d_as_eof(char *str);
 
-//new
-int is_special_char(char c);
-int ft_is_numeric(char c);
-int check_char(char *command, char *input);
-int is_there_equal(char *input);
-int ft_is_exist_export(char *input);
-int ft_is_exist_env(char *input);
-void    new_builtin_export(char **input);
-void	add_env(char *input);
-void	add_export(char *input);
-void	ft_sort_export(void);
-void	ft_update_export(int index, char *input);
-void	ft_update_env(int index, char *input);
 #endif

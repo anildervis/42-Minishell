@@ -6,7 +6,7 @@
 /*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 14:23:18 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/12 14:23:19 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/15 16:36:09 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ void	set_old_pwd(char *pwd)
 	command[0] = ft_strdup("export");
 	command[1] = ft_strjoin("OLDPWD=", pwd);
 	command[2] = 0;
-	new_builtin_export(command);
+	builtin_export(command);
 	free_array(command);
 }
