@@ -6,7 +6,7 @@
 /*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:13:52 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/15 16:35:33 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/15 17:36:53 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ int					ft_size_aoa(char **arr);
 void				ft_pure_export_print(void);
 int					ft_tolower(int c);
 int					ft_whitespace_string(char *str);
+int					ft_special_finder(char *input);
 int					is_special_char(char c);
 int					ft_is_numeric(char c);
 

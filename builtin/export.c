@@ -6,7 +6,7 @@
 /*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:59 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/15 16:34:35 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/15 17:39:42 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	builtin_export(char **input)
 			continue ;
 		check_export = ft_is_exist_export(input[i]);
 		check_env = ft_is_exist_env(input[i]);
-		printf("export index = %d\n", check_export);
 		if (is_there_equal(input[i]))
 			ft_there_is_equal(check_export, check_env, input[i]);
 		else

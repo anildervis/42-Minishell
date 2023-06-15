@@ -6,7 +6,7 @@
 /*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 16:19:48 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/15 16:22:23 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/15 17:38:53 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 int	check_char(char *cmd, char *input)
 {
 	int	i;
+	int	check_special;
 
 	i = 0;
 	while (input[i])
 	{
-		if (is_special_char(input[i]) || ft_is_numeric(input[0])
+		check_special = ft_special_finder(input);
+		if (check_special || ft_is_numeric(input[0])
 			|| input[0] == '=')
 		{
 			errno = 1;
