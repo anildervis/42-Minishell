@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:29 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/15 19:13:07 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:27:26 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	init_shell(char *str)
 		free_tokens(tokens);
 		return ;
 	}
+	g_ms.tokens = tokens;
 	parsed_commands = parse_commands(0, 1, tokens);
 	create_redirections(parsed_commands);
 	executor(parsed_commands);
