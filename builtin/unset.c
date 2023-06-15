@@ -6,7 +6,7 @@
 /*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:12:04 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/15 18:43:54 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:09:20 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	builtin_unset(char **input)
 			continue ;
 		if (ft_strchr(*input, '='))
 		{
-			g_ms.error_no = 1;
+			errno = 1;
 			printf("minishell: unset: `%s': not a valid identifier\n", *input);
 		}
 		else

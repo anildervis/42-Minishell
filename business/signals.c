@@ -6,7 +6,7 @@
 /*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:59:45 by aderviso          #+#    #+#             */
-/*   Updated: 2023/06/15 18:45:20 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:13:22 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ctrl_d(char *str)
 	if (!str)
 	{
 		printf("exit\n");
-		exit(g_ms.error_no);
+		exit(errno);
 	}
 }
 
@@ -38,5 +38,5 @@ void	ctrl_c(int sig)
 void	ctrl_c_inside_child(int sig)
 {
 	(void)sig;
-	g_ms.error_no = 130;
+	errno = 130;
 }

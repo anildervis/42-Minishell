@@ -6,7 +6,7 @@
 /*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:07 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/15 18:44:56 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:10:41 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	builtin_conditions(t_parsed *command, int i)
 			if (!pid)
 			{
 				execute_builtin(command);
-				exit(g_ms.error_no);
+				exit(errno);
 			}
 			usleep(10000);
 			close_fd(command);
@@ -54,7 +54,7 @@ void	execute_builtin(t_parsed *command)
 	int		in;
 	int		out;
 
-	g_ms.error_no = 0;
+	errno = 0;
 	in = dup(g_ms.in_file);
 	out = dup(g_ms.out_file);
 	dup2(command->in_file, STDIN_FILENO);
@@ -79,7 +79,7 @@ void	execute_not_builtin(t_parsed *command)
 		print_error(FORK_ERR, NULL);
 	if (!pid)
 	{
-		g_ms.error_no = 0;
+		errno = 0;
 		if (command->prev && command->prev->out_file != STDOUT_FILENO)
 			close(command->prev->out_file);
 		if (command->next && command->next->in_file != STDIN_FILENO)
@@ -91,7 +91,7 @@ void	execute_not_builtin(t_parsed *command)
 		execve(command_path, command->arguments, g_ms.ev);
 		free(command_path);
 		print_error(CMD_NOT_FOUND, command->cmd);
-		exit(g_ms.error_no);
+		exit(errno);
 	}
 	usleep(10000);
 	close_fd(command);
@@ -116,7 +116,7 @@ void	child_organizer(t_parsed *command)
 		g_ms.out_file = command->out_file;
 		executor(command->parantheses_andor);
 		close_all_fds(g_ms.parsed_commands);
-		exit(g_ms.error_no);
+		exit(errno);
 	}
 	usleep(10000);
 	close_fd(command);

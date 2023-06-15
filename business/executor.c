@@ -6,7 +6,7 @@
 /*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:10 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/15 18:45:04 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:11:09 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,10 @@ void	executor(t_parsed **andor_table)
 			}
 		}
 		while (child_count < g_ms.child_pids_count)
-			waitpid(g_ms.child_pids[child_count++], &g_ms.error_no, 0);
+		{
+			waitpid(g_ms.child_pids[child_count++], &errno, 0);
+			errno = WEXITSTATUS(errno);
+		}
 		ft_bzero(g_ms.child_pids, sizeof(int) * g_ms.child_pids_count);
 	}
 }
@@ -122,7 +125,7 @@ void	executor(t_parsed **andor_table)
 int	organizer_conditions(t_parsed *tmp_command)
 {
 	if (tmp_command->exec == 3 || (tmp_command->exec == TOKEN_AND
-			&& g_ms.error_no == 0) || (tmp_command->exec == TOKEN_OR && g_ms.error_no != 0))
+			&& errno == 0) || (tmp_command->exec == TOKEN_OR && errno != 0))
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 14:57:58 by aderviso          #+#    #+#             */
-/*   Updated: 2023/06/15 18:44:40 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:09:40 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	add_dollar(char **str, char *val)
 	if (*(val + 1) == *DOLLAR_SIGN)
 		*str = ft_strjoin_freed(*str, ft_itoa(g_ms.parent_pid), 0b11);
 	else if (*(val + 1) == *QUESTION_MARK)
-		*str = ft_strjoin_freed(*str, ft_itoa(g_ms.error_no), 0b11);
+		*str = ft_strjoin_freed(*str, ft_itoa(errno), 0b11);
 	else if (*(val + 1) == *DOUBLE_QUOTE || *(val + 1) == *SINGLE_QUOTE)
 		i--;
 	else if (!(*(val + 1)) || *(val + 1) == ' ' || *(val + 1) == '\t' || *(val
