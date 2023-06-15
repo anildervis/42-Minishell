@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:10 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/15 19:11:09 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:28:07 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,17 +102,7 @@ void	executor(t_parsed **andor_table)
 	{
 		g_ms.child_pids_count = 0;
 		tmp_command = andor_table[i];
-		if (organizer_conditions(tmp_command))
-		{
-			while (tmp_command)
-			{
-				if (tmp_command->paranthesis)
-					child_organizer(tmp_command);
-				else
-					command_executor(tmp_command, i);
-				tmp_command = tmp_command->next;
-			}
-		}
+		organizer(tmp_command, i);
 		while (child_count < g_ms.child_pids_count)
 		{
 			waitpid(g_ms.child_pids[child_count++], &errno, 0);
@@ -122,10 +112,18 @@ void	executor(t_parsed **andor_table)
 	}
 }
 
-int	organizer_conditions(t_parsed *tmp_command)
+void	organizer(t_parsed *tmp_command, int i)
 {
 	if (tmp_command->exec == 3 || (tmp_command->exec == TOKEN_AND
 			&& errno == 0) || (tmp_command->exec == TOKEN_OR && errno != 0))
-		return (1);
-	return (0);
+	{
+		while (tmp_command)
+		{
+			if (tmp_command->paranthesis)
+				child_organizer(tmp_command);
+			else
+				command_executor(tmp_command, i);
+			tmp_command = tmp_command->next;
+		}	
+	}
 }

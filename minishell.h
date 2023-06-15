@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:13:52 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/15 18:42:50 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:28:45 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,7 +269,7 @@ void				create_redirections(t_parsed **andor_table);
 void				executor(t_parsed **andor_table);
 void				execute_builtin(t_parsed *command);
 void				execute_not_builtin(t_parsed *command);
-int					organizer_conditions(t_parsed *tmp_command);
+void				organizer(t_parsed *tmp_command, int i);
 
 //------------token_checker-------------
 int					ft_token_checker(t_token *tmp, int *p_count);
