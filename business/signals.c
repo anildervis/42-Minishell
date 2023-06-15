@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 14:59:45 by aderviso          #+#    #+#             */
-/*   Updated: 2023/06/14 16:34:34 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:45:20 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ctrl_d(char *str)
 	if (!str)
 	{
 		printf("exit\n");
-		exit(errno);
+		exit(g_ms.error_no);
 	}
 }
 
@@ -38,5 +38,5 @@ void	ctrl_c(int sig)
 void	ctrl_c_inside_child(int sig)
 {
 	(void)sig;
-	errno = 130;
+	g_ms.error_no = 130;
 }

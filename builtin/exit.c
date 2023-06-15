@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:56 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/13 16:20:03 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:43:29 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	builtin_exit(char **input)
 		printf("exit\n");
 		free_tokens(g_ms.tokens);
 		free_parsed_commands(g_ms.parsed_commands);
-		exit(errno);
+		exit(g_ms.error_no);
 	}
 	else
 	{
@@ -50,7 +50,7 @@ void	builtin_exit(char **input)
 			if (ft_get_arg_count(input) > 2)
 			{
 				write(2, "exit\nminishel: exit: too many arguments\n", 41);
-				errno = 1;
+				g_ms.error_no = 1;
 				return ;
 			}
 			printf("exit\n");

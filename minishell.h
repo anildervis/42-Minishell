@@ -6,7 +6,7 @@
 /*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:13:52 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/15 17:36:53 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:42:50 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct s_ms
 	int				child_pids_count;
 	int				in_file;
 	int				out_file;
+	int				error_no;
 	char			**ev;
 	char			**export;
 	char			**paths;

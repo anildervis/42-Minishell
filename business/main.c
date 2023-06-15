@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:29 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/13 16:31:47 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:46:12 by binurtas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@ t_ms	g_ms;
 
 void	init_ms(char **ev)
 {
-	errno = 0;
+	g_ms.error_no = 0;
 	g_ms.parent_pid = getpid();
 	g_ms.child_pids = (int *)malloc(sizeof(int) * 100);
 	g_ms.child_pids_count = 0;
 	g_ms.opening_prompt = 0;
 	g_ms.in_file = STDIN_FILENO;
 	g_ms.out_file = STDOUT_FILENO;
+	g_ms.error_no = 0;
 	g_ms.ev = set_ev(ev);
 	g_ms.export = set_ev(ev);
 	g_ms.paths = ft_split(getenv("PATH"), ':');
