@@ -69,12 +69,7 @@ int is_there_equal(char *input)
 	char	*head;
 
 	head = ft_strchr(input, '=');
-	printf("\nhead = %s\n", head);
-	printf("\ninput = %s\n", input);
 	if (head && head != input)
-	{
-		printf("Buraya girdi\n");
 		return (1);
-	}
 	return (0);
 }
