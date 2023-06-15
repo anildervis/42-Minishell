@@ -282,4 +282,6 @@ void    new_builtin_export(char **input);
 void	add_env(char *input);
 void	add_export(char *input);
 void	ft_sort_export(void);
+void	ft_update_export(int index, char *input);
+void	ft_update_env(int index, char *input);
 #endif
