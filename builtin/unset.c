@@ -20,7 +20,7 @@ void	remove_env(char *data)
 
 	i = 0;
 	j = 0;
-	new_env = ft_calloc(sizeof(char *), env_len() + 1);
+	new_env = ft_calloc(sizeof(char *), ft_get_arg_count(g_ms.ev) + 1);
 	while (g_ms.ev[i])
 	{
 		if (ft_strncmp(g_ms.ev[i], data, ft_strlen(data)))
@@ -42,6 +42,8 @@ void	builtin_unset(char **input)
 	input++;
 	while (*input)
 	{
+		if (check_char(input[0], *input) && input++)
+			continue ;
 		if (ft_strchr(*input, '='))
 		{
 			errno = 1;
@@ -50,10 +52,24 @@ void	builtin_unset(char **input)
 		else
 		{
 			data = ft_strjoin(*input, "=");
+			check_remove(data);
 			remove_env(data);
 			free(data);
 		}
 		input++;
 	}
 	set_paths();
+}
+
+void	check_remove(char *input)
+{
+	int	check_env;
+	int	check_export;
+
+	check_export = ft_is_exist_export(input);
+	check_env = ft_is_exist_env(input);
+	if (check_export >= 0)
+		ft_remove_export(check_export);
+	if (check_env >= 0)
+		ft_remove_env(check_env);
 }
