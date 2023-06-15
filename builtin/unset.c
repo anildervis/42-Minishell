@@ -12,27 +12,39 @@
 
 #include "../minishell.h"
 
-void	remove_env(char *data)
+void	remove_data(int index, char ***array)
 {
 	int		i;
 	int		j;
-	char	**new_env;
+	char	**new_array;
 
 	i = 0;
 	j = 0;
-	new_env = ft_calloc(sizeof(char *), ft_get_arg_count(g_ms.ev) + 1);
-	while (g_ms.ev[i])
+	new_array = ft_calloc(sizeof(char *), ft_get_arg_count(array[0]) + 1);
+	while (array[0][i])
 	{
-		if (ft_strncmp(g_ms.ev[i], data, ft_strlen(data)))
+		if (index != i)
 		{
-			new_env[j] = ft_strdup(g_ms.ev[i]);
+			new_array[j] = ft_strdup(array[0][i]);
 			j++;
 		}
 		i++;
 	}
-	new_env[j] = 0;
-	free_array(g_ms.ev);
-	g_ms.ev = new_env;
+	free_array(array[0]);
+	array[0] = new_array;
+}
+
+void	check_remove(char *input)
+{
+	int	check_env;
+	int	check_export;
+
+	check_export = ft_is_exist_export(input);
+	check_env = ft_is_exist_env(input);
+	if (check_export >= 0)
+		remove_data(check_export, &g_ms.export);
+	if (check_env >= 0)
+		remove_data(check_env, &g_ms.ev);
 }
 
 void	builtin_unset(char **input)
@@ -53,23 +65,9 @@ void	builtin_unset(char **input)
 		{
 			data = ft_strjoin(*input, "=");
 			check_remove(data);
-			remove_env(data);
 			free(data);
 		}
 		input++;
 	}
 	set_paths();
-}
-
-void	check_remove(char *input)
-{
-	int	check_env;
-	int	check_export;
-
-	check_export = ft_is_exist_export(input);
-	check_env = ft_is_exist_env(input);
-	if (check_export >= 0)
-		ft_remove_export(check_export);
-	if (check_env >= 0)
-		ft_remove_env(check_env);
 }
