@@ -43,6 +43,7 @@ void	init_shell(char *str)
 	parsed_commands = parse_commands(0, 1, tokens);
 	create_redirections(parsed_commands);
 	executor(parsed_commands);
+	printf("\n");
 	free_tokens(tokens);
 	free_parsed_commands(parsed_commands);
 }
