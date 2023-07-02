@@ -28,14 +28,12 @@ void	ft_write_begin(char *str, char c)
 void	ft_pure_export_print(void)
 {
 	int		i;
-	int		j;
 	char	*val;
 
 	i = -1;
 	while (g_ms.export[++i])
 	{
 		write(1, "declare -x ", 11);
-		j = 1;
 		val = strchr(g_ms.export[i], '=');
 		if (val && val != g_ms.export[i])
 		{
