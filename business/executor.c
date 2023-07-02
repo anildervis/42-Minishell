@@ -23,18 +23,10 @@ void	apply_redirection(t_parsed **command)
 	{
 		if (file_list->type == TOKEN_SMALLER
 			|| file_list->type == TOKEN_HERE_DOC)
-		{
-			close((*command)->in_file);
-			(*command)->in_file = read_file_fd(file_list->file_name,
-					file_list->type);
-		}
+			read_file_fd((*command), file_list->file_name, file_list->type);
 		else if (file_list->type == TOKEN_GREATER
 			|| file_list->type == TOKEN_APPEND)
-		{
-			close((*command)->out_file);
-			(*command)->out_file = write_file_fd(file_list->file_name,
-					file_list->type);
-		}
+			write_file_fd((*command), file_list->file_name, file_list->type);
 		if ((*command)->in_file < 0 || (*command)->out_file < 0)
 			break ;
 		file_list = file_list->next;

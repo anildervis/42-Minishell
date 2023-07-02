@@ -258,8 +258,8 @@ t_parsed			**parse_commands(int in_file, int out_file,
 void				close_fd(t_parsed *command);
 void				close_all_fds(t_parsed **command_table);
 int					here_doc_fd(char *limiter);
-int					read_file_fd(char *file_name, int type);
-int					write_file_fd(char *file_name, int type);
+void				read_file_fd(t_parsed *command, char *file_name, int type);
+void				write_file_fd(t_parsed *command, char *file_name, int type);
 void				apply_redirection(t_parsed **command);
 void				child_organizer(t_parsed *command);
 void				command_executor(t_parsed *command, int i);

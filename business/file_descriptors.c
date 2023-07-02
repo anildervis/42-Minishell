@@ -69,27 +69,34 @@ int	here_doc_fd(char *limiter)
 	return (fd[READ_END]);
 }
 
-int	read_file_fd(char *file_name, int type)
+void	read_file_fd(t_parsed *command, char *file_name, int type)
 {
+	if (command->in_file != STDIN_FILENO)
+		close(command->in_file);
 	if (type == TOKEN_HERE_DOC)
-		return (here_doc_fd(file_name));
+	{
+		command->in_file = here_doc_fd(file_name);
+		return ;
+	}
 	if (access(file_name, F_OK) == -1)
 		print_error(FILE_NOT_FOUND, file_name);
 	else if (access(file_name, R_OK) == -1)
 		print_error(PERM_DENIED, file_name);
-	return (open(file_name, O_RDONLY, 0666));
+	command->in_file = open(file_name, O_RDONLY, 0666);
 }
 
-int	write_file_fd(char *file_name, int type)
+void	write_file_fd(t_parsed *command, char *file_name, int type)
 {
 	int	fd;
 
 	fd = 0;
+	if (command->out_file != STDOUT_FILENO)
+		close(command->out_file);
 	if (type == TOKEN_GREATER)
 		fd = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0666);
 	else if (type == TOKEN_APPEND)
 		fd = open(file_name, O_CREAT | O_WRONLY | O_APPEND, 0666);
 	if (fd < 0)
 		print_error(FILE_NOT_FOUND, file_name);
-	return (fd);
+	command->out_file = fd;
 }
