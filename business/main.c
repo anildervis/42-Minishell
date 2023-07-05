@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:29 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/15 19:27:26 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/07/05 13:43:59 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	init_ms(char **ev)
 	g_ms.ev = set_ev(ev);
 	g_ms.export = set_ev(ev);
 	g_ms.paths = ft_split(getenv("PATH"), ':');
+	g_ms.error_no = 0;
 }
 
 void	init_shell(char *str)
@@ -36,6 +37,8 @@ void	init_shell(char *str)
 	tokens = tokenizer(str);
 	if ((!tokens || !tokens->value) || syntax_check(tokens))
 	{
+		if (!tokens || !tokens->value)
+			g_ms.error_no = 0;
 		free_tokens(tokens);
 		return ;
 	}
@@ -43,7 +46,6 @@ void	init_shell(char *str)
 	parsed_commands = parse_commands(0, 1, tokens);
 	create_redirections(parsed_commands);
 	executor(parsed_commands);
-	printf("\n");
 	free_tokens(tokens);
 	free_parsed_commands(parsed_commands);
 }

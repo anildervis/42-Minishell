@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:12:04 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/15 19:09:20 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/07/05 13:23:45 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	builtin_unset(char **input)
 			continue ;
 		if (ft_strchr(*input, '='))
 		{
-			errno = 1;
+			g_ms.error_no = 1;
 			printf("minishell: unset: `%s': not a valid identifier\n", *input);
 		}
 		else

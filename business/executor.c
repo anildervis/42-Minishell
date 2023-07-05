@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:10 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/15 19:30:27 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/07/05 13:22:52 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ void	executor(t_parsed **andor_table)
 		organizer(tmp_command, i);
 		while (child_count < g_ms.child_pids_count)
 		{
-			waitpid(g_ms.child_pids[child_count++], &errno, 0);
-			errno = WEXITSTATUS(errno);
+			waitpid(g_ms.child_pids[child_count++], &g_ms.error_no, 0);
+			g_ms.error_no = WEXITSTATUS(g_ms.error_no);
 		}
 		ft_bzero(g_ms.child_pids, sizeof(int) * g_ms.child_pids_count);
 	}
@@ -109,8 +109,8 @@ void	executor(t_parsed **andor_table)
 void	organizer(t_parsed *tmp_command, int i)
 {
 	if (tmp_command->exec == 3
-		|| (tmp_command->exec == TOKEN_AND && errno == 0)
-		|| (tmp_command->exec == TOKEN_OR && errno != 0))
+		|| (tmp_command->exec == TOKEN_AND && g_ms.error_no == 0)
+		|| (tmp_command->exec == TOKEN_OR && g_ms.error_no != 0))
 	{
 		while (tmp_command)
 		{

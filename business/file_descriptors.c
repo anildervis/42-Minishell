@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:19 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/13 16:47:49 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/07/05 13:57:23 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,12 @@ int	here_doc_fd(char *limiter)
 
 	input = readline("> ");
 	final_line = (char *)ft_calloc(2, sizeof(char));
+	signal(SIGINT, &ctrl_c_inside_child);
 	signal(SIGQUIT, SIG_IGN);
 	ctrl_d_as_eof(input);
 	while (!g_ms.ignore && ft_strcmp(limiter, input))
 	{
+		printf("here\n");
 		input = ft_strjoin_freed(input, "\n", 0b10);
 		final_line = ft_strjoin_freed(final_line, input, 0b11);
 		input = readline("> ");
@@ -79,10 +81,17 @@ void	read_file_fd(t_parsed *command, char *file_name, int type)
 		return ;
 	}
 	if (access(file_name, F_OK) == -1)
+	{
 		print_error(FILE_NOT_FOUND, file_name);
+		command->in_file = -1;
+	}
 	else if (access(file_name, R_OK) == -1)
+	{
 		print_error(PERM_DENIED, file_name);
-	command->in_file = open(file_name, O_RDONLY, 0666);
+		command->in_file = -1;
+	}
+	else
+		command->in_file = open(file_name, O_RDONLY, 0666);
 }
 
 void	write_file_fd(t_parsed *command, char *file_name, int type)

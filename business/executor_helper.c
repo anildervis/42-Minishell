@@ -6,7 +6,7 @@
 /*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:11:07 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/15 19:30:52 by aderviso         ###   ########.fr       */
+/*   Updated: 2023/07/05 13:23:39 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	builtin_conditions(t_parsed *command, int i)
 			if (!pid)
 			{
 				execute_builtin(command);
-				exit(errno);
+				exit(g_ms.error_no);
 			}
 			usleep(10000);
 			close_fd(command);
@@ -54,7 +54,7 @@ void	execute_builtin(t_parsed *command)
 	int		in;
 	int		out;
 
-	errno = 0;
+	g_ms.error_no = 0;
 	in = dup(g_ms.in_file);
 	out = dup(g_ms.out_file);
 	dup2(command->in_file, STDIN_FILENO);
@@ -90,7 +90,7 @@ void	execute_not_builtin(t_parsed *command)
 		execve(command_path, command->arguments, g_ms.ev);
 		free(command_path);
 		print_error(CMD_NOT_FOUND, command->cmd);
-		exit(errno);
+		exit(g_ms.error_no);
 	}
 	usleep(10000);
 	close_fd(command);
@@ -115,7 +115,7 @@ void	child_organizer(t_parsed *command)
 		g_ms.out_file = command->out_file;
 		executor(command->parantheses_andor);
 		close_all_fds(g_ms.parsed_commands);
-		exit(errno);
+		exit(g_ms.error_no);
 	}
 	usleep(10000);
 	close_fd(command);

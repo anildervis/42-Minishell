@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_unset_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: binurtas <binurtas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderviso <aderviso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 16:19:48 by binurtas          #+#    #+#             */
-/*   Updated: 2023/06/15 19:09:14 by binurtas         ###   ########.fr       */
+/*   Updated: 2023/07/05 13:23:47 by aderviso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	check_char(char *cmd, char *input)
 		if (check_special || ft_is_numeric(input[0])
 			|| input[0] == '=')
 		{
-			errno = 1;
+			g_ms.error_no = 1;
 			printf("minishell: %s: %s: not a valid identifier\n", cmd, input);
 			return (1);
 		}
